@@ -14,6 +14,7 @@ function App() {
                                 <img
                                     style={{ width: 275 }}
                                     src="/500w/weather_logo500.png"
+                                    alt="victoria weather"
                                 ></img>
                             </a>
                         </div>
@@ -25,11 +26,7 @@ function App() {
                 <div
                     style={{ height: 600 }}
                     className="w-screen bg-gray-900 flex-shrink-0"
-                >
-                    {/* <div id="PurpleAirWidget_108012_module_AQI_conversion_C0_average_10_layer_standard">
-                        Loading PurpleAir Widget...
-                    </div> */}
-                </div>
+                ></div>
             </main>
 
             <Footer />
