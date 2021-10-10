@@ -1,8 +1,40 @@
 import "./App.css";
 import Map from "./components/Map2";
 import Footer from "./components/Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Rain from "./components/Rain";
+import MaxMin from "./components/MaxMin";
 
 function App() {
+    const [isobands, setIsobands] = useState(null);
+    const [island, setIsland] = useState(null);
+    const [points, setPoints] = useState(null);
+    const [rain, setRain] = useState(null);
+
+    const [max, setMax] = useState(null);
+    const [min, setMin] = useState(null);
+
+    useEffect(() => {
+        axios.get("http://localhost:4000/api/weather").then(({ data }) => {
+            // let tempmin = 100,
+            //     tempmax = 0;
+
+            // const temps = data.isobands.features.map(
+            //     (element) => element.properties.temperature
+            // );
+
+            // tempmax = Math.max(temps);
+            // tempmin = Math.min(temps);
+
+            setMax(data.maxPoint);
+            setMin(data.minPoint);
+            setIsobands(data.isobands);
+            setIsland(data.island);
+            setPoints(data.newPoints);
+            setRain(data.rainStats);
+        });
+    }, []);
     return (
         <div className=" min-h-screen w-screen flex flex-col">
             <main className="flex-grow flex flex-col">
@@ -21,12 +53,17 @@ function App() {
                     </div>
                 </div>
                 <div style={{ height: 600 }} className="flex-grow w-screen">
-                    <Map />
+                    <Map isobands={isobands} island={island} points={points} />
                 </div>
                 <div
                     style={{ height: 600 }}
-                    className="w-screen bg-gray-900 flex-shrink-0"
-                ></div>
+                    className="w-screen bg-gray-900 flex-shrink-0 py-10"
+                >
+                    <div className="flex w-full max-w-3xl mx-auto">
+                        <Rain rain={rain} />
+                        <MaxMin max={max} min={min} />
+                    </div>
+                </div>
             </main>
 
             <Footer />
