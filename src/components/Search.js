@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const Search = ({ points }) => {
@@ -29,9 +30,13 @@ const Search = ({ points }) => {
     return (
         <>
             {points && (
-                <div
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
                     style={{ minHeight: "28rem" }}
-                    className="px-10 py-5 w-full "
+                    className="px-10 py-5 w-full flex flex-col"
                 >
                     <div className="relative h-10 w-full">
                         <input
@@ -59,145 +64,168 @@ const Search = ({ points }) => {
                     </div>
 
                     <div className="mt-3">
-                        {results
-                            .slice(0, Math.min(results.length, searchLength))
-                            .map(({ properties, geometry }) => {
-                                const coordinates = `${geometry.coordinates[1].toFixed(
-                                    10
-                                )}, ${geometry.coordinates[0].toFixed(10)}`;
+                        <AnimatePresence exitBeforeEnter initial={false}>
+                            {results
+                                .slice(
+                                    0,
+                                    Math.min(results.length, searchLength)
+                                )
+                                .map(({ properties, geometry }) => {
+                                    const coordinates = `${geometry.coordinates[1].toFixed(
+                                        10
+                                    )}, ${geometry.coordinates[0].toFixed(10)}`;
 
-                                const temperature =
-                                    properties.temperature?.toFixed(1) || null;
-                                const rain =
-                                    properties.rain?.toFixed(1) || null;
-                                const elevation = properties.elevation || null;
+                                    const temperature =
+                                        properties.temperature?.toFixed(1) ||
+                                        null;
+                                    const rain =
+                                        properties.rain?.toFixed(1) || null;
+                                    const elevation =
+                                        properties.elevation || null;
 
-                                const pressure = properties.pressure
-                                    ? `${properties.pressure} ${properties.pressure_units}`
-                                    : null;
+                                    const pressure = properties.pressure
+                                        ? `${properties.pressure} ${properties.pressure_units}`
+                                        : null;
 
-                                const humidity = properties.humidity
-                                    ? `${properties.humidity} ${properties.humidity_units}`
-                                    : null;
+                                    const humidity = properties.humidity
+                                        ? `${properties.humidity} ${properties.humidity_units}`
+                                        : null;
 
-                                return (
-                                    <a
-                                        key={properties.station_id}
-                                        className="w-full my-1 p-3 flex flex-col hover:bg-gray-800 rounded-md transition-colors"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                        href={`https://www.victoriaweather.ca/station.php?id=${properties.station_id}`}
-                                    >
-                                        <div className="flex">
-                                            <div className="text-white text-lg font-bold tracking-wider ml-3">
-                                                {properties.station_long_name}
+                                    return (
+                                        <motion.a
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                            key={properties.station_id}
+                                            className="w-full my-1 p-3 flex flex-col hover:bg-gray-800 rounded-md transition-colors"
+                                            rel="noopener noreferrer"
+                                            target="_blank"
+                                            href={`https://www.victoriaweather.ca/station.php?id=${properties.station_id}`}
+                                        >
+                                            <div className="flex">
+                                                <div className="text-white text-lg font-bold tracking-wider ml-3">
+                                                    {
+                                                        properties.station_long_name
+                                                    }
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex flex-wrap py-1">
-                                            <div className="text-gray-500 text-xs ml-3 mr-1">
-                                                📍
-                                            </div>
-                                            <div className="text-gray-500 text-xs">
-                                                {coordinates}
-                                            </div>
-                                            {elevation && (
-                                                <>
-                                                    <div className="text-gray-500 text-xs ml-3 mr-1">
-                                                        ⬆
-                                                    </div>
-                                                    <div className="text-gray-500 text-xs">
-                                                        {elevation}m
-                                                    </div>
-                                                </>
-                                            )}
+                                            <div className="flex flex-wrap py-1">
+                                                <div className="text-gray-500 text-xs ml-3 mr-1">
+                                                    📍
+                                                </div>
+                                                <div className="text-gray-500 text-xs">
+                                                    {coordinates}
+                                                </div>
+                                                {elevation && (
+                                                    <>
+                                                        <div className="text-gray-500 text-xs ml-3 mr-1">
+                                                            ⬆
+                                                        </div>
+                                                        <div className="text-gray-500 text-xs">
+                                                            {elevation}m
+                                                        </div>
+                                                    </>
+                                                )}
 
-                                            {temperature && (
-                                                <>
-                                                    <div className="text-gray-500 text-xs ml-3 mr-1">
-                                                        🌡
-                                                    </div>
-                                                    <div
-                                                        className={` text-xs ${
-                                                            temperature < 10
-                                                                ? "text-blue-500"
-                                                                : temperature <
-                                                                  20
-                                                                ? "text-yellow-400"
-                                                                : temperature <
-                                                                  30
-                                                                ? "text-green-500"
-                                                                : "text-red-600"
-                                                        }`}
-                                                    >
-                                                        {temperature}℃
-                                                    </div>
-                                                </>
-                                            )}
-                                            {rain && (
-                                                <>
-                                                    <div className="text-gray-500 text-xs ml-3 mr-1">
-                                                        💧
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            color: "#30B4FF",
-                                                        }}
-                                                        className=" text-xs"
-                                                    >
-                                                        {rain}mm
-                                                    </div>
-                                                </>
-                                            )}
-                                            {pressure && (
-                                                <>
-                                                    <div className="text-gray-500 text-xs ml-3 mr-1">
-                                                        ☁️
-                                                    </div>
-                                                    <div className=" text-xs text-white">
-                                                        {pressure}
-                                                    </div>
-                                                </>
-                                            )}
-                                            {humidity && (
-                                                <>
-                                                    <div className="text-gray-500 text-xs ml-3 mr-1">
-                                                        💦
-                                                    </div>
-                                                    <div
-                                                        style={{
-                                                            color: "#30E6FF",
-                                                        }}
-                                                        className=" text-xs"
-                                                    >
-                                                        {humidity}
-                                                    </div>
-                                                </>
-                                            )}
-                                        </div>
-                                    </a>
-                                );
-                            })}
-                        {results.length === 0 && (
-                            <div className="w-full text-center font-bold text-gray-500 p-5 text-lg">
-                                <span className="italic text-xl">
-                                    Impossible...
-                                </span>
-                                <br /> Perhaps the archives are incomplete!
-                            </div>
-                        )}
+                                                {temperature && (
+                                                    <>
+                                                        <div className="text-gray-500 text-xs ml-3 mr-1">
+                                                            🌡
+                                                        </div>
+                                                        <div
+                                                            className={` text-xs ${
+                                                                temperature < 10
+                                                                    ? "text-blue-500"
+                                                                    : temperature <
+                                                                      20
+                                                                    ? "text-yellow-400"
+                                                                    : temperature <
+                                                                      30
+                                                                    ? "text-green-500"
+                                                                    : "text-red-600"
+                                                            }`}
+                                                        >
+                                                            {temperature}℃
+                                                        </div>
+                                                    </>
+                                                )}
+                                                {rain && (
+                                                    <>
+                                                        <div className="text-gray-500 text-xs ml-3 mr-1">
+                                                            💧
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                color: "#30B4FF",
+                                                            }}
+                                                            className=" text-xs"
+                                                        >
+                                                            {rain}mm
+                                                        </div>
+                                                    </>
+                                                )}
+                                                {pressure && (
+                                                    <>
+                                                        <div className="text-gray-500 text-xs ml-3 mr-1">
+                                                            ☁️
+                                                        </div>
+                                                        <div className=" text-xs text-white">
+                                                            {pressure}
+                                                        </div>
+                                                    </>
+                                                )}
+                                                {humidity && (
+                                                    <>
+                                                        <div className="text-gray-500 text-xs ml-3 mr-1">
+                                                            💦
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                color: "#30E6FF",
+                                                            }}
+                                                            className=" text-xs"
+                                                        >
+                                                            {humidity}
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </motion.a>
+                                    );
+                                })}
+                            {results.length === 0 && (
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    key="-1"
+                                    className="w-full text-center font-bold text-gray-500 p-5 text-lg"
+                                >
+                                    <span className="italic text-xl">
+                                        Impossible...
+                                    </span>
+                                    <br /> Perhaps the archives are incomplete!
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
-
-                    {results.length > searchLength && (
-                        <div
-                            onClick={() => {
-                                setSearchLength(searchLength * 2);
-                            }}
-                            className="w-full text-center hover:underline cursor-pointer text-gray-500 p-5"
-                        >
-                            show more results
-                        </div>
-                    )}
-                </div>
+                    <AnimatePresence initial={false}>
+                        {results.length > searchLength && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => {
+                                    setSearchLength(searchLength * 2);
+                                }}
+                                className="inline-block text-center hover:underline cursor-pointer text-gray-500 p-5"
+                            >
+                                show more results
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.div>
             )}
         </>
     );

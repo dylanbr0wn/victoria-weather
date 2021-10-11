@@ -1,8 +1,17 @@
+import { motion } from "framer-motion";
+
 const UVIndex = ({ vicTempData, uvInfo }) => {
     return (
         <>
             {uvInfo && vicTempData && (
-                <div className="w-full p-3">
+                <motion.div
+                    key="uv"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1 }}
+                    className="w-full p-3"
+                >
                     <div className="p-5 w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors">
                         <div className="flex p-3">
                             <div className="text-6xl flex-shrink">☀️</div>
@@ -27,7 +36,7 @@ const UVIndex = ({ vicTempData, uvInfo }) => {
                             {uvInfo.riskText}
                         </div>
                     </div>
-                </div>
+                </motion.div>
             )}{" "}
         </>
     );

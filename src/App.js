@@ -10,6 +10,7 @@ import Search from "./components/Search";
 import Header from "./components/Header";
 import Summary from "./components/Summary";
 import UVIndex from "./components/UVIndex";
+import { AnimatePresence, motion } from "framer-motion";
 
 function App() {
     const [isobands, setIsobands] = useState(null);
@@ -40,22 +41,38 @@ function App() {
         });
     }, []);
     return (
-        <div className=" min-h-screen w-screen flex flex-col">
+        <div className=" min-h-screen w-screen flex flex-col bg-gray-900">
             <Header />
             <main className="flex-grow flex flex-col">
-                <div style={{ height: 600 }} className="flex-grow">
-                    <Map isobands={isobands} island={island} points={points} />
-                </div>
+                <AnimatePresence>
+                    {isobands && island && points && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 1 }}
+                            style={{ height: 600 }}
+                            className="flex-grow bg-gray-900"
+                        >
+                            <Map
+                                isobands={isobands}
+                                island={island}
+                                points={points}
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <div className=" bg-gray-900 flex-shrink-0 py-10">
                     <div className="relative  w-full md:max-w-3xl mx-auto">
                         {/* <div className="text-gray-600 uppercase font-light text-lg absolute -left-24 top-3">
                             Summary
                         </div> */}
-
-                        <Summary
-                            openWeather={openWeather}
-                            vicTempData={vicTempData}
-                        />
+                        <AnimatePresence>
+                            <Summary
+                                openWeather={openWeather}
+                                vicTempData={vicTempData}
+                            />
+                        </AnimatePresence>
                     </div>
                     <div className="relative md:max-w-3xl mx-auto">
                         {/* <div className="text-gray-600 uppercase font-light text-lg absolute -left-28 top-3">
@@ -63,15 +80,19 @@ function App() {
                         </div> */}
                         <div className="flex flex-col md:flex-row w-full md:max-w-3xl mx-auto">
                             <div className="flex flex-col w-full">
-                                <Rain rain={rain} />
-                                <AirQuality AQI={AQI} />
+                                <AnimatePresence>
+                                    <Rain rain={rain} />
+                                    <AirQuality AQI={AQI} />
+                                </AnimatePresence>
                             </div>
                             <div className="flex flex-col w-full">
-                                <MaxMin max={max} min={min} />
-                                <UVIndex
-                                    vicTempData={vicTempData}
-                                    uvInfo={uvInfo}
-                                />
+                                <AnimatePresence>
+                                    <MaxMin max={max} min={min} />
+                                    <UVIndex
+                                        vicTempData={vicTempData}
+                                        uvInfo={uvInfo}
+                                    />
+                                </AnimatePresence>
                             </div>
                         </div>
                     </div>
