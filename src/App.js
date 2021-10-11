@@ -20,6 +20,7 @@ function App() {
     const [max, setMax] = useState(null);
     const [min, setMin] = useState(null);
     const [uvInfo, setUvInfo] = useState(null);
+    const [openWeather, setOpenWeather] = useState(null);
 
     const [AQI, setAQI] = useState(null);
     const [vicTempData, setVicTempData] = useState(null);
@@ -35,6 +36,7 @@ function App() {
             setAQI(data.aqi);
             setVicTempData(data.vicTempData);
             setUvInfo(data.uvInfo);
+            setOpenWeather(data.openWeather);
         });
     }, []);
     return (
@@ -50,7 +52,10 @@ function App() {
                             Summary
                         </div> */}
 
-                        <Summary vicTempData={vicTempData} />
+                        <Summary
+                            openWeather={openWeather}
+                            vicTempData={vicTempData}
+                        />
                     </div>
                     <div className="relative md:max-w-3xl mx-auto">
                         {/* <div className="text-gray-600 uppercase font-light text-lg absolute -left-28 top-3">

@@ -1,11 +1,41 @@
-const Summary = ({ vicTempData }) => {
+import SummaryList from "./SummaryList";
+
+const Summary = ({ vicTempData, openWeather }) => {
+    const openWeatherIcon = (id) => {
+        if (id < 300) return "⛈";
+        else if (id < 500) return "🌦";
+        else if (id < 600) return "🌧";
+        else if (id < 700) return "🌨";
+        else if (id < 800) return "⚠️";
+        else if (id === 800) return "☀️";
+        else if (id === 801) return "🌤";
+        else if (id === 802) return "⛅️";
+        else if (id === 803) return "🌥";
+        else return "☁️";
+    };
+
     return (
         <>
-            {vicTempData && (
+            {vicTempData && openWeather && (
                 <div className="w-full p-3">
                     <div className="p-5 w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col ">
                         <div className="flex justify-center">
-                            <div className="text-6xl mr-8">🌡</div>
+                            <div className="text-7xl mr-8 flex flex-col text-center ">
+                                <div>
+                                    {openWeatherIcon(openWeather.weather[0].id)}
+                                </div>
+                                {/* <div className="text-sm text-white uppercase">
+                                    {openWeather.weather[0].description}
+                                </div> */}
+                                {/* <a
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    href="https://openweathermap.org/"
+                                    className="text-xs text-yellow-700 font-bold block hover:underline"
+                                >
+                                    OpenWeather©
+                                </a> */}
+                            </div>
                             <div
                                 className={` flex flex-col ${
                                     vicTempData.averageTemperature < 10
@@ -26,142 +56,30 @@ const Summary = ({ vicTempData }) => {
                                     </span>
                                 </div>
                                 <div className="text-lg font-light leading-3 text-center">
-                                    Actual Temperature
+                                    Average Temperature
                                 </div>
                             </div>
                         </div>
-                        <div className=" p-3 text-2xl text-center  ">
-                            <span className="text-pink-600 mx-2 inline-block">
-                                {" "}
-                                <a
-                                    className="hover:underline"
-                                    href="https://en.wikipedia.org/wiki/Humidex"
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                >
-                                    Humidex
-                                </a>
-                                :{" "}
-                                <span className="font-bold">
-                                    {vicTempData.averageHumidex.toFixed(1)}
-                                </span>
+                        {/* <div className="text-center text-white  mt-3 text-xl">
+                            <a
+                                rel="noopener noreferrer"
+                                target="_blank"
+                                href="https://openweathermap.org/"
+                                className="text-yellow-700 font-bold hover:underline"
+                            >
+                                OpenWeather©
+                            </a>{" "}
+                            currently reports{" "}
+                            <span className="font-bold text-yellow-700">
+                                {openWeather.weather[0].description}
                             </span>
-                            <span className=" text-blue-300 mx-2 inline-block">
-                                <a
-                                    className="hover:underline"
-                                    href="https://en.wikipedia.org/wiki/Wind_chill"
-                                    rel="noopener noreferrer"
-                                    target="_blank"
-                                >
-                                    Windchill
-                                </a>
-                                :{" "}
-                                <span className="font-bold">
-                                    {vicTempData.averageWindChill.toFixed(1)}
-                                </span>
-                            </span>
-
-                            <div>
-                                <span className=" text-yellow-400 mx-2 inline-block">
-                                    <a
-                                        className="hover:underline"
-                                        href="https://en.wikipedia.org/wiki/Humidity"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        Humidity
-                                    </a>
-                                    :{" "}
-                                    <span className="font-bold">
-                                        {vicTempData.averageHumidy.toFixed(1)}%
-                                    </span>
-                                </span>
-                                <span className=" text-blue-200 mx-2 inline-block">
-                                    <a
-                                        className="hover:underline"
-                                        href="https://en.wikipedia.org/wiki/Wind_speed"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        Wind Speed
-                                    </a>
-                                    :{" "}
-                                    <span className="font-bold">
-                                        {vicTempData.averageWindHeading}{" "}
-                                        {vicTempData.averageWind.toFixed(1)}{" "}
-                                        km/h
-                                    </span>
-                                </span>
-                                <span className=" text-white mx-2 inline-block">
-                                    <a
-                                        className="hover:underline"
-                                        href="https://en.wikipedia.org/wiki/Atmospheric_pressure"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        Pressure
-                                    </a>
-                                    :{" "}
-                                    <span className="font-bold">
-                                        {vicTempData.averagePressure.toFixed(1)}{" "}
-                                        hPa
-                                    </span>
-                                </span>
-                                <span className=" text-green-700 mx-2 inline-block">
-                                    <a
-                                        className="hover:underline"
-                                        href="https://en.wikipedia.org/wiki/Dew_point"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        Dewpoint
-                                    </a>
-                                    :{" "}
-                                    <span className="font-bold">
-                                        {vicTempData.averageDewpoint.toFixed(1)}
-                                        ℃
-                                    </span>
-                                </span>
-                                <span className=" text-red-700 mx-2 inline-block">
-                                    <a
-                                        className="hover:underline"
-                                        href="https://en.wikipedia.org/wiki/Solar_irradiance"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        Insolation
-                                    </a>
-                                    :{" "}
-                                    <span className="font-bold">
-                                        {vicTempData.averageInsolation.toFixed(
-                                            1
-                                        )}{" "}
-                                        W/m<sup>2</sup>
-                                    </span>
-                                </span>
-                                <span className=" text-purple-700 mx-2 inline-block">
-                                    <a
-                                        className="hover:underline"
-                                        href="https://en.wikipedia.org/wiki/Ultraviolet_index"
-                                        rel="noopener noreferrer"
-                                        target="_blank"
-                                    >
-                                        UV Index
-                                    </a>
-                                    :{" "}
-                                    <span className="font-bold">
-                                        {vicTempData.averageUv}
-                                    </span>
-                                </span>
-                            </div>
-                            <div className="text-gray-500 p-3 text-sm text-center">
-                                All values are based on the average of their
-                                calculated values for each station in the
-                                Victoria Area. Therefore, may not be
-                                representative of weather in subregions of
-                                Victoria.
-                            </div>
+                            .
+                        </div> */}
+                        <div className="text-gray-300 font-medium text-center text-lg mt-5">
+                            Local Averages
                         </div>
+
+                        <SummaryList vicTempData={vicTempData} />
                     </div>
                 </div>
             )}
