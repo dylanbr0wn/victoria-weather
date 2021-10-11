@@ -171,6 +171,8 @@ const Map = ({ isobands, island, points }) => {
                         return {
                             fillColor: feature.properties.fill,
                             fill: true,
+                            smoothFactor: 0,
+
                             // borderRadius: 0,
                             // backgroundColor: feature.properties.fill,
                             fillOpacity: 0.7,
@@ -185,7 +187,7 @@ const Map = ({ isobands, island, points }) => {
                 <GeoJSON
                     data={island}
                     style={(feature) => {
-                        return { color: "#119DA4", opacity: 1 };
+                        return { color: "#119DA4", opacity: 1, fill: false };
                     }}
                 />
             )}

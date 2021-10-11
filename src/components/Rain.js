@@ -28,8 +28,16 @@ const Rain = ({ rain }) => {
                             {rain.numberReporting}
                         </span>{" "}
                         stations are currently reporting rain.{" "}
-                        {rain.maxRain.properties.station_long_name} is reporting
-                        the most with{" "}
+                        <a
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            href={`https://www.victoriaweather.ca/station.php?id=${rain.maxRain.properties.station_id}`}
+                            style={{ color: "#30B4FF" }}
+                            className="hover:underline"
+                        >
+                            {rain.maxRain.properties.station_long_name}
+                        </a>{" "}
+                        is reporting the most with{" "}
                         <span style={{ color: "#30B4FF" }} className="text-2xl">
                             {rain.maxRain.properties.rain}
                             {rain.maxRain.properties.rain_units}

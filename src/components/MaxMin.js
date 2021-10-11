@@ -18,9 +18,15 @@ const MaxMin = ({ max, min }) => {
                         </div>
                     </div>
                     <div className="p-3 text-xl text-white">
-                        <span style={{ color: "#FF8730" }} className="text-xl">
+                        <a
+                            href={`https://www.victoriaweather.ca/station.php?id=${max.properties.station_id}`}
+                            style={{ color: "#FF8730" }}
+                            className="text-xl hover:underline"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
                             {max.properties.station_long_name}{" "}
-                        </span>{" "}
+                        </a>{" "}
                         is currently the{" "}
                         <span style={{ color: "#FF8730" }} className="text-xl">
                             warmest
@@ -42,9 +48,15 @@ const MaxMin = ({ max, min }) => {
                         </div>
                     </div>
                     <div className="p-3 text-xl text-white">
-                        <span style={{ color: "#30E6FF" }} className="text-xl">
+                        <a
+                            href={`https://www.victoriaweather.ca/station.php?id=${min.properties.station_id}`}
+                            style={{ color: "#30E6FF" }}
+                            className="text-xl hover:underline"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
                             {min.properties.station_long_name}{" "}
-                        </span>{" "}
+                        </a>{" "}
                         is currently the{" "}
                         <span style={{ color: "#30E6FF" }} className="text-xl">
                             coolest
