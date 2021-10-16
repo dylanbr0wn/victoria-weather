@@ -11,6 +11,7 @@ import Header from "./components/Header";
 import Summary from "./components/Summary";
 import UVIndex from "./components/UVIndex";
 import { AnimatePresence, motion } from "framer-motion";
+import Moon from "./components/Moon";
 
 function App() {
     const [isobands, setIsobands] = useState(null);
@@ -47,6 +48,7 @@ function App() {
                 <AnimatePresence>
                     {isobands && island && points && (
                         <motion.div
+                            key={"map"}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
@@ -69,6 +71,7 @@ function App() {
                         </div> */}
                         <AnimatePresence>
                             <Summary
+                                key={1}
                                 openWeather={openWeather}
                                 vicTempData={vicTempData}
                             />
@@ -81,17 +84,19 @@ function App() {
                         <div className="flex flex-col md:flex-row w-full md:max-w-3xl mx-auto">
                             <div className="flex flex-col w-full">
                                 <AnimatePresence>
-                                    <Rain rain={rain} />
-                                    <AirQuality AQI={AQI} />
+                                    <Rain key={1} rain={rain} />
+                                    <AirQuality key={2} AQI={AQI} />
                                 </AnimatePresence>
                             </div>
                             <div className="flex flex-col w-full">
                                 <AnimatePresence>
-                                    <MaxMin max={max} min={min} />
+                                    <MaxMin key={1} max={max} min={min} />
                                     <UVIndex
+                                        key={2}
                                         vicTempData={vicTempData}
                                         uvInfo={uvInfo}
                                     />
+                                    <Moon />
                                 </AnimatePresence>
                             </div>
                         </div>

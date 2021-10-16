@@ -16,20 +16,22 @@ const SummaryList = ({ vicTempData }) => {
                     {vicTempData.averageHumidex.toFixed(1)}
                 </span>
             </span>
-            <span className=" text-blue-300 mx-2 inline-block">
-                <a
-                    className="hover:underline"
-                    href="https://en.wikipedia.org/wiki/Wind_chill"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                >
-                    Windchill
-                </a>
-                :{" "}
-                <span className="font-bold">
-                    {vicTempData.averageWindChill.toFixed(1)}
+            {vicTempData.averageWindChill && (
+                <span className=" text-blue-300 mx-2 inline-block">
+                    <a
+                        className="hover:underline"
+                        href="https://en.wikipedia.org/wiki/Wind_chill"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        Windchill
+                    </a>
+                    :{" "}
+                    <span className="font-bold">
+                        {vicTempData.averageWindChill.toFixed(1)}
+                    </span>
                 </span>
-            </span>
+            )}
 
             <span className=" text-yellow-400 mx-2 inline-block">
                 <a
@@ -103,17 +105,19 @@ const SummaryList = ({ vicTempData }) => {
                     <sup>2</sup>
                 </span>
             </span>
-            <span className=" text-purple-700 mx-2 inline-block">
-                <a
-                    className="hover:underline"
-                    href="https://en.wikipedia.org/wiki/Ultraviolet_index"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                >
-                    UV Index
-                </a>
-                : <span className="font-bold">{vicTempData.averageUv}</span>
-            </span>
+            {vicTempData.averageUv && (
+                <span className=" text-purple-700 mx-2 inline-block">
+                    <a
+                        className="hover:underline"
+                        href="https://en.wikipedia.org/wiki/Ultraviolet_index"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                    >
+                        UV Index
+                    </a>
+                    : <span className="font-bold">{vicTempData.averageUv}</span>
+                </span>
+            )}
 
             {/* <div className="text-gray-500 p-3 text-sm text-center">
                 All values are based on the average of their calculated values

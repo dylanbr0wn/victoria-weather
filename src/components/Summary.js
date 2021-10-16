@@ -24,6 +24,7 @@ const Summary = ({ vicTempData, openWeather }) => {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1 }}
                     className="w-full p-3"
+                    key="summary"
                 >
                     <div className="p-5 w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col ">
                         <div className="flex justify-center">

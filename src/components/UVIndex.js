@@ -5,7 +5,6 @@ const UVIndex = ({ vicTempData, uvInfo }) => {
         <>
             {uvInfo && vicTempData && (
                 <motion.div
-                    key="uv"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -37,7 +36,7 @@ const UVIndex = ({ vicTempData, uvInfo }) => {
                         </div>
                     </div>
                 </motion.div>
-            )}{" "}
+            )}
         </>
     );
 };

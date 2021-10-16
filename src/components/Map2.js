@@ -225,8 +225,6 @@ const Map = ({ isobands, island, points }) => {
                             });
                             average = (average / number).toFixed(1);
 
-                            console.log(markers);
-
                             // var c = " marker-cluster-";
                             // if (number < 10) {
                             //     c += "small";

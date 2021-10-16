@@ -70,7 +70,7 @@ const Search = ({ points }) => {
                                     0,
                                     Math.min(results.length, searchLength)
                                 )
-                                .map(({ properties, geometry }) => {
+                                .map(({ properties, geometry }, i) => {
                                     const coordinates = `${geometry.coordinates[1].toFixed(
                                         10
                                     )}, ${geometry.coordinates[0].toFixed(10)}`;
@@ -97,7 +97,7 @@ const Search = ({ points }) => {
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
                                             transition={{ duration: 0.2 }}
-                                            key={properties.station_id}
+                                            key={i}
                                             className="w-full my-1 p-3 flex flex-col hover:bg-gray-800 rounded-md transition-colors"
                                             rel="noopener noreferrer"
                                             target="_blank"
