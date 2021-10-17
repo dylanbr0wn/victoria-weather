@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import SummaryList from "./SummaryList";
+import SunMoonCycle from "./SunMoonCycle";
 
 const Summary = ({ vicTempData, openWeather }) => {
     const openWeatherIcon = (id) => {
@@ -83,11 +84,16 @@ const Summary = ({ vicTempData, openWeather }) => {
                             </span>
                             .
                         </div> */}
-                        <div className="text-gray-300 font-medium text-center text-lg mt-5">
+                        {/* <div className="text-gray-300 font-medium text-center text-lg mt-5">
                             Local Averages
-                        </div>
+                        </div> */}
 
                         <SummaryList vicTempData={vicTempData} />
+                        <div className="px-10 text-center  text-xs text-gray-700">
+                            All values are calculated averages from stations in
+                            the Victoria area and may not represent current
+                            conditions in sub regions.
+                        </div>
                     </div>
                 </motion.div>
             )}

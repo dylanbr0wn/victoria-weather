@@ -12,6 +12,7 @@ import Summary from "./components/Summary";
 import UVIndex from "./components/UVIndex";
 import { AnimatePresence, motion } from "framer-motion";
 import Moon from "./components/Moon";
+import SunMoonCycle from "./components/SunMoonCycle";
 
 function App() {
     const [isobands, setIsobands] = useState(null);
@@ -23,6 +24,7 @@ function App() {
     const [min, setMin] = useState(null);
     const [uvInfo, setUvInfo] = useState(null);
     const [openWeather, setOpenWeather] = useState(null);
+    const [astroData, setAstroData] = useState(null);
 
     const [AQI, setAQI] = useState(null);
     const [vicTempData, setVicTempData] = useState(null);
@@ -39,6 +41,7 @@ function App() {
             setVicTempData(data.vicTempData);
             setUvInfo(data.uvInfo);
             setOpenWeather(data.openWeather);
+            setAstroData(data.astroData);
         });
     }, []);
     return (
@@ -77,6 +80,15 @@ function App() {
                             />
                         </AnimatePresence>
                     </div>
+                    <div className="relative  w-full md:max-w-3xl mx-auto">
+                        {/* <div className="text-gray-600 uppercase font-light text-lg absolute -left-24 top-3">
+                            Summary
+                        </div> */}
+                        <AnimatePresence>
+                            <SunMoonCycle key={1} />
+                        </AnimatePresence>
+                    </div>
+
                     <div className="relative md:max-w-3xl mx-auto">
                         {/* <div className="text-gray-600 uppercase font-light text-lg absolute -left-28 top-3">
                             Highlights
@@ -96,7 +108,7 @@ function App() {
                                         vicTempData={vicTempData}
                                         uvInfo={uvInfo}
                                     />
-                                    <Moon />
+                                    {/* <Moon astroData={astroData} /> */}
                                 </AnimatePresence>
                             </div>
                         </div>
