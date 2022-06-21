@@ -1,18 +1,19 @@
-import "./App.css";
-import Map from "./components/Map2";
-import Footer from "./components/Footer";
+import dynamic from "next/dynamic";
+
+const Map = dynamic(() => import("../components/Map2"), { ssr: false });
+import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Rain from "./components/Rain";
-import MaxMin from "./components/MaxMin";
-import AirQuality from "./components/AirQuality";
-import Search from "./components/Search";
-import Header from "./components/Header";
-import Summary from "./components/Summary";
-import UVIndex from "./components/UVIndex";
+import Rain from "../components/Rain";
+import MaxMin from "../components/MaxMin";
+import AirQuality from "../components/AirQuality";
+import Search from "../components/Search";
+import Header from "../components/Header";
+import Summary from "../components/Summary";
+import UVIndex from "../components/UVIndex";
 import { AnimatePresence, motion } from "framer-motion";
-import Moon from "./components/Moon";
-import SunMoonCycle from "./components/SunMoonCycle";
+import Moon from "../components/Moon";
+import SunMoonCycle from "../components/SunMoonCycle";
 
 function App() {
     const [isobands, setIsobands] = useState(null);

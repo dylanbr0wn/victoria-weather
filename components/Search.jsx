@@ -72,8 +72,8 @@ const Search = ({ points }) => {
                                 )
                                 .map(({ properties, geometry }, i) => {
                                     const coordinates = `${geometry.coordinates[1].toFixed(
-                                        10
-                                    )}, ${geometry.coordinates[0].toFixed(10)}`;
+                                        7
+                                    )}, ${geometry.coordinates[0].toFixed(7)}`;
 
                                     const temperature =
                                         properties.temperature?.toFixed(1) ||
