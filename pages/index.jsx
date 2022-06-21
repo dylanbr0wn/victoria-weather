@@ -29,9 +29,10 @@ function App() {
 
     const [AQI, setAQI] = useState(null);
     const [vicTempData, setVicTempData] = useState(null);
+    const [intersection, setIntersection] = useState(null);
 
     useEffect(() => {
-        axios.get("http://localhost:4000/api/weather").then(({ data }) => {
+        axios.get("/api/weather").then(({ data }) => {
             setMax(data.maxPoint);
             setMin(data.minPoint);
             setIsobands(data.isobands);
@@ -43,6 +44,7 @@ function App() {
             setUvInfo(data.uvInfo);
             setOpenWeather(data.openWeather);
             setAstroData(data.astroData);
+            setIntersection(data.intersection);
         });
     }, []);
     return (
@@ -51,7 +53,7 @@ function App() {
             <main className="flex-grow flex flex-col">
                 <AnimatePresence>
                     {isobands && island && points && (
-                        <motion.div
+                        <div
                             key={"map"}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -64,8 +66,9 @@ function App() {
                                 isobands={isobands}
                                 island={island}
                                 points={points}
+                                intersection={intersection}
                             />
-                        </motion.div>
+                        </div>
                     )}
                 </AnimatePresence>
                 <div className=" bg-gray-900 flex-shrink-0 py-10">

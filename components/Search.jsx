@@ -97,7 +97,7 @@ const Search = ({ points }) => {
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
                                             transition={{ duration: 0.2 }}
-                                            key={i}
+                                            key={properties.station_id}
                                             className="w-full my-1 p-3 flex flex-col hover:bg-gray-800 rounded-md transition-colors"
                                             rel="noopener noreferrer"
                                             target="_blank"
