@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 const Map = dynamic(() => import("../components/Map2"), { ssr: false });
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Rain from "../components/Rain";
 import MaxMin from "../components/MaxMin";
 import AirQuality from "../components/AirQuality";
@@ -32,20 +31,22 @@ function App() {
     const [intersection, setIntersection] = useState(null);
 
     useEffect(() => {
-        axios.get("/api/weather").then(({ data }) => {
-            setMax(data.maxPoint);
-            setMin(data.minPoint);
-            setIsobands(data.isobands);
-            setIsland(data.island);
-            setPoints(data.newPoints);
-            setRain(data.rainStats);
-            setAQI(data.aqi);
-            setVicTempData(data.vicTempData);
-            setUvInfo(data.uvInfo);
-            setOpenWeather(data.openWeather);
-            setAstroData(data.astroData);
-            setIntersection(data.intersection);
-        });
+        fetch("/api/weather")
+            .then((res) => res.json())
+            .then((data) => {
+                setMax(data.maxPoint);
+                setMin(data.minPoint);
+                setIsobands(data.isobands);
+                setIsland(data.island);
+                setPoints(data.newPoints);
+                setRain(data.rainStats);
+                setAQI(data.aqi);
+                setVicTempData(data.vicTempData);
+                setUvInfo(data.uvInfo);
+                setOpenWeather(data.openWeather);
+                setAstroData(data.astroData);
+                setIntersection(data.intersection);
+            });
     }, []);
     return (
         <div className=" min-h-screen w-screen flex flex-col bg-gray-900">

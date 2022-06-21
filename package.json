@@ -4,10 +4,8 @@
     "private": true,
     "dependencies": {
         "@tailwindcss/forms": "^0.5.2",
-        "axios": "^0.22.0",
         "chroma-js": "^2.1.2",
         "colorjs.io": "^0.0.7",
-        "eslint": "^7.11.0",
         "framer-motion": "^6.3.11",
         "mapbox-gl": "^2.9.1",
         "moment": "^2.29.1",

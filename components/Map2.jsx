@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
 import Map, { Source } from "react-map-gl";
 import { Popup } from "react-map-gl";
