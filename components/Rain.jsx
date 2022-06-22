@@ -15,15 +15,16 @@ const Rain = ({ rain }) => {
                         <div className="flex p-3">
                             <div className="text-6xl flex-shrink">💧</div>
                             <div className="flex-grow text-center tracking-widest">
-                                {rain.averageRain && (
-                                    <span
-                                        style={{ color: "#30B4FF" }}
-                                        className="text-5xl font-bold "
-                                    >
-                                        {rain.averageRain.toFixed(2)}
-                                        <span className="text-3xl"> mm</span>
-                                    </span>
-                                )}
+                                <span
+                                    style={{ color: "#30B4FF" }}
+                                    className="text-5xl font-bold "
+                                >
+                                    {rain.averageRain === 0
+                                        ? "0.00"
+                                        : rain.averageRain.toFixed(2)}
+                                    <span className="text-3xl"> mm</span>
+                                </span>
+
                                 <div
                                     style={{ color: "#30B4FF" }}
                                     className="text-lg font-bold leading-4"
