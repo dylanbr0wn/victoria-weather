@@ -5,15 +5,15 @@
  
  ## Features
  
- 🗺 - Fully interactive map of Victoria with temperature visualization and point information powered by [Mapbox](https://www.mapbox.com/) 
+ - 🗺 Fully interactive map of Victoria with temperature visualization and point information powered by [Mapbox](https://www.mapbox.com/) 
    
- 💧 - Average rain stats from across Victoria  
+ - 💧 Average rain stats from across Victoria  
    
- 🌡 - Temperature averages aswell as max/min locations  
+ - 🌡 Temperature averages aswell as max/min locations  
    
- 🌗 - Sunrise/Sunset time indicator  
+ - 🌗 Sunrise/Sunset time indicator  
    
- ☁️ - Weather forcast (Coming soon)  
+ - ☁️ Weather forcast (Coming soon)  
  
  ## How it works
  
