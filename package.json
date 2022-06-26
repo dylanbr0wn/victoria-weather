@@ -6,6 +6,7 @@
         "@tailwindcss/forms": "^0.5.2",
         "chroma-js": "^2.1.2",
         "colorjs.io": "^0.0.7",
+        "dayjs": "^1.11.3",
         "framer-motion": "^6.3.11",
         "mapbox-gl": "^2.9.1",
         "moment": "^2.29.1",
@@ -14,6 +15,7 @@
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-map-gl": "^7.0.16",
+        "react-query": "^3.39.1",
         "sass": "^1.52.3",
         "sunrise-sunset-js": "^2.2.1",
         "web-vitals": "^1.1.2"

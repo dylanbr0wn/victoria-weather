@@ -1,9 +1,17 @@
 import { motion } from "framer-motion";
+import { useQuery } from "react-query";
 
-const Rain = ({ rain }) => {
+const getRainData = async () => {
+    const data = await fetch("/api/rain-data");
+
+    return await data.json();
+};
+
+const Rain = () => {
+    const { data } = useQuery(["rain"], getRainData, {});
     return (
         <>
-            {rain && (
+            {data?.rain && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -19,9 +27,9 @@ const Rain = ({ rain }) => {
                                     style={{ color: "#30B4FF" }}
                                     className="text-5xl font-bold "
                                 >
-                                    {rain.averageRain === 0
+                                    {data?.rain.averageRain === 0
                                         ? "0.00"
-                                        : rain.averageRain.toFixed(2)}
+                                        : data.rain.averageRain.toFixed(2)}
                                     <span className="text-3xl"> mm</span>
                                 </span>
 
@@ -38,25 +46,28 @@ const Rain = ({ rain }) => {
                                 style={{ color: "#30B4FF" }}
                                 className="text-2xl"
                             >
-                                {rain.numberReporting}
+                                {data?.rain.numberReporting}
                             </span>{" "}
                             stations are currently reporting rain.{" "}
                             <a
                                 rel="noopener noreferrer"
                                 target="_blank"
-                                href={`https://www.victoriaweather.ca/station.php?id=${rain.maxRain.properties.station_id}`}
+                                href={`https://www.victoriaweather.ca/station.php?id=${data?.rain.maxRain.properties.station_id}`}
                                 style={{ color: "#30B4FF" }}
                                 className="hover:underline"
                             >
-                                {rain.maxRain.properties.station_long_name}
+                                {
+                                    data?.rain.maxRain.properties
+                                        .station_long_name
+                                }
                             </a>{" "}
-                            is reporting the most with{" "}
+                            has reporting the most in last 24h with{" "}
                             <span
                                 style={{ color: "#30B4FF" }}
                                 className="text-2xl"
                             >
-                                {rain.maxRain.properties.rain}
-                                {rain.maxRain.properties.rain_units}
+                                {data?.rain.maxRain.properties.rain}
+                                {data?.rain.maxRain.properties.rain_units}
                             </span>{" "}
                             total.
                         </div>

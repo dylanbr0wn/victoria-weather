@@ -1,26 +1,37 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
-const Search = ({ points }) => {
+const getPointsData = async () => {
+    const data = await fetch("/api/points-data");
+
+    return await data.json();
+};
+
+const Search = () => {
     const [search, setSearch] = useState("");
 
     const [results, setResults] = useState([]);
     const [searchLength, setSearchLength] = useState(4);
 
-    useEffect(() => {
-        if (points) {
-            let newResults = points.features.filter((point) => {
-                if (search.length === 0) return true;
+    const { data } = useQuery(["points"], getPointsData, {});
 
-                const result = point.properties.station_long_name
-                    .toLowerCase()
-                    .search(search.toLowerCase());
-                return result >= 0;
-            });
+    useEffect(() => {
+        if (data?.points?.newPoints) {
+            let newResults = data?.points?.newPoints.features.filter(
+                (point) => {
+                    if (search.length === 0) return true;
+
+                    const result = point.properties.station_long_name
+                        .toLowerCase()
+                        .search(search.toLowerCase());
+                    return result >= 0;
+                }
+            );
 
             setResults(newResults);
         }
-    }, [points, search]);
+    }, [data, search]);
 
     const onChange = ({ target }) => {
         if (target.name === "search") {
@@ -29,7 +40,7 @@ const Search = ({ points }) => {
     };
     return (
         <>
-            {points && (
+            {data?.points?.newPoints && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

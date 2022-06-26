@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Script from "next/script";
 
 const Header = () => {
     return (
@@ -31,7 +32,7 @@ const Header = () => {
                     href="/favicon-16x16.png"
                 />
                 <link rel="manifest" href="/site.webmanifest"></link>
-                <script src="https://www.purpleair.com/pa.widget.js?key=C2U767EE68URYRKH&module=AQI&conversion=C0&average=10&layer=standard&container=PurpleAirWidget_108012_module_AQI_conversion_C0_average_10_layer_standard"></script>
+                <Script src="https://www.purpleair.com/pa.widget.js?key=C2U767EE68URYRKH&module=AQI&conversion=C0&average=10&layer=standard&container=PurpleAirWidget_108012_module_AQI_conversion_C0_average_10_layer_standard"></Script>
             </Head>
             <div className=" max-w-3xl mx-auto text-white flex p-2">
                 {/* <div className="py-3 text-4xl inline-block"></div> */}

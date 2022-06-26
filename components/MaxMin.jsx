@@ -1,9 +1,17 @@
 import { motion } from "framer-motion";
+import { useQuery } from "react-query";
+
+const getPointsData = async () => {
+    const data = await fetch("/api/points-data");
+
+    return await data.json();
+};
 
 const MaxMin = ({ max, min }) => {
+    const { data } = useQuery(["points"], getPointsData, {});
     return (
         <>
-            {max && min && (
+            {data && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -21,7 +29,9 @@ const MaxMin = ({ max, min }) => {
                                     }}
                                     className="text-5xl font-bold "
                                 >
-                                    {max.properties.temperature.toFixed(1)}
+                                    {data?.points?.maxPoint?.properties.temperature.toFixed(
+                                        1
+                                    )}
                                     <span className="text-4xl font-light">
                                         {" "}
                                         ℃
@@ -31,13 +41,16 @@ const MaxMin = ({ max, min }) => {
                         </div>
                         <div className="p-3 text-xl text-white">
                             <a
-                                href={`https://www.victoriaweather.ca/station.php?id=${max.properties.station_id}`}
+                                href={`https://www.victoriaweather.ca/station.php?id=${data?.points?.maxPoint?.properties.station_id}`}
                                 style={{ color: "#FF8730" }}
                                 className="text-xl hover:underline"
                                 rel="noopener noreferrer"
                                 target="_blank"
                             >
-                                {max.properties.station_long_name}{" "}
+                                {
+                                    data?.points?.maxPoint?.properties
+                                        .station_long_name
+                                }{" "}
                             </a>{" "}
                             is currently the{" "}
                             <span
@@ -57,7 +70,9 @@ const MaxMin = ({ max, min }) => {
                                     }}
                                     className="text-5xl font-bold "
                                 >
-                                    {min.properties.temperature.toFixed(1)}
+                                    {data?.points?.minPoint?.properties.temperature.toFixed(
+                                        1
+                                    )}
                                     <span className="text-4xl font-light">
                                         {" "}
                                         ℃
@@ -67,13 +82,16 @@ const MaxMin = ({ max, min }) => {
                         </div>
                         <div className="p-3 text-xl text-white">
                             <a
-                                href={`https://www.victoriaweather.ca/station.php?id=${min.properties.station_id}`}
+                                href={`https://www.victoriaweather.ca/station.php?id=${data?.points?.minPoint?.properties.station_id}`}
                                 style={{ color: "#30E6FF" }}
                                 className="text-xl hover:underline"
                                 rel="noopener noreferrer"
                                 target="_blank"
                             >
-                                {min.properties.station_long_name}{" "}
+                                {
+                                    data?.points?.minPoint?.properties
+                                        .station_long_name
+                                }{" "}
                             </a>{" "}
                             is currently the{" "}
                             <span

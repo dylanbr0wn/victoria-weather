@@ -19,6 +19,15 @@ const Footer = () => {
                     href="https://www.victoriaweather.ca/"
                 >
                     victoriaweather.ca
+                </a>{" "}
+                with forecast data from{" "}
+                <a
+                    className="inline-block hover:underline font-bold text-sky-800"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://www.weatherapi.com/"
+                >
+                    weather api
                 </a>
             </div>
         </footer>
