@@ -93,9 +93,9 @@ const CustMap = () => {
                     ref={mapRef}
                     style={{ overflow: "hidden", borderRadius: "0.5rem" }}
                     initialViewState={{
-                        longitude: -123.4,
+                        longitude: -123.35,
                         latitude: 48.45,
-                        zoom: 12,
+                        zoom: 11,
                     }}
                     mapStyle="mapbox://styles/dylanbrown/ckukftmpa1mlg17mlkvo86j4x"
                     mapboxAccessToken={

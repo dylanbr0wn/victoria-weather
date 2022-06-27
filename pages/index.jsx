@@ -2,7 +2,6 @@ import dynamic from "next/dynamic";
 
 const Map = dynamic(() => import("../components/Map2"), { ssr: false });
 import Footer from "../components/Footer";
-import { useEffect, useState } from "react";
 import Rain from "../components/Rain";
 import MaxMin from "../components/MaxMin";
 import AirQuality from "../components/AirQuality";
@@ -15,39 +14,6 @@ import Moon from "../components/Moon";
 import SunMoonCycle from "../components/SunMoonCycle";
 
 function App() {
-    // const [isobands, setIsobands] = useState(null);
-    // const [island, setIsland] = useState(null);
-    // const [points, setPoints] = useState(null);
-    // const [rain, setRain] = useState(null);
-
-    // const [max, setMax] = useState(null);
-    // const [min, setMin] = useState(null);
-    // const [uvInfo, setUvInfo] = useState(null);
-    // const [openWeather, setOpenWeather] = useState(null);
-    // const [astroData, setAstroData] = useState(null);
-
-    // const [AQI, setAQI] = useState(null);
-    // const [vicTempData, setVicTempData] = useState(null);
-    // const [intersection, setIntersection] = useState(null);
-
-    // useEffect(() => {
-    //     fetch("/api/weather")
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             setMax(data.maxPoint);
-    //             setMin(data.minPoint);
-    //             setIsobands(data.isobands);
-    //             setIsland(data.island);
-    //             setPoints(data.newPoints);
-    //             setRain(data.rainStats);
-    //             setAQI(data.aqi);
-    //             setVicTempData(data.vicTempData);
-    //             setUvInfo(data.uvInfo);
-    //             setOpenWeather(data.openWeather);
-    //             setAstroData(data.astroData);
-    //             setIntersection(data.intersection);
-    //         });
-    // }, []);
     return (
         <div className=" min-h-screen w-screen flex flex-col bg-gray-900">
             <Header />
