@@ -12,10 +12,6 @@ export default async function Handler(_req, res) {
     res.json({ rain });
 }
 
-const getIsoBands = () => {
-
-}
-
 const getRainData = async (db) => {
     const collection = db.collection("rain-stats");
     const data = await collection.findOne({});
