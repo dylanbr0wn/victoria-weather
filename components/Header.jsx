@@ -35,7 +35,7 @@ const Header = () => {
                 <link rel="manifest" href="/site.webmanifest"></link>
                 <Script src="https://www.purpleair.com/pa.widget.js?key=C2U767EE68URYRKH&module=AQI&conversion=C0&average=10&layer=standard&container=PurpleAirWidget_108012_module_AQI_conversion_C0_average_10_layer_standard"></Script>
             </Head>
-            <div className=" max-w-3xl mx-auto text-white flex p-2">
+            <div className=" max-w-3xl mx-auto text-white flex pb-2 pt-4">
                 {/* <div className="py-3 text-4xl inline-block"></div> */}
                 <div className="py-1 px-2 inline-block rounded-md hover:bg-gray-800 transition-colors">
                     <a href="/" className="block">

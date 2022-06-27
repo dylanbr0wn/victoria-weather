@@ -111,6 +111,7 @@ const Summary = () => {
                                 >
                                     <div className="flex text-center">
                                         <div className="text-slate-500 text-lg  leading-none">
+                                            {dayjs(day.date).format("ddd")}{" "}
                                             {dayjs(day.date).format("D")}{" "}
                                             {dayjs(day.date).format("MMM")}
                                         </div>

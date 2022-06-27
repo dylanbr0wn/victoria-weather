@@ -1,9 +1,24 @@
 import { motion } from "framer-motion";
+import { useQuery } from "react-query";
+import { useState } from "react";
+import { calcAQICategory } from "../utils/helper";
 
-const AirQuality = ({ AQI }) => {
+const getWeatherData = async () => {
+    const data = await fetch("/api/weather-data");
+
+    return await data.json();
+};
+
+const AirQuality = () => {
+    const [airQuality, setAirQuality] = useState(null);
+    const { data } = useQuery(["weather"], getWeatherData, {
+        onSuccess: (data) => {
+            setAirQuality(calcAQICategory(data.current.air_quality.pm2_5));
+        },
+    });
     return (
         <>
-            {AQI && (
+            {airQuality && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -14,10 +29,14 @@ const AirQuality = ({ AQI }) => {
                     <div className="p-5 w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors">
                         <div className="flex flex-col p-3 ">
                             <div className="flex px-5">
-                                <div className="text-6xl flex-shrink text-purple-600 font-extrabold text-center">
-                                    {AQI.aqi.aqi}
+                                <div
+                                    className={`text-6xl flex-shrink ${airQuality.color} font-extrabold text-center`}
+                                >
+                                    {airQuality.aqi}
                                 </div>
-                                <div className="text-purple-600 leading-6 font-bold text-2xl inline-block self-center ml-3 text-center flex-grow">
+                                <div
+                                    className={`${airQuality.color} leading-6 font-bold text-2xl inline-block self-center ml-3 text-center flex-grow`}
+                                >
                                     <a
                                         className="hover:underline"
                                         href="https://www.airnow.gov/aqi/aqi-basics/"
@@ -34,7 +53,7 @@ const AirQuality = ({ AQI }) => {
                                 </div>
                             </div>
 
-                            <div className="text-purple-600 font-light px-5 mt-1">
+                            {/* <div className="text-purple-600 font-light px-5 mt-1">
                                 <span className=" font-bold hover:underline ">
                                     <a
                                         rel="noopener noreferrer"
@@ -45,14 +64,16 @@ const AirQuality = ({ AQI }) => {
                                     </a>
                                 </span>{" "}
                                 Station {AQI.ID}
-                            </div>
+                            </div> */}
                         </div>
                         <div className="p-3 text-xl text-white">
                             The air quality is{" "}
-                            <span className="text-2xl text-purple-600">
-                                {AQI.text.status}
+                            <span
+                                className={`text-2xl text-purple-600 ${airQuality.color}`}
+                            >
+                                {airQuality.concern}
                             </span>
-                            . {AQI.text.message}
+                            . {airQuality.message}
                         </div>
                     </div>
                 </motion.div>

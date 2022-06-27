@@ -300,3 +300,99 @@ export const weatherIcon = (weather) => {
     }]
     return icons.find(icon => icon.code === weather)
 }
+
+export const calcAQICategory = (pm2) => {
+    let aqiHi = 0, aqiLo = 0, bpHi = 0, bpLo = 0, aqi = 0, concern = "", message = "", color = "";
+
+    if (pm2 < 12) {
+        aqiHi = 50;
+        bpHi = 12;
+        concern = "Good"
+        message = "Air quality is satisfactory, and air pollution poses little or no risk."
+        color = "text-green-500"
+
+    } else if (pm2 < 35.4) {
+        aqiHi = 100;
+        aqiLo = 51;
+        bpHi = 35.4;
+        bpLo = 12;
+        concern = "Moderate"
+        message = "Air quality is acceptable. However, there may be a risk for some people, particularly those who are unusually sensitive to air pollution."
+        color = "text-yellow-500"
+
+    } else if (pm2 < 55.4) {
+        aqiHi = 150;
+        aqiLo = 101;
+        bpHi = 55.4;
+        bpLo = 35.4;
+        concern = "Unhealthy for Sensitive Groups"
+        message = "Members of sensitive groups may experience health effects. The general public is less likely to be affected."
+        color = "text-orange-500"
+
+    } else if (pm2 < 150.4) {
+        aqiHi = 200;
+        aqiLo = 151;
+        bpHi = 150.4;
+        bpLo = 55.4;
+        concern = "Unhealthy"
+        message = "Some members of the general public may begin to experience health effects; members of sensitive groups may experience more serious health effects."
+        color = "text-red-500"
+
+    } else if (pm2 < 250.4) {
+        aqiHi = 300;
+        aqiLo = 201;
+        bpHi = 250.4;
+        bpLo = 150.4;
+        concern = "Very Unhealthy"
+        message = "Health alert: The risk of health effects is increased for everyone."
+        color = "text-purple-500"
+
+    } else if (pm2 < 350.4) {
+        aqiHi = 400;
+        aqiLo = 301;
+        bpHi = 350.4;
+        bpLo = 250.4;
+        concern = "Hazardous"
+        message = "Health alert: The risk of health effects is increased for everyone."
+        color = "text-rose-700"
+
+    } else if (pm2 < 500.4) {
+        aqiHi = 500;
+        aqiLo = 401;
+        bpHi = 500.4;
+        bpLo = 350.4;
+        concern = "Hazardous"
+        message = "Health alert: The risk of health effects is increased for everyone."
+        color = "text-rose-700"
+    }
+
+    aqi = Math.round((((aqiHi - aqiLo) / (bpHi - bpLo)) * (pm2 - bpLo)) + aqiLo);
+
+    return { aqi, color, message, concern };
+}
+
+export const getUVIndex = (uv) => {
+    let color = "", status = "", message = "";
+    if (uv < 3) {
+        color = "text-green-500";
+        status = "Low Risk:";
+        message = "Minimal sun protection required."
+    } else if (uv < 6) {
+        color = "text-yellow-500";
+        status = "Moderate Risk:";
+        message = "Take precautions. Cover up, wear a hat, UVA and UVB-protective eyewear (e.g. sunglasses), and sunscreen SPF 30 or higher."
+    } else if (uv < 8) {
+        color = "text-orange-500";
+        status = "High Risk:";
+        message = "Protection required. UV damages skin and can cause sunburn."
+    } else if (uv < 11) {
+        color = "text-red-500";
+        status = "Very High Risk:";
+        message = "Extra protection required. Unprotected skin will be damaged and can burn quickly. "
+    } else {
+        color = "text-purple-500";
+        status = "Extreme Risk:";
+        message = "Maximum protection required. Avoid the sun between 11 a.m. and 3 p.m. Remain in the shade, cover up, wear a hat, sunglasses and sunscreen."
+    }
+    return { color, status, message, uv };
+}

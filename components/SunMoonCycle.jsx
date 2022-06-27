@@ -86,95 +86,97 @@ const SunMoonCycle = () => {
     //     }
     // }, [endColor, moonPosition, startColor]);
     return (
-        <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className=" w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col px-16 py-12"
-        >
-            <div className="relative w-full rounded-full bg-gray-700 ">
-                {/* <div
+        <div className="py-2">
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className=" w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col px-16 py-12"
+            >
+                <div className="relative w-full rounded-full bg-gray-700 ">
+                    {/* <div
                         style={{ color: startColor }}
                         className="w-7 h-7 left-1 z-50 absolute bg-gray-800 top-1 shadow-sm rounded-full text-gray-800  p-1 "
                     ></div> */}
-                <div className="z-50 absolute top-1 left-1 flex flex-col ">
-                    <div
-                        style={{ color: startColor }}
-                        className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1"
-                    >
-                        {isNight ? <MoonIcon /> : <SunIcon />}
-                    </div>
-                    <div
-                        style={{ color: startColor }}
-                        className={` text-sm font-bold mt-2 transform ${
-                            isNight ? "-translate-x-2" : "-translate-x-4"
-                        } text-center leading-3`}
-                    >
-                        <div className="font-light font-mono">
-                            {isNight ? "Sunset" : "Sunrise"}
+                    <div className="z-50 absolute top-1 left-1 flex flex-col ">
+                        <div
+                            style={{ color: startColor }}
+                            className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1"
+                        >
+                            {isNight ? <MoonIcon /> : <SunIcon />}
                         </div>
-                        {moment(start).format("kk:mm")}
-                    </div>
-                </div>
-                <motion.div
-                    className="text-6xl relative h-9 rounded-full z-40"
-                    initial={{
-                        width: "1.75rem",
-                        // backgroundImage: `linear-gradient(to right,rgb(59, 130, 246),${color})`,
-                        // background: `linear-gradient(to right,lch(54.619% 66.365 277.595),${color})`,
-                    }}
-                    style={{
-                        background: `linear-gradient(to right,${startColor},${nowColor})`,
-                    }}
-                    animate={{
-                        width: `${10 + moonPosition * 80}%`,
-                        // background: `linear-gradient(to right,lch(54.619% 66.365 277.595),${color})`,
-                    }}
-                    transition={{
-                        duration: 1,
-                    }}
-                >
-                    <div className=" absolute top-1 right-1 flex flex-col content-end justify-end items-end">
                         <div
-                            style={{ backgroundColor: nowColor }}
-                            className="w-7 h-7 rounded-full  border-2 border-gray-700  shadow-sm "
-                        ></div>
-
-                        <div
-                            style={{ color: nowColor }}
-                            className={` text-sm font-bold  transform ${
-                                moonPosition > 0.1 && moonPosition < 0.9
-                                    ? "translate-x-2 mt-2"
-                                    : "translate-x-1 -translate-y-16"
+                            style={{ color: startColor }}
+                            className={` text-sm font-bold mt-2 transform ${
+                                isNight ? "-translate-x-2" : "-translate-x-4"
                             } text-center leading-3`}
                         >
-                            <div className="font-light font-mono">Now</div>
-                            {moment().format("kk:mm")}
+                            <div className="font-light font-mono">
+                                {isNight ? "Sunset" : "Sunrise"}
+                            </div>
+                            {moment(start).format("kk:mm")}
                         </div>
                     </div>
-                </motion.div>
-                <div className="w-7 h-7 top-1 absolute right-1 rounded-full p-1"></div>
-                <div className="z-30 absolute top-1 right-1 flex flex-col items-end">
-                    <div
-                        style={{ backgroundColor: endColor }}
-                        className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1 "
+                    <motion.div
+                        className="text-6xl relative h-9 rounded-full z-40"
+                        initial={{
+                            width: "1.75rem",
+                            // backgroundImage: `linear-gradient(to right,rgb(59, 130, 246),${color})`,
+                            // background: `linear-gradient(to right,lch(54.619% 66.365 277.595),${color})`,
+                        }}
+                        style={{
+                            background: `linear-gradient(to right,${startColor},${nowColor})`,
+                        }}
+                        animate={{
+                            width: `${10 + moonPosition * 80}%`,
+                            // background: `linear-gradient(to right,lch(54.619% 66.365 277.595),${color})`,
+                        }}
+                        transition={{
+                            duration: 1,
+                        }}
                     >
-                        {isNight ? <SunIcon /> : <MoonIcon />}
-                    </div>
-                    <div
-                        style={{ color: endColor }}
-                        className={` text-sm font-bold mt-2 transform ${
-                            isNight ? "translate-x-4" : "translate-x-3"
-                        } text-center leading-3`}
-                    >
-                        <div className="font-light font-mono">
-                            {isNight ? "Sunrise" : "Sunset"}
+                        <div className=" absolute top-1 right-1 flex flex-col content-end justify-end items-end">
+                            <div
+                                style={{ backgroundColor: nowColor }}
+                                className="w-7 h-7 rounded-full  border-2 border-gray-700  shadow-sm "
+                            ></div>
+
+                            <div
+                                style={{ color: nowColor }}
+                                className={` text-sm font-bold  transform ${
+                                    moonPosition > 0.1 && moonPosition < 0.9
+                                        ? "translate-x-2 mt-2"
+                                        : "translate-x-1 -translate-y-16"
+                                } text-center leading-3`}
+                            >
+                                <div className="font-light font-mono">Now</div>
+                                {moment().format("kk:mm")}
+                            </div>
                         </div>
-                        {moment(end).format("kk:mm")}
+                    </motion.div>
+                    <div className="w-7 h-7 top-1 absolute right-1 rounded-full p-1"></div>
+                    <div className="z-30 absolute top-1 right-1 flex flex-col items-end">
+                        <div
+                            style={{ backgroundColor: endColor }}
+                            className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1 "
+                        >
+                            {isNight ? <SunIcon /> : <MoonIcon />}
+                        </div>
+                        <div
+                            style={{ color: endColor }}
+                            className={` text-sm font-bold mt-2 transform ${
+                                isNight ? "translate-x-4" : "translate-x-3"
+                            } text-center leading-3`}
+                        >
+                            <div className="font-light font-mono">
+                                {isNight ? "Sunrise" : "Sunset"}
+                            </div>
+                            {moment(end).format("kk:mm")}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        </div>
     );
 };
 export default SunMoonCycle;

@@ -1,9 +1,24 @@
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { getUVIndex } from "../utils/helper";
 
-const UVIndex = ({ vicTempData, uvInfo }) => {
+const getWeatherData = async () => {
+    const data = await fetch("/api/weather-data");
+
+    return await data.json();
+};
+
+const UVIndex = () => {
+    const [uvData, setUvData] = useState(null);
+    const { data } = useQuery(["weather"], getWeatherData, {
+        onSuccess: (data) => {
+            setUvData(getUVIndex(data.current.uv));
+        },
+    });
     return (
         <>
-            {uvInfo && vicTempData && (
+            {uvData && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -14,9 +29,11 @@ const UVIndex = ({ vicTempData, uvInfo }) => {
                     <div className="p-5 w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors">
                         <div className="flex p-3">
                             <div className="text-6xl flex-shrink">☀️</div>
-                            <div className="flex-grow tracking-widest flex ml-8 text-yellow-300 items-end">
+                            <div
+                                className={`flex-grow tracking-widest flex ml-8 ${uvData.color} items-end`}
+                            >
                                 <div className="text-6xl font-bold ">
-                                    {vicTempData.averageUv}
+                                    {uvData.uv}
                                 </div>
                                 <a
                                     href="https://en.wikipedia.org/wiki/Ultraviolet_index"
@@ -29,10 +46,10 @@ const UVIndex = ({ vicTempData, uvInfo }) => {
                             </div>
                         </div>
                         <div className="p-3 text-xl text-white">
-                            <span className="text-2xl text-yellow-300">
-                                {uvInfo.risk}
+                            <span className={`text-2xl ${uvData.color}`}>
+                                {uvData.status}{" "}
                             </span>
-                            {uvInfo.riskText}
+                            {uvData.message}
                         </div>
                     </div>
                 </motion.div>
