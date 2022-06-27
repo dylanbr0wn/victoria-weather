@@ -17,17 +17,9 @@ const getPointsData = async () => {
 };
 
 const Summary = () => {
-    const { data } = useQuery(["weather"], getWeatherData, {
-        onSuccess: (data) => {
-            console.log(data);
-        },
-    });
+    const { data } = useQuery(["weather"], getWeatherData);
 
-    const { data: pointsData } = useQuery(["points"], getPointsData, {
-        onSuccess: (data) => {
-            console.log(data);
-        },
-    });
+    const { data: pointsData } = useQuery(["points"], getPointsData);
 
     return (
         <>

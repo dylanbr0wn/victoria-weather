@@ -35,7 +35,6 @@ const SunMoonCycle = () => {
                 }
             }
         }
-        console.log(sunrise, sunset, now);
 
         const isNight = !!(sunset < now && now < sunrise);
         setIsNight(isNight);

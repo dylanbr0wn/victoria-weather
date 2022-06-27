@@ -17,11 +17,7 @@ const getPointsData = async () => {
 };
 
 const CustMap = () => {
-    const { data } = useQuery(["map"], getMapData, {
-        onSuccess: (data) => {
-            console.log(data);
-        },
-    });
+    const { data } = useQuery(["map"], getMapData);
     const { data: pointsData } = useQuery(["points"], getPointsData, {});
 
     const mapRef = useRef(null);
