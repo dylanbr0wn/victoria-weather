@@ -8,6 +8,7 @@ export default async function Handler(_req, res) {
         getIntersection(db),
         getIsland(db)
     ])
+    await client.close();
     res.json({ intersection, island, points });
 }
 
