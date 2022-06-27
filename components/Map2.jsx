@@ -90,12 +90,12 @@ const CustMap = () => {
     }, []);
 
     return (
-        <>
+        <div className="h-[600px] relative p-4 text-center flex flex-col ">
             {data && pointsData ? (
                 <Map
                     onLoad={onMapLoad}
                     ref={mapRef}
-                    className="w-full h-full"
+                    style={{ overflow: "hidden", borderRadius: "0.5rem" }}
                     initialViewState={{
                         longitude: -123.4,
                         latitude: 48.45,
@@ -150,7 +150,7 @@ const CustMap = () => {
                         }}
                         cluster
                         type="geojson"
-                        data={pointsData.points.newPoints}
+                        data={pointsData.points.points}
                     >
                         <Layer
                             interactive
@@ -207,13 +207,11 @@ const CustMap = () => {
                     )}
                 </Map>
             ) : (
-                <div className="h-[600px] p-4 text-center flex flex-col">
-                    <div className="w-full h-full rounded-lg bg-slate-800 animate-pulse flex flex-col justify-center">
-                        <div className=" text-white ">Loading map...</div>
-                    </div>
+                <div className="w-full h-full bg-slate-800 animate-pulse rounded-lg overflow-hidden flex flex-col justify-center">
+                    <div className=" text-white ">Loading map...</div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

@@ -17,17 +17,15 @@ const Search = () => {
     const { data } = useQuery(["points"], getPointsData, {});
 
     useEffect(() => {
-        if (data?.points?.newPoints) {
-            let newResults = data?.points?.newPoints.features.filter(
-                (point) => {
-                    if (search.length === 0) return true;
+        if (data?.points?.points) {
+            let newResults = data?.points?.points.features.filter((point) => {
+                if (search.length === 0) return true;
 
-                    const result = point.properties.station_long_name
-                        .toLowerCase()
-                        .search(search.toLowerCase());
-                    return result >= 0;
-                }
-            );
+                const result = point.properties.station_long_name
+                    .toLowerCase()
+                    .search(search.toLowerCase());
+                return result >= 0;
+            });
 
             setResults(newResults);
         }
@@ -40,7 +38,7 @@ const Search = () => {
     };
     return (
         <>
-            {data?.points?.newPoints && (
+            {data?.points?.points && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}

@@ -31,6 +31,7 @@ const Header = () => {
                     sizes="16x16"
                     href="/favicon-16x16.png"
                 />
+                <meta name="theme-color" content="#0f172a" />
                 <link rel="manifest" href="/site.webmanifest"></link>
                 <Script src="https://www.purpleair.com/pa.widget.js?key=C2U767EE68URYRKH&module=AQI&conversion=C0&average=10&layer=standard&container=PurpleAirWidget_108012_module_AQI_conversion_C0_average_10_layer_standard"></Script>
             </Head>
