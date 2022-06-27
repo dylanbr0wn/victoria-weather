@@ -27,7 +27,7 @@ function App() {
                             exit={{ opacity: 0 }}
                             transition={{ duration: 1 }}
                             style={{ height: 600 }}
-                            className="flex-grow bg-gray-900"
+                            className="flex-grow bg-gray-900 w-full md:max-w-6xl mx-auto"
                         >
                             <Map />
                         </div>
@@ -44,6 +44,8 @@ function App() {
                     <div className="flex flex-col md:max-w-3xl md:flex-row w-full mx-auto">
                         <AnimatePresence>
                             <Rain key={"rain"} />
+                        </AnimatePresence>
+                        <AnimatePresence>
                             <MaxMin key={"maxmin"} />
                         </AnimatePresence>
                     </div>
@@ -55,6 +57,9 @@ function App() {
                         <div className="flex flex-col md:flex-row w-full">
                             <AnimatePresence>
                                 <UVIndex key={"uv"} />
+                            </AnimatePresence>
+
+                            <AnimatePresence>
                                 <AirQuality key={"aqi"} />
                             </AnimatePresence>
                         </div>

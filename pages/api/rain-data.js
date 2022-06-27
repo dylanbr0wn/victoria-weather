@@ -8,7 +8,6 @@ export default async function Handler(_req, res) {
 
         getRainData(db)
     ])
-    await client.close();
     res.json({ rain });
 }
 

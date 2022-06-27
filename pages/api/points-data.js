@@ -8,7 +8,6 @@ export default async function Handler(_req, res) {
 
         getPoints(db)
     ])
-    await client.close();
     res.json({ points });
 }
 
