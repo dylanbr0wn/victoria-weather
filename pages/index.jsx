@@ -71,14 +71,14 @@ function App() {
                             Weather and Forecast
                         </div>
                         <AnimatePresence>
-                            <Summary key={1} />
+                            <Summary key={"summary"} />
                         </AnimatePresence>
                     </div>
 
                     <div className="flex flex-col md:max-w-3xl md:flex-row w-full mx-auto">
                         <AnimatePresence>
-                            <Rain key={1} />
-                            <MaxMin key={1} />
+                            <Rain key={"rain"} />
+                            <MaxMin key={"maxmin"} />
                         </AnimatePresence>
                     </div>
 
@@ -88,8 +88,8 @@ function App() {
                         </div>
                         <div className="flex flex-col md:flex-row w-full">
                             <AnimatePresence>
-                                <UVIndex key={2} />
-                                <AirQuality key={2} />
+                                <UVIndex key={"uv"} />
+                                <AirQuality key={"aqi"} />
                             </AnimatePresence>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ function App() {
                         Sunrise/Sunset
                     </div>
                     <AnimatePresence>
-                        <SunMoonCycle key={1} />
+                        <SunMoonCycle key={"sunmoon"} />
                     </AnimatePresence>
                 </div>
                 <div className="relative  w-full md:max-w-3xl mx-auto">
