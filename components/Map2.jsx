@@ -120,7 +120,7 @@ const CustMap = () => {
                             type="fill"
                             paint={{
                                 "fill-color": ["get", "fill"],
-                                "fill-opacity": 0.7,
+                                "fill-opacity": 0.6,
                             }}
                         />
                     </Source>
