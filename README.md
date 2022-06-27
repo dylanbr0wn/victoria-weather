@@ -13,7 +13,13 @@
    
  - 🌗 Sunrise/Sunset time indicator  
    
- - ☁️ Weather forcast (Coming soon)  
+ - ☁️ 3 day weather forcast 
+  
+ - ☀️ UV index information 
+  
+ - 💨 AQI information and warnings
+
+   
  
  ## How it works
  
