@@ -1,8 +1,8 @@
 
-import { client } from "../../utils/mongo.js";
+import clientPromise from "../../utils/mongo.js";
 
 export default async function Handler(_req, res) {
-    await client.connect();
+    const client = await clientPromise;
     const db = client.db("victoria-weather");
     const [points] = await Promise.all([
 
