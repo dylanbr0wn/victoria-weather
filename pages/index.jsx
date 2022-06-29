@@ -19,53 +19,45 @@ function App() {
             <Header />
             <main className="flex-grow flex flex-col">
                 <div className="flex flex-col">
-                    <AnimatePresence>
-                        <div
-                            key={"map"}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ duration: 1 }}
-                            style={{ height: 600 }}
-                            className="flex-grow bg-gray-900 w-full md:max-w-6xl mx-auto"
-                        >
+                    <div className=" h-[600px] p-4 bg-gray-900 w-full md:max-w-6xl mx-auto">
+                        <AnimatePresence>
                             <Map />
-                        </div>
-                    </AnimatePresence>
-                    <div className="relative  w-full md:max-w-3xl mx-auto">
-                        <div className="text-xl w-full border-b py-2 border-slate-700 text-slate-400 font-bold px-2">
-                            Weather and Forecast
-                        </div>
-                        <AnimatePresence>
-                            <Summary key={"summary"} />
                         </AnimatePresence>
                     </div>
-
-                    <div className="flex flex-col md:max-w-3xl md:flex-row w-full mx-auto">
-                        <AnimatePresence>
-                            <Rain key={"rain"} />
-                        </AnimatePresence>
-                        <AnimatePresence>
-                            <MaxMin key={"maxmin"} />
-                        </AnimatePresence>
-                    </div>
-
-                    <div className="flex flex-col w-full md:max-w-3xl mx-auto">
-                        <div className="text-xl w-full border-b py-2 border-slate-700 text-slate-400 font-bold px-2">
-                            Health
-                        </div>
-                        <div className="flex flex-col md:flex-row w-full">
-                            <AnimatePresence>
-                                <UVIndex key={"uv"} />
-                            </AnimatePresence>
-
-                            <AnimatePresence>
-                                <AirQuality key={"aqi"} />
-                            </AnimatePresence>
-                        </div>
-                    </div>
-                    <div className="flex"></div>
                 </div>
+                <div className="relative  w-full md:max-w-3xl mx-auto">
+                    <div className="text-xl w-full border-b py-2 border-slate-700 text-slate-400 font-bold px-2">
+                        Weather and Forecast
+                    </div>
+                    <AnimatePresence>
+                        <Summary key={"summary"} />
+                    </AnimatePresence>
+                </div>
+
+                <div className="flex flex-col md:max-w-3xl md:flex-row w-full mx-auto">
+                    <AnimatePresence>
+                        <Rain key={"rain"} />
+                    </AnimatePresence>
+                    <AnimatePresence>
+                        <MaxMin key={"maxmin"} />
+                    </AnimatePresence>
+                </div>
+
+                <div className="flex flex-col w-full md:max-w-3xl mx-auto">
+                    <div className="text-xl w-full border-b py-2 border-slate-700 text-slate-400 font-bold px-2">
+                        Health
+                    </div>
+                    <div className="flex flex-col md:flex-row w-full">
+                        <AnimatePresence>
+                            <UVIndex key={"uv"} />
+                        </AnimatePresence>
+
+                        <AnimatePresence>
+                            <AirQuality key={"aqi"} />
+                        </AnimatePresence>
+                    </div>
+                </div>
+                <div className="flex"></div>
                 <div className="relative  w-full md:max-w-3xl mx-auto">
                     <div className="text-xl w-full border-b py-2 border-slate-700 text-slate-400 font-bold px-2">
                         Sunrise/Sunset

@@ -16,7 +16,7 @@ const getPointsData = async () => {
     return await data.json();
 };
 
-const Summary = () => {
+const Summary = ({ dash }) => {
     const { data } = useQuery(["weather"], getWeatherData);
 
     const { data: pointsData } = useQuery(["points"], getPointsData);
@@ -29,10 +29,14 @@ const Summary = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1 }}
-                    className="w-full p-3"
+                    className={`w-full ${dash ? "" : " p-3"}`}
                     key="summary"
                 >
-                    <div className="p-5 w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col ">
+                    <div
+                        className={`${
+                            dash ? "p-3 flex" : "p-5 "
+                        } w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col `}
+                    >
                         <div className="flex justify-center">
                             <div className="text-7xl mr-8 flex flex-col text-center ">
                                 <div>
@@ -99,7 +103,9 @@ const Summary = () => {
                             return (
                                 <div
                                     key={day.date}
-                                    className="flex flex-col p-3 space-y-2 flex-grow rounded-md bg-gray-900 hover:bg-gray-800 transition-colors"
+                                    className={`flex flex-col ${
+                                        dash ? "p-1" : "p-3"
+                                    }  space-y-2 flex-grow rounded-md bg-gray-900 hover:bg-gray-800 transition-colors`}
                                 >
                                     <div className="flex text-center">
                                         <div className="text-slate-500 text-lg  leading-none">
@@ -109,9 +115,19 @@ const Summary = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex justify-between space-x-3">
-                                        <div className="flex">
-                                            <div className="text-3xl mr-3 flex flex-col text-center ">
+                                    <div
+                                        className={`flex ${
+                                            dash ? "flex-col" : ""
+                                        } justify-between space-x-3`}
+                                    >
+                                        <div className={"flex"}>
+                                            <div
+                                                className={`${
+                                                    dash
+                                                        ? "text-2xl"
+                                                        : " text-3xl"
+                                                } mr-3 flex flex-col text-center `}
+                                            >
                                                 <div>
                                                     {
                                                         weatherIcon(
@@ -133,7 +149,11 @@ const Summary = () => {
                                                 }`}
                                             >
                                                 <div
-                                                    className={` tracking-wide text-4xl leading-none font-semibold text-center`}
+                                                    className={` tracking-wide ${
+                                                        dash
+                                                            ? "text-3xl"
+                                                            : "text-4xl"
+                                                    }  leading-none font-semibold text-center`}
                                                 >
                                                     {day.day.avgtemp_c}
                                                     <span className="text-2xl font-light">
@@ -143,7 +163,13 @@ const Summary = () => {
                                             </div>
                                         </div>
 
-                                        <div className="flex flex-col leading-none justify-between h-full">
+                                        <div
+                                            className={`flex ${
+                                                dash
+                                                    ? " justify-evenly"
+                                                    : "flex-col justify-between"
+                                            } leading-none  h-full`}
+                                        >
                                             <div className="text-orange-500">
                                                 <b>H:</b>
                                                 {day.day.maxtemp_c}

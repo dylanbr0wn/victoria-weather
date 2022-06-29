@@ -9,7 +9,7 @@ const getWeatherData = async () => {
     return await data.json();
 };
 
-const UVIndex = () => {
+const UVIndex = ({ dash }) => {
     const [uvData, setUvData] = useState(null);
     const { data } = useQuery(["weather"], getWeatherData, {
         onSuccess: (data) => {
@@ -24,15 +24,33 @@ const UVIndex = () => {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1 }}
-                    className="w-full p-3"
+                    className={`w-full ${dash ? " " : "p-3"} `}
                 >
-                    <div className="p-5 w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors">
-                        <div className="flex p-3">
-                            <div className="text-6xl flex-shrink">☀️</div>
+                    <div
+                        className={`${
+                            dash ? "p-3" : "p-5 "
+                        } w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors`}
+                    >
+                        <div
+                            className={`flex w-full justify-evenly ${
+                                dash ? " " : "p-3"
+                            }`}
+                        >
+                            <div
+                                className={` ${
+                                    dash ? "text-4xl" : "text-6xl"
+                                } flex-shrink`}
+                            >
+                                ☀️
+                            </div>
                             <div
                                 className={`flex-grow tracking-widest flex ml-8 ${uvData.color} items-end`}
                             >
-                                <div className="text-6xl font-bold ">
+                                <div
+                                    className={`${
+                                        dash ? "text-4xl" : "text-6xl"
+                                    } font-bold `}
+                                >
                                     {uvData.uv}
                                 </div>
                                 <a
@@ -45,11 +63,19 @@ const UVIndex = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="p-3 text-xl text-white">
-                            <span className={`text-2xl ${uvData.color}`}>
+                        <div
+                            className={`  text-white ${
+                                dash ? "text-base" : "text-xl p-3"
+                            }`}
+                        >
+                            <span
+                                className={`${dash ? "text-lg" : "text-2xl"} ${
+                                    uvData.color
+                                }`}
+                            >
                                 {uvData.status}{" "}
                             </span>
-                            {uvData.message}
+                            {dash ? uvData.messageShort : uvData.message}
                         </div>
                     </div>
                 </motion.div>

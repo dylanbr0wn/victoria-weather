@@ -372,27 +372,32 @@ export const calcAQICategory = (pm2) => {
 }
 
 export const getUVIndex = (uv) => {
-    let color = "", status = "", message = "";
+    let color = "", status = "", message = "", messageShort = "";
     if (uv < 3) {
         color = "text-green-500";
         status = "Low Risk:";
         message = "Minimal sun protection required."
+        messageShort = "Minimal sun protection required."
     } else if (uv < 6) {
         color = "text-yellow-500";
         status = "Moderate Risk:";
         message = "Take precautions. Cover up, wear a hat, UVA and UVB-protective eyewear (e.g. sunglasses), and sunscreen SPF 30 or higher."
+        messageShort = "Take precautions."
     } else if (uv < 8) {
         color = "text-orange-500";
         status = "High Risk:";
         message = "Protection required. UV damages skin and can cause sunburn."
+        messageShort = "Protection required."
     } else if (uv < 11) {
         color = "text-red-500";
         status = "Very High Risk:";
-        message = "Extra protection required. Unprotected skin will be damaged and can burn quickly. "
+        message = "Extra protection required. Unprotected skin will be damaged and can burn quickly."
+        messageShort = "Extra protection required."
     } else {
         color = "text-purple-500";
         status = "Extreme Risk:";
         message = "Maximum protection required. Avoid the sun between 11 a.m. and 3 p.m. Remain in the shade, cover up, wear a hat, sunglasses and sunscreen."
+        messageShort = "Maximum protection required."
     }
-    return { color, status, message, uv };
+    return { color, status, message, uv, messageShort };
 }
