@@ -3,36 +3,33 @@
 @tailwind utilities;
 
 body {
-    @apply bg-gray-900;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	@apply bg-gray-900;
+	margin: 0;
+	/* font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
+		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
 }
 
 .icon-class {
-    background-color: transparent;
+	background-color: transparent;
 }
 .mapboxgl-popup-close-button {
-    @apply w-5 h-5 rounded mr-1 mt-1 !important;
-    
+	@apply w-5 h-5 rounded mr-1 mt-1 !important;
 }
 .mapboxgl-popup-close-button:hover {
-    @apply bg-white/10 !important;
+	@apply bg-white/10 !important;
 }
 
-.mapboxgl-popup-tip{
-    @apply border-t-gray-900  !important
+.mapboxgl-popup-tip {
+	@apply border-t-gray-900  !important;
 }
-
 
 .mapboxgl-popup-content {
-    @apply bg-gray-900 text-white rounded shadow-md !important;
+	@apply bg-gray-900 text-white rounded shadow-md !important;
 }
