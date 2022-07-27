@@ -42,7 +42,10 @@ export default function Document() {
 					property="og:description"
 					content="The ever changing weather of Victoria, BC"
 				/>
-				<meta property="og:image" content="/preview.png" />
+				<meta
+					property="og:image"
+					content="https://victoria-weather.vercel.app/preview.png"
+				/>
 
 				<meta property="twitter:card" content="summary_large_image" />
 				<meta
@@ -54,7 +57,10 @@ export default function Document() {
 					property="twitter:description"
 					content="The ever changing weather of Victoria, BC"
 				/>
-				<meta property="twitter:image" content="/preview.png" />
+				<meta
+					property="twitter:image"
+					content="https://victoria-weather.vercel.app/preview.png"
+				/>
 				<meta name="theme-color" content="#0f172a" />
 				<link rel="manifest" href="/site.webmanifest"></link>
 				<link
