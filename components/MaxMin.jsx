@@ -21,7 +21,7 @@ const MaxMin = ({ dash }) => {
 				>
 					<div
 						className={`${
-							dash ? "p-3 flex" : "p-5 "
+							dash ? "p-3 flex space-x-1" : "p-5 "
 						} w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors`}
 					>
 						<div>
