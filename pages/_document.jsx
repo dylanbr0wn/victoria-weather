@@ -68,6 +68,10 @@ export default function Document() {
 					href="https://fonts.cdnfonts.com/css/aileron?styles=20898,20896,20899,20891,20893"
 					rel="stylesheet"
 				/>
+				<meta
+					name="google-site-verification"
+					content="5zVAlNs4LjEzKU5g8YOjEow-xUYS61ORRa7B2I3qppg"
+				/>
 			</Head>
 			<body>
 				<Main />
