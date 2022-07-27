@@ -58,7 +58,7 @@ const Header = () => {
 				<meta property="twitter:image" content="/preview.png" />
 				<meta name="theme-color" content="#0f172a" />
 				<link rel="manifest" href="/site.webmanifest"></link>
-				<Script src="https://www.purpleair.com/pa.widget.js?key=C2U767EE68URYRKH&module=AQI&conversion=C0&average=10&layer=standard&container=PurpleAirWidget_108012_module_AQI_conversion_C0_average_10_layer_standard"></Script>
+				{/* <Script src="https://www.purpleair.com/pa.widget.js?key=C2U767EE68URYRKH&module=AQI&conversion=C0&average=10&layer=standard&container=PurpleAirWidget_108012_module_AQI_conversion_C0_average_10_layer_standard"></Script> */}
 				{/* <link
 					href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
 					rel="stylesheet"
