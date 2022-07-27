@@ -53,6 +53,7 @@ export default function Document() {
 					content="https://victoria-weather.vercel.app/"
 				/>
 				<meta property="twitter:title" content="Victoria Weather" />
+				<meta property="twitter:creator" content="@notadyl" />
 				<meta
 					property="twitter:description"
 					content="The ever changing weather of Victoria, BC"
