@@ -4,6 +4,8 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+export { reportWebVitals } from "next-axiom";
+
 function MyApp({ Component, pageProps }) {
 	const [queryClient] = useState(() => new QueryClient());
 
