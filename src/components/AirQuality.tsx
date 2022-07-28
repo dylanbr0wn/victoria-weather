@@ -1,19 +1,13 @@
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { calcAQICategory } from "../utils/helper";
+import { getWeatherData } from "../utils/apiGetters";
+import { DashProp } from "../utils/types";
 
-const getWeatherData = async () => {
-	const data = await fetch("/api/weather-data");
-
-	return await data.json();
-};
-
-const AirQuality = ({ dash }) => {
-	const [airQuality, setAirQuality] = useState(null);
-	const { data } = useQuery(["weather"], getWeatherData, {
-		onSuccess: (data) => {
-			setAirQuality(calcAQICategory(data.current.air_quality.pm2_5));
+const AirQuality = ({ dash = false }: DashProp) => {
+	const { data: airQuality } = useQuery(["weather"], getWeatherData, {
+		select(data) {
+			return calcAQICategory(data.current.air_quality.pm2_5);
 		},
 	});
 	return (

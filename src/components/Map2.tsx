@@ -1,29 +1,30 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 import Map, { Source } from "react-map-gl";
 import { Popup } from "react-map-gl";
 import { Layer } from "react-map-gl";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { getMapData, getPointsData } from "../utils/apiGetters";
 
-const getMapData = async () => {
-	const data = await fetch("/api/map-data");
+interface MapProps {
+	lat?: number;
+	lng?: number;
+	zoom?: number;
+}
 
-	return await data.json();
-};
-
-const getPointsData = async () => {
-	const data = await fetch("/api/points-data");
-
-	return await data.json();
-};
-
-const CustMap = ({ lat, lng, zoom }) => {
+const CustMap = ({ lat, lng, zoom }: MapProps) => {
 	const { data } = useQuery(["map"], getMapData);
 	const { data: pointsData } = useQuery(["points"], getPointsData, {});
 
 	const mapRef = useRef(null);
 	const [showPopup, setShowPopup] = useState(false);
-	const [popupData, setPopupData] = useState({});
+	const [popupData, setPopupData] = useState<
+		| {
+				coordinates: number[];
+				description: string;
+		  }
+		| undefined
+	>();
 
 	const onMapLoad = useCallback(() => {
 		mapRef.current.on("click", "point", (e) => {
@@ -186,7 +187,7 @@ const CustMap = ({ lat, lng, zoom }) => {
 								anchor="bottom"
 								focusAfterOpen={false}
 								onClose={() => {
-									setPopupData({});
+									setPopupData(undefined);
 									setShowPopup(false);
 								}}
 							>

@@ -10,10 +10,10 @@ import chroma from "chroma-js";
 const SunMoonCycle = () => {
 	const [moonPosition, setMoonPosition] = useState(0);
 	const [nowColor, setNowColor] = useState("rgb(59, 130, 246)");
-	const [startColor, setStartColor] = useState();
+	const [startColor, setStartColor] = useState<string | undefined>();
 	const [endColor, setEndColor] = useState(new Color("gold"));
-	const [start, setStart] = useState(null);
-	const [end, setEnd] = useState(null);
+	const [start, setStart] = useState<number>();
+	const [end, setEnd] = useState<number>();
 	const [isNight, setIsNight] = useState(false);
 
 	useEffect(() => {

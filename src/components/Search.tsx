@@ -1,17 +1,21 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-
-const getPointsData = async () => {
-	const data = await fetch("/api/points-data");
-
-	return await data.json();
-};
+import { getPointsData } from "../utils/apiGetters";
+import { Point } from "../utils/types";
 
 const Search = () => {
 	const [search, setSearch] = useState("");
 
-	const [results, setResults] = useState([]);
+	const [results, setResults] = useState<
+		// eslint-disable-next-line no-undef
+		GeoJSON.Feature<
+			Point,
+			{
+				[name: string]: any;
+			}
+		>[]
+	>([]);
 	const [searchLength, setSearchLength] = useState(4);
 
 	const { data } = useQuery(["points"], getPointsData, {});
@@ -76,7 +80,7 @@ const Search = () => {
 						<AnimatePresence exitBeforeEnter initial={false}>
 							{results
 								.slice(0, Math.min(results.length, searchLength))
-								.map(({ properties, geometry }, i) => {
+								.map(({ properties, geometry }) => {
 									const coordinates = `${geometry.coordinates[1].toFixed(
 										7
 									)}, ${geometry.coordinates[0].toFixed(7)}`;

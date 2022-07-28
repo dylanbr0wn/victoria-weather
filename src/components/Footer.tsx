@@ -1,4 +1,6 @@
-const Footer = ({ dash }) => {
+import { DashProp } from "../utils/types";
+
+const Footer = ({ dash = false }: DashProp) => {
 	return (
 		<footer
 			className={`flex flex-shrink-0 items-center justify-center w-full ${

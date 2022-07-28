@@ -1,13 +1,9 @@
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import { getRainData } from "../utils/apiGetters";
+import { DashProp } from "../utils/types";
 
-const getRainData = async () => {
-	const data = await fetch("/api/rain-data");
-
-	return await data.json();
-};
-
-const Rain = ({ dash }) => {
+const Rain = ({ dash = false }: DashProp) => {
 	const { data } = useQuery(["rain"], getRainData, {});
 	return (
 		<>
@@ -69,7 +65,7 @@ const Rain = ({ dash }) => {
 								{data?.rain.numberReporting}
 							</span>{" "}
 							stations are currently reporting rain.{" "}
-							{!dash && (
+							{!dash && !!data.rain.maxRain.properties?.station_id && (
 								<>
 									<a
 										rel="noopener noreferrer"

@@ -2,21 +2,10 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { weatherIcon } from "../utils/helper";
-import SummaryList from "./SummaryList";
+import { DashProp } from "../utils/types";
+import { getPointsData, getWeatherData } from "../utils/apiGetters";
 
-const getWeatherData = async () => {
-	const data = await fetch("/api/weather-data");
-
-	return await data.json();
-};
-
-const getPointsData = async () => {
-	const data = await fetch("/api/points-data");
-
-	return await data.json();
-};
-
-const Summary = ({ dash }) => {
+const Summary = ({ dash = false }: DashProp) => {
 	const { data } = useQuery(["weather"], getWeatherData);
 
 	const { data: pointsData } = useQuery(["points"], getPointsData);
@@ -63,32 +52,6 @@ const Summary = ({ dash }) => {
 								</div>
 							</div>
 						</div>
-
-						{/* <div className="text-center text-white  mt-3 text-xl">
-                            <a
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                href="https://openweathermap.org/"
-                                className="text-yellow-700 font-black hover:underline"
-                            >
-                                OpenWeather©
-                            </a>{" "}
-                            currently reports{" "}
-                            <span className="font-black text-yellow-700">
-                                {openWeather.weather[0].description}
-                            </span>
-                            .
-                        </div> */}
-						{/* <div className="text-gray-300 font-medium text-center text-lg mt-5">
-                            Local Averages
-                        </div> */}
-
-						{/* <SummaryList vicTempData={vicTempData} /> */}
-						{/* <div className="px-10 text-center  text-xs text-gray-700">
-                            All values are calculated averages from stations in
-                            the Victoria area and may not represent current
-                            conditions in sub regions.
-                        </div> */}
 					</div>
 
 					<div className="flex flex-col md:flex-row w-full md:space-x-2 mt-8 pb-5">

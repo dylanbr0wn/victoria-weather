@@ -1,8 +1,3 @@
-import { animate, motion, useMotionValue, useTransform } from "framer-motion";
-import moment from "moment";
-import { useEffect, useState } from "react";
-import { getSunrise, getSunset } from "sunrise-sunset-js";
-import Color from "colorjs.io";
 import { getMoonIcon } from "../utils/helper";
 import SunMoonCycle from "./SunMoonCycle";
 

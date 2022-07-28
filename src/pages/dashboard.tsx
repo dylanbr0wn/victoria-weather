@@ -5,13 +5,9 @@ import Footer from "../components/Footer";
 import Rain from "../components/Rain";
 import MaxMin from "../components/MaxMin";
 import AirQuality from "../components/AirQuality";
-import Search from "../components/Search";
-import Header from "../components/Header";
 import Summary from "../components/Summary";
 import UVIndex from "../components/UVIndex";
-import { AnimatePresence, motion } from "framer-motion";
-import Moon from "../components/Moon";
-import SunMoonCycle from "../components/SunMoonCycle";
+import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 
 function App() {
@@ -23,7 +19,15 @@ function App() {
 			<main className="flex-grow flex">
 				<div className="h-full p-4  bg-gray-900 w-2/3">
 					<AnimatePresence>
-						<Map lat={query.lat} lng={query.lng} zoom={query.zm} />
+						<Map
+							lat={
+								typeof query.lat === "string" ? Number(query.lat) : undefined
+							}
+							lng={
+								typeof query.lng === "string" ? Number(query.lng) : undefined
+							}
+							zoom={typeof query.zm === "string" ? Number(query.zm) : undefined}
+						/>
 					</AnimatePresence>
 				</div>
 				<div className="flex flex-col w-1/3 overflow-y-scroll h-full p-4">

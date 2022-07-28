@@ -9,8 +9,7 @@ import Search from "../components/Search";
 import Header from "../components/Header";
 import Summary from "../components/Summary";
 import UVIndex from "../components/UVIndex";
-import { AnimatePresence, motion } from "framer-motion";
-import Moon from "../components/Moon";
+import { AnimatePresence } from "framer-motion";
 import SunMoonCycle from "../components/SunMoonCycle";
 
 function App() {

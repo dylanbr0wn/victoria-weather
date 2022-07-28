@@ -1,39 +1,51 @@
 {
-    "name": "weather-app-cra",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-        "@tailwindcss/forms": "^0.5.2",
-        "@tanstack/react-query": "^4.0.10",
-        "chroma-js": "^2.4.2",
-        "colorjs.io": "^0.3.0",
-        "dayjs": "^1.11.4",
-        "framer-motion": "^6.5.1",
-        "mapbox-gl": "^2.9.2",
-        "moment": "^2.29.4",
-        "mongodb": "^4.8.1",
-        "next": "^12.2.3",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "react-map-gl": "^7.0.18",
-        "sass": "^1.54.0",
-        "snappy": "^7.1.1",
-        "sunrise-sunset-js": "^2.2.1",
-        "web-vitals": "^2.1.4"
-    },
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start"
-    },
-    "browserslist": [
-        ">0.2%",
-        "not dead",
-        "not op_mini all"
-    ],
-    "devDependencies": {
-        "autoprefixer": "^10.4.7",
-        "postcss": "^8.4.14",
-        "tailwindcss": "^3.1.6"
-    }
+	"name": "weather-app-cra",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@tailwindcss/forms": "^0.5.2",
+		"@tanstack/react-query": "^4.0.10",
+		"chroma-js": "^2.4.2",
+		"colorjs.io": "^0.3.0",
+		"dayjs": "^1.11.4",
+		"framer-motion": "^6.5.1",
+		"mapbox-gl": "^2.9.2",
+		"moment": "^2.29.4",
+		"mongodb": "^4.8.1",
+		"next": "^12.2.3",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-map-gl": "^7.0.18",
+		"sass": "^1.54.0",
+		"snappy": "^7.1.1",
+		"sunrise-sunset-js": "^2.2.1",
+		"web-vitals": "^2.1.4"
+	},
+	"scripts": {
+		"lint": "next lint",
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not op_mini all"
+	],
+	"devDependencies": {
+		"@types/chroma-js": "^2.1.4",
+		"@types/geojson": "^7946.0.10",
+		"@types/node": "^18.6.1",
+		"@types/react": "^18.0.15",
+		"@types/react-dom": "^18.0.6",
+		"autoprefixer": "^10.4.7",
+		"eslint": "8.20.0",
+		"eslint-config-next": "12.2.3",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"postcss": "^8.4.14",
+		"prettier": "^2.7.1",
+		"tailwindcss": "^3.1.6",
+		"typescript": "^4.7.4"
+	}
 }

@@ -1,19 +1,13 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUVIndex } from "../utils/helper";
+import { getWeatherData } from "../utils/apiGetters";
+import { DashProp } from "../utils/types";
 
-const getWeatherData = async () => {
-	const data = await fetch("/api/weather-data");
-
-	return await data.json();
-};
-
-const UVIndex = ({ dash }) => {
-	const [uvData, setUvData] = useState(null);
-	const { data } = useQuery(["weather"], getWeatherData, {
-		onSuccess: (data) => {
-			setUvData(getUVIndex(data.current.uv));
+const UVIndex = ({ dash = false }: DashProp) => {
+	const { data: uvData } = useQuery(["weather"], getWeatherData, {
+		select(data) {
+			return getUVIndex(data.current.uv);
 		},
 	});
 	return (
