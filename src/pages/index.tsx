@@ -11,6 +11,7 @@ import Summary from "../components/Summary";
 import UVIndex from "../components/UVIndex";
 import { AnimatePresence } from "framer-motion";
 import SunMoonCycle from "../components/SunMoonCycle";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 function App() {
 	return (
@@ -20,7 +21,9 @@ function App() {
 				<div className="flex flex-col">
 					<div className=" h-[600px] p-4 bg-gray-900 w-full md:max-w-6xl mx-auto">
 						<AnimatePresence>
-							<Map />
+							<ErrorBoundary>
+								<Map />
+							</ErrorBoundary>
 						</AnimatePresence>
 					</div>
 				</div>
@@ -29,16 +32,22 @@ function App() {
 						Weather and Forecast
 					</div>
 					<AnimatePresence>
-						<Summary key={"summary"} />
+						<ErrorBoundary>
+							<Summary key={"summary"} />
+						</ErrorBoundary>
 					</AnimatePresence>
 				</div>
 
 				<div className="flex flex-col md:max-w-3xl md:flex-row w-full mx-auto">
 					<AnimatePresence>
-						<Rain key={"rain"} />
+						<ErrorBoundary>
+							<Rain key={"rain"} />
+						</ErrorBoundary>
 					</AnimatePresence>
 					<AnimatePresence>
-						<MaxMin key={"maxmin"} />
+						<ErrorBoundary>
+							<MaxMin key={"maxmin"} />
+						</ErrorBoundary>
 					</AnimatePresence>
 				</div>
 
@@ -48,11 +57,15 @@ function App() {
 					</div>
 					<div className="flex flex-col md:flex-row w-full">
 						<AnimatePresence>
-							<UVIndex key={"uv"} />
+							<ErrorBoundary>
+								<UVIndex key={"uv"} />
+							</ErrorBoundary>
 						</AnimatePresence>
 
 						<AnimatePresence>
-							<AirQuality key={"aqi"} />
+							<ErrorBoundary>
+								<AirQuality key={"aqi"} />
+							</ErrorBoundary>
 						</AnimatePresence>
 					</div>
 				</div>
@@ -62,7 +75,9 @@ function App() {
 						Sunrise/Sunset
 					</div>
 					<AnimatePresence>
-						<SunMoonCycle key={"sunmoon"} />
+						<ErrorBoundary>
+							<SunMoonCycle key={"sunmoon"} />
+						</ErrorBoundary>
 					</AnimatePresence>
 				</div>
 				<div className="relative  w-full md:max-w-3xl mx-auto">
@@ -71,7 +86,9 @@ function App() {
 					</div>
 					<div className=" bg-gray-900 flex-shrink-0 py-10">
 						<div className="flex w-full max-w-3xl mx-auto">
-							<Search />
+							<ErrorBoundary>
+								<Search />
+							</ErrorBoundary>
 						</div>
 					</div>
 				</div>
