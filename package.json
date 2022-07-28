@@ -25,6 +25,7 @@
 		"moment": "^2.29.4",
 		"mongodb": "^4.8.1",
 		"next": "^12.2.3",
+		"next-axiom": "^0.11.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-map-gl": "^7.0.18",
