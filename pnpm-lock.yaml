@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  "@formkit/auto-animate": 1.0.0-beta.1
   "@tailwindcss/forms": ^0.5.2
   "@tanstack/react-query": ^4.0.10
   "@types/chroma-js": ^2.1.4
@@ -38,6 +39,7 @@ specifiers:
   web-vitals: ^2.1.4
 
 dependencies:
+  "@formkit/auto-animate": 1.0.0-beta.1_react@18.2.0
   "@tailwindcss/forms": 0.5.2_tailwindcss@3.1.6
   "@tanstack/react-query": 4.0.10_biqbaboplfbrettd7655fr4n2y
   chroma-js: 2.4.2
@@ -135,6 +137,23 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@formkit/auto-animate/1.0.0-beta.1_react@18.2.0:
+    resolution:
+      {
+        integrity: sha512-I3OWOBaPZKSJL4bsooXI8kC3q7bcgibD2oML0P/Lir6MnbvUe/0/7EH8br024juvM/Ulm9C9xGx9CJUQYrOWSA==,
+      }
+    peerDependencies:
+      react: ^16.8.0
+      vue: ^3.0.0
+    peerDependenciesMeta:
+      react:
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@humanwhocodes/config-array/0.9.5:
     resolution:
