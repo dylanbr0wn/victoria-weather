@@ -72,6 +72,7 @@ export default function Document() {
 					name="google-site-verification"
 					content="5zVAlNs4LjEzKU5g8YOjEow-xUYS61ORRa7B2I3qppg"
 				/>
+				<meta content="text/html; charset=UTF-8" name="Content-Type" />
 			</Head>
 			<body>
 				<Main />
