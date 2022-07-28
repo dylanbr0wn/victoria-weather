@@ -1,6 +1,6 @@
 import { Db } from "mongodb";
 import { NextApiHandler } from "next";
-import clientPromise from "../../utils/mongo.js";
+import clientPromise from "../../utils/mongo";
 
 const Handler: NextApiHandler = async (_req, res) => {
 	const client = await clientPromise;

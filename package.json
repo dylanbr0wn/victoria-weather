@@ -2,6 +2,18 @@
 	"name": "weather-app-cra",
 	"version": "0.1.0",
 	"private": true,
+	"scripts": {
+		"lint": "next lint",
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"prepare": "husky install"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not op_mini all"
+	],
 	"dependencies": {
 		"@tailwindcss/forms": "^0.5.2",
 		"@tanstack/react-query": "^4.0.10",
@@ -21,18 +33,6 @@
 		"sunrise-sunset-js": "^2.2.1",
 		"web-vitals": "^2.1.4"
 	},
-	"scripts": {
-		"lint": "next lint",
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"prepare": "husky install"
-	},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not op_mini all"
-	],
 	"devDependencies": {
 		"@types/chroma-js": "^2.1.4",
 		"@types/geojson": "^7946.0.10",

@@ -8,11 +8,13 @@ const Header = () => {
 				{/* <div className="py-3 text-4xl inline-block"></div> */}
 				<div className="py-1 px-2 inline-block rounded-md hover:bg-gray-800 transition-colors">
 					<Link href="/" className="block">
-						<img
-							style={{ width: 275 }}
-							src="/500w/weather_logo500.png"
-							alt="victoria weather"
-						></img>
+						<a>
+							<img
+								style={{ width: 275 }}
+								src="/500w/weather_logo500.png"
+								alt="victoria weather"
+							/>
+						</a>
 					</Link>
 				</div>
 				{/* <div className="flex-grow"></div>

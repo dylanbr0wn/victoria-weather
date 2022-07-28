@@ -1,17 +1,23 @@
 import Color from "colorjs.io";
 import { motion } from "framer-motion";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 import MoonIcon from "./MoonIcon";
 import SunIcon from "./SunIcon";
 import chroma from "chroma-js";
+import dayjs from "dayjs";
 
 const SunMoonCycle = () => {
 	const [moonPosition, setMoonPosition] = useState(0);
-	const [nowColor, setNowColor] = useState("rgb(59, 130, 246)");
-	const [startColor, setStartColor] = useState<string | undefined>();
-	const [endColor, setEndColor] = useState(new Color("gold"));
+	const [nowColor, setNowColor] = useState<string | chroma.Color>(
+		"rgb(59, 130, 246)"
+	);
+	const [startColor, setStartColor] = useState<
+		string | chroma.Color | undefined
+	>();
+	const [endColor, setEndColor] = useState<string | chroma.Color>(
+		new Color("gold")
+	);
 	const [start, setStart] = useState<number>();
 	const [end, setEnd] = useState<number>();
 	const [isNight, setIsNight] = useState(false);
@@ -47,7 +53,7 @@ const SunMoonCycle = () => {
 		}
 
 		// let startColor, endColor;
-		let gradient;
+		let gradient: chroma.Scale<chroma.Color>;
 		if (sunrise < sunset) {
 			// startColor = new Color("#fcbf49");
 			// endColor = new Color("#390099");
@@ -99,13 +105,13 @@ const SunMoonCycle = () => {
                     ></div> */}
 					<div className="z-50 absolute top-1 left-1 flex flex-col ">
 						<div
-							style={{ color: startColor }}
+							style={{ color: startColor?.toString() }}
 							className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1"
 						>
 							{isNight ? <MoonIcon /> : <SunIcon />}
 						</div>
 						<div
-							style={{ color: startColor }}
+							style={{ color: startColor?.toString() }}
 							className={` text-sm font-black mt-2 transform ${
 								isNight ? "-translate-x-2" : "-translate-x-4"
 							} text-center leading-3`}
@@ -113,7 +119,7 @@ const SunMoonCycle = () => {
 							<div className="font-light font-mono">
 								{isNight ? "Sunset" : "Sunrise"}
 							</div>
-							{moment(start).format("kk:mm")}
+							{dayjs(start).format("HH:mm")}
 						</div>
 					</div>
 					<motion.div
@@ -136,12 +142,12 @@ const SunMoonCycle = () => {
 					>
 						<div className=" absolute top-1 right-1 flex flex-col content-end justify-end items-end">
 							<div
-								style={{ backgroundColor: nowColor }}
+								style={{ backgroundColor: nowColor.toString() }}
 								className="w-7 h-7 rounded-full  border-2 border-gray-700  shadow-sm "
 							></div>
 
 							<div
-								style={{ color: nowColor }}
+								style={{ color: nowColor.toString() }}
 								className={` text-sm font-black  transform ${
 									moonPosition > 0.1 && moonPosition < 0.9
 										? "translate-x-2 mt-2"
@@ -149,20 +155,20 @@ const SunMoonCycle = () => {
 								} text-center leading-3`}
 							>
 								<div className="font-light font-mono">Now</div>
-								{moment().format("kk:mm")}
+								{dayjs().format("HH:mm")}
 							</div>
 						</div>
 					</motion.div>
 					<div className="w-7 h-7 top-1 absolute right-1 rounded-full p-1"></div>
 					<div className="z-30 absolute top-1 right-1 flex flex-col items-end">
 						<div
-							style={{ backgroundColor: endColor }}
+							style={{ backgroundColor: endColor.toString() }}
 							className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1 "
 						>
 							{isNight ? <SunIcon /> : <MoonIcon />}
 						</div>
 						<div
-							style={{ color: endColor }}
+							style={{ color: endColor.toString() }}
 							className={` text-sm font-black mt-2 transform ${
 								isNight ? "translate-x-4" : "translate-x-3"
 							} text-center leading-3`}
@@ -170,7 +176,7 @@ const SunMoonCycle = () => {
 							<div className="font-light font-mono">
 								{isNight ? "Sunrise" : "Sunset"}
 							</div>
-							{moment(end).format("kk:mm")}
+							{dayjs(end).format("HH:mm")}
 						</div>
 					</div>
 				</div>
