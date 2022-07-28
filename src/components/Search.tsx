@@ -181,7 +181,7 @@ const Search = () => {
 						})}
 						{results.length === 0 && (
 							<div
-								key="-1"
+								key="empty"
 								className="w-full text-center font-black text-gray-500 p-5 text-lg"
 							>
 								<span className="italic text-xl">Impossible...</span>
@@ -190,6 +190,7 @@ const Search = () => {
 						)}
 						{data.points.points.features.length > searchLength && (
 							<div
+								key="show-more"
 								onClick={() => {
 									setSearchLength(searchLength * 2);
 								}}
