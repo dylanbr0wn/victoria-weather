@@ -3,18 +3,12 @@ import { ErrorBoundary as ReactErrorBoundary } from "react-error-boundary";
 import { log } from "next-axiom";
 
 const ErrorFallback = ({
-	error,
-	componentStack,
 	resetErrorBoundary,
 }: {
 	error: Error;
 	componentStack: string;
 	resetErrorBoundary: () => void;
 }) => {
-	React.useEffect(() => {
-		log.error(error.message, componentStack);
-	}, [error.message, componentStack]);
-
 	return (
 		<div className="text-red-600 w-full h-full flex justify-center text-center">
 			<div className="my-auto">
@@ -37,19 +31,17 @@ const ErrorFallback = ({
 						refresh the page.
 					</span>
 				</p>
-
-				{/* <p>{error.message}</p>
-				<p>{componentStack}</p> */}
 			</div>
-
-			{/* <button onClick={resetErrorBoundary}>Try again</button> */}
 		</div>
 	);
 };
 
 const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<ReactErrorBoundary FallbackComponent={ErrorFallback}>
+		<ReactErrorBoundary
+			onError={(error) => log.error(error.message, error.stack)}
+			FallbackComponent={ErrorFallback}
+		>
 			{children}
 		</ReactErrorBoundary>
 	);
