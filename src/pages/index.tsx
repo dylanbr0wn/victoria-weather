@@ -1,11 +1,11 @@
 import dynamic from "next/dynamic";
 
 const Map = dynamic(() => import("../components/Map2"), { ssr: false });
+const Search = dynamic(() => import("../components/Search"), { ssr: false });
 import Footer from "../components/Footer";
 import Rain from "../components/Rain";
 import MaxMin from "../components/MaxMin";
 import AirQuality from "../components/AirQuality";
-import Search from "../components/Search";
 import Header from "../components/Header";
 import Summary from "../components/Summary";
 import UVIndex from "../components/UVIndex";
