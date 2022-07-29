@@ -17,16 +17,6 @@ const Header = () => {
 						</a>
 					</Link>
 				</div>
-				{/* <div className="flex-grow"></div>
-                <a
-                    href="https://github.com/dylanbr0wn/victoria-weather"
-                    target={"_blank"}
-                    className=""
-                >
-                    <div className="py-3 px-4 text-sky-500 font-black rounded-md hover:bg-gray-800 transition-colors">
-                        GitHub
-                    </div>
-                </a> */}
 			</div>
 		</div>
 	);
