@@ -8,7 +8,6 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 type PointFeatureArray = GeoJSON.Feature<Point>[];
 
 const filter = (data: PointsData, term: string): PointFeatureArray => {
-	console.log("filter", term);
 	if (!data?.points?.points) return [];
 	return data?.points?.points.features.filter((point) => {
 		if (term.length === 0) return true;
