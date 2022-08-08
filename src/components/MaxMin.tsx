@@ -36,7 +36,9 @@ const MaxMin = ({ dash = false }: DashProp) => {
 											dash ? "text-4xl leading-none" : "text-5xl"
 										} font-black text-orange-400`}
 									>
-										{data?.points?.maxPoint?.properties.temperature.toFixed(1)}
+										{Number(data?.max_point?.properties?.temperature)?.toFixed(
+											1
+										)}
 										<span
 											className={`${
 												dash ? "text-3xl  leading-none" : "text-4xl"
@@ -52,12 +54,12 @@ const MaxMin = ({ dash = false }: DashProp) => {
 								className={`  text-white ${dash ? "text-lg" : "text-xl p-3"}`}
 							>
 								<a
-									href={`https://www.victoriaweather.ca/station.php?id=${data?.points?.maxPoint?.properties.station_id}`}
+									href={`https://www.victoriaweather.ca/station.php?id=${data?.max_point?.properties.station_id}`}
 									className="text-xl hover:underline text-orange-400"
 									rel="noopener noreferrer"
 									target="_blank"
 								>
-									{data?.points?.maxPoint?.properties.station_long_name}{" "}
+									{data?.max_point?.properties.station_long_name}{" "}
 								</a>{" "}
 								is currently the{" "}
 								<span style={{ color: "#FF8730" }} className="text-xl">
@@ -79,7 +81,9 @@ const MaxMin = ({ dash = false }: DashProp) => {
 											dash ? "text-4xl leading-none" : "text-5xl"
 										} font-black text-cyan-400`}
 									>
-										{data?.points?.minPoint?.properties.temperature.toFixed(1)}
+										{Number(data?.min_point?.properties?.temperature)?.toFixed(
+											1
+										)}
 										<span
 											className={`${
 												dash ? "text-3xl  leading-none" : "text-4xl"
@@ -95,13 +99,13 @@ const MaxMin = ({ dash = false }: DashProp) => {
 								className={`  text-white ${dash ? "text-lg" : "text-xl p-3"}`}
 							>
 								<a
-									href={`https://www.victoriaweather.ca/station.php?id=${data?.points?.minPoint?.properties.station_id}`}
+									href={`https://www.victoriaweather.ca/station.php?id=${data?.min_point?.properties.station_id}`}
 									style={{ color: "#30E6FF" }}
 									className="text-xl hover:underline"
 									rel="noopener noreferrer"
 									target="_blank"
 								>
-									{data?.points?.minPoint?.properties.station_long_name}{" "}
+									{data?.min_point?.properties.station_long_name}{" "}
 								</a>{" "}
 								is currently the{" "}
 								<span style={{ color: "#30E6FF" }} className="text-xl">

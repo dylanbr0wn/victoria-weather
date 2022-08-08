@@ -14,7 +14,11 @@ interface MapProps {
 
 const CustMap = ({ lat, lng, zoom }: MapProps) => {
 	const { data } = useQuery(["map"], getMapData);
-	const { data: pointsData } = useQuery(["points"], getPointsData, {});
+	const { data: pointsData } = useQuery(["points"], getPointsData, {
+		onSuccess(data) {
+			console.log(data);
+		},
+	});
 
 	const mapRef = useRef(null);
 	const [showPopup, setShowPopup] = useState(false);
@@ -34,8 +38,8 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 			// Copy coordinates array.
 			const coordinates = e.features[0].geometry.coordinates.slice();
 
-			const description = e.features[0].properties.description;
-			if (!description) return;
+			const description = e.features[0].properties;
+			// if (!description) return;
 
 			// Ensure that if the map is zoomed out such that multiple
 			// copies of the feature are visible, the popup appears
@@ -57,8 +61,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 			// Copy coordinates array.
 			const coordinates = e.features[0].geometry.coordinates.slice();
 
-			const description = e.features[0].properties.description;
-			if (!description) return;
+			const description = e.features[0].properties;
 
 			// Ensure that if the map is zoomed out such that multiple
 			// copies of the feature are visible, the popup appears
@@ -143,7 +146,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 							}}
 							cluster
 							type="geojson"
-							data={pointsData.points.points}
+							data={pointsData.points}
 						>
 							<Layer
 								interactive
@@ -155,29 +158,36 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 									"text-halo-width": 0.5,
 									"text-halo-blur": 1.5,
 								}}
-								layout={{
-									"text-field": [
-										"concat",
-										[
-											"case",
-											["has", "temperature"],
-											["get", "temperature"],
+								layout={
+									// {
+									// 	"text-field": "station_id",
+									// 	"icon-image": "mapbox-marker-icon-gray",
+									// 	"text-anchor": "top",
+									// }
+									{
+										"text-field": [
+											"concat",
 											[
-												"number-format",
-
+												"case",
+												["has", "temperature"],
+												["get", "temperature"],
 												[
-													"/",
-													["get", "totalTemperature"],
-													["get", "point_count"],
+													"number-format",
+
+													[
+														"/",
+														["get", "totalTemperature"],
+														["get", "point_count"],
+													],
+													{ "max-fraction-digits": 1 },
 												],
-												{ "max-fraction-digits": 1 },
 											],
+											"°C",
 										],
-										"°C",
-									],
-									"icon-image": "mapbox-marker-icon-gray",
-									"text-anchor": "top",
-								}}
+										"icon-image": "mapbox-marker-icon-gray",
+										"text-anchor": "top",
+									}
+								}
 							/>
 						</Source>
 						{showPopup && (
@@ -191,11 +201,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 									setShowPopup(false);
 								}}
 							>
-								<div
-									dangerouslySetInnerHTML={{
-										__html: popupData.description,
-									}}
-								/>
+								<div>{JSON.stringify(popupData.description)}</div>
 							</Popup>
 						)}
 					</Map>
