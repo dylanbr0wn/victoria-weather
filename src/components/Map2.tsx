@@ -195,9 +195,17 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 								}}
 							>
 								<div className="p-3">
-									<h3 className="font-bold text-lg pb-2 leading-tight">
-										{popupData.properties["station_long_name"]}
-									</h3>
+									<a
+										title="Station Data"
+										rel="noopener noreferrer"
+										target="_blank"
+										href={`https://www.victoriaweather.ca/station.php?id=${popupData.properties.station_id}`}
+									>
+										<h3 className="font-bold text-lg pb-2 leading-tight hover:underline">
+											{popupData.properties["station_long_name"]}
+										</h3>
+									</a>
+
 									<div className="text-sm  flex flex-col space-y-1">
 										<div className="flex w-full justify-center items-center">
 											<div className="text-base mr-2">📍</div>
