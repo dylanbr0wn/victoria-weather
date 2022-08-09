@@ -8,8 +8,8 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 type PointFeatureArray = GeoJSON.Feature<Point>[];
 
 const filter = (data: PointsData, term: string): PointFeatureArray => {
-	if (!data?.points?.points) return [];
-	return data?.points?.points.features.filter((point) => {
+	if (!data?.points) return [];
+	return data?.points.features.filter((point) => {
 		if (term.length === 0) return true;
 
 		const name: string = point.properties.station_long_name;
@@ -35,7 +35,7 @@ const Search = () => {
 
 	const { data } = useQuery(["points"], getPointsData, {
 		onSuccess: (data) => {
-			if (data?.points?.points) {
+			if (data?.points) {
 				getResults(data, search, searchLength);
 			}
 		},
@@ -44,9 +44,7 @@ const Search = () => {
 	const getResults = (pointsData: PointsData, term: string, len: number) => {
 		const results = filter(pointsData, term);
 		setResultsLength(results.length);
-		setResults(
-			truncate(results, len, pointsData?.points.points.features.length)
-		);
+		setResults(truncate(results, len, pointsData?.points.features.length));
 	};
 
 	const onSearch = ({ target }) => {
@@ -93,9 +91,8 @@ const Search = () => {
 						const coordinates = `${geometry.coordinates[1].toFixed(
 							7
 						)}, ${geometry.coordinates[0].toFixed(7)}`;
-
-						const temperature = properties.temperature || null;
-						const rain = properties.rain?.toFixed(1) || null;
+						const temperature = Number(properties?.temperature) || null;
+						const rain = Number(properties?.rain)?.toFixed(1) || null;
 						const elevation = properties.elevation || null;
 
 						const pressure = properties.pressure

@@ -149,12 +149,10 @@ export interface Point extends GeoJSON.Point {
 }
 
 export interface PointsData {
-	points: {
-		points: GeoJSON.FeatureCollection<Point>;
-		minPoint: Point;
-		maxPoint: Point;
-		averageTemp: number;
-	};
+	points: GeoJSON.FeatureCollection<Point>;
+	min_point: Point;
+	max_point: Point;
+	average_temp: number;
 }
 
 //Map Types
@@ -176,11 +174,9 @@ export interface MapData {
 }
 
 export interface RainData {
-	rain: {
-		averageRain: number;
-		numberReporting: number;
-		maxRain: Partial<Point>;
-	};
+	average_rain: number | null;
+	number_reporting: number | null;
+	max_rain: Partial<Point> | null;
 }
 
 export interface DashProp {

@@ -7,7 +7,7 @@ const Rain = ({ dash = false }: DashProp) => {
 	const { data } = useQuery(["rain"], getRainData, {});
 	return (
 		<>
-			{data?.rain && (
+			{data && (
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -35,9 +35,9 @@ const Rain = ({ dash = false }: DashProp) => {
 											dash ? "text-4xl leading-none" : "text-5xl"
 										} font-black text-sky-500`}
 									>
-										{data?.rain.averageRain === 0
+										{!data.average_rain || data.average_rain === 0
 											? "0.00"
-											: data.rain.averageRain.toFixed(2)}
+											: data.average_rain?.toFixed(2)}
 									</div>
 									<div
 										className={`${
@@ -62,23 +62,23 @@ const Rain = ({ dash = false }: DashProp) => {
 							}`}
 						>
 							<span className="text-2xl text-sky-500">
-								{data?.rain.numberReporting}
+								{data?.number_reporting}
 							</span>{" "}
 							stations are currently reporting rain.{" "}
-							{!dash && !!data.rain.maxRain.properties?.station_id && (
+							{!dash && !!data.max_rain?.properties?.station_id && (
 								<>
 									<a
 										rel="noopener noreferrer"
 										target="_blank"
-										href={`https://www.victoriaweather.ca/station.php?id=${data?.rain.maxRain.properties.station_id}`}
+										href={`https://www.victoriaweather.ca/station.php?id=${data?.max_rain?.properties.station_id}`}
 										className="hover:underline text-sky-500"
 									>
-										{data?.rain.maxRain.properties.station_long_name}
+										{data?.max_rain?.properties.station_long_name}
 									</a>{" "}
 									has reporting the most in last 24h with{" "}
 									<span style={{ color: "#30B4FF" }} className="text-2xl">
-										{data?.rain.maxRain.properties.rain}
-										{data?.rain.maxRain.properties.rain_units}
+										{data?.max_rain?.properties.rain}
+										{data?.max_rain?.properties.rain_units}
 									</span>{" "}
 									total.
 								</>

@@ -4,9 +4,9 @@ import clientPromise from "../../utils/mongo";
 
 const Handler: NextApiHandler = async (_req, res) => {
 	const client = await clientPromise;
-	const db = client.db("victoria-weather");
+	const db = client.db("weather-test");
 	const [rain] = await Promise.all([getRainData(db)]);
-	res.json({ rain });
+	res.json(rain);
 };
 
 const getRainData = async (db: Db) => {

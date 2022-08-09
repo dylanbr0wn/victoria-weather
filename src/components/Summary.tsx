@@ -8,7 +8,7 @@ import { getPointsData, getWeatherData } from "../utils/apiGetters";
 const Summary = ({ dash = false }: DashProp) => {
 	const { data } = useQuery(["weather"], getWeatherData);
 
-	const { data: pointsData } = useQuery(["points"], getPointsData);
+	const { data: pointsData } = useQuery(["points"], getPointsData, {});
 
 	return (
 		<>
@@ -32,11 +32,11 @@ const Summary = ({ dash = false }: DashProp) => {
 							</div>
 							<div
 								className={` flex flex-col ${
-									pointsData?.points?.averageTemp < 10
+									pointsData?.average_temp < 10
 										? "text-blue-500"
-										: pointsData?.points?.averageTemp < 20
+										: pointsData?.average_temp < 20
 										? "text-yellow-400"
-										: pointsData?.points?.averageTemp < 30
+										: pointsData?.average_temp < 30
 										? "text-green-500"
 										: "text-red-600"
 								}`}
@@ -44,7 +44,7 @@ const Summary = ({ dash = false }: DashProp) => {
 								<div
 									className={` tracking-wide text-6xl font-black text-center`}
 								>
-									{pointsData?.points?.averageTemp.toFixed(1)}
+									{pointsData?.average_temp.toFixed(1)}
 									<span className="text-4xl font-light">℃</span>
 								</div>
 								<div className="text-lg font-light leading-3 text-center">
