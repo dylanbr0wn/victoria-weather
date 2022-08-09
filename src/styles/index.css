@@ -23,13 +23,16 @@ code {
 	@apply w-5 h-5 rounded mr-1 mt-1 !important;
 }
 .mapboxgl-popup-close-button:hover {
-	@apply bg-white/10 !important;
+	@apply bg-red-600/10 !important;
 }
 
+.mapboxgl-popup-close-button {
+	@apply text-red-600 !important;
+}
 .mapboxgl-popup-tip {
-	@apply border-t-gray-900  !important;
+	@apply border-t-gray-800  !important;
 }
 
 .mapboxgl-popup-content {
-	@apply bg-gray-900 text-white rounded shadow-md !important;
+	@apply bg-gray-800 text-white rounded-lg shadow-md !important;
 }
