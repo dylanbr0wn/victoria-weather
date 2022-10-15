@@ -8,10 +8,10 @@ import Map, {
 } from "react-map-gl";
 import { Popup } from "react-map-gl";
 import { Layer } from "react-map-gl";
-import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { getMapData, getPointsData } from "../utils/apiGetters";
 import { flushSync } from "react-dom";
+import { useMapData } from "../pages/api/map.swr";
+import { usePointsData } from "../pages/api/points.swr";
 
 interface MapProps {
 	lat?: number;
@@ -20,8 +20,8 @@ interface MapProps {
 }
 
 const CustMap = ({ lat, lng, zoom }: MapProps) => {
-	const { data } = useQuery(["map"], getMapData);
-	const { data: pointsData } = useQuery(["points"], getPointsData, {});
+	const { data } = useMapData();
+	const { data: pointsData } = usePointsData(null);
 
 	const mapRef = useRef<MapRef>(null);
 	const [showPopup, setShowPopup] = useState(false);
