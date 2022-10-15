@@ -6,8 +6,7 @@ import { PointsData } from "../../utils/types";
 export const usePointsData = query(async () => {
 	const client = await clientPromise;
 	const db = client.db("weather-test");
-	const points = await getPoints(db);
-	return points;
+	return await getPoints(db);
 });
 
 const getPoints = async (db: Db) =>
