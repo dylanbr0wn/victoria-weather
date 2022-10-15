@@ -7,6 +7,65 @@ import SunIcon from "./SunIcon";
 import chroma from "chroma-js";
 import dayjs from "dayjs";
 
+const getSunCycleData = () => {
+	let sunset = getSunset(48.45, -123.4).getTime();
+	let sunrise = getSunrise(48.45, -123.4).getTime();
+
+	const now = Date.now();
+
+	if (sunrise < now && sunset < now) {
+		if (sunrise < sunset) {
+			sunrise += 86400000;
+			if (sunrise < now && sunset < now) {
+				sunset += 86400000;
+			}
+		} else {
+			sunset += 86400000;
+			if (sunrise < now && sunset < now) {
+				sunrise += 86400000;
+			}
+		}
+	}
+
+	const isNight = !!(sunset < now && now < sunrise);
+
+	let percentComplete = 0;
+	if (isNight) {
+		percentComplete = (now - sunset) / (sunrise - sunset);
+	} else {
+		percentComplete = (now - sunrise) / (sunset - sunrise);
+	}
+
+	// let startColor, endColor;
+	let gradient: chroma.Scale<chroma.Color>;
+	let end: number;
+	let start: number;
+	if (sunrise < sunset) {
+		// startColor = new Color("#fcbf49");
+		// endColor = new Color("#390099");
+		gradient = chroma.scale([
+			"#4cc9f0",
+			"#61e8e1",
+			"#f2e863",
+			"#ff9f1c",
+			"#f72585",
+		]);
+		end = sunset;
+		start = sunrise;
+	} else {
+		end = sunrise;
+		start = sunset;
+		gradient = chroma.scale([
+			"#f72585",
+			"#560bad",
+			"#3a0ca3",
+			"#4361ee",
+			"#4cc9f0",
+		]);
+	}
+	return { end, start, gradient, percentComplete, isNight };
+};
+
 const SunMoonCycle = () => {
 	const [moonPosition, setMoonPosition] = useState(0);
 	const [nowColor, setNowColor] = useState<string | chroma.Color>(
@@ -23,73 +82,31 @@ const SunMoonCycle = () => {
 	const [isNight, setIsNight] = useState(false);
 
 	useEffect(() => {
-		let sunset = getSunset(48.45, -123.4).getTime();
-		let sunrise = getSunrise(48.45, -123.4).getTime();
+		const update = () => {
+			const { end, start, gradient, percentComplete, isNight } =
+				getSunCycleData();
 
-		const now = Date.now();
+			setIsNight(isNight);
+			setEnd(end);
+			setStart(start);
 
-		if (sunrise < now && sunset < now) {
-			if (sunrise < sunset) {
-				sunrise += 86400000;
-				if (sunrise < now && sunset < now) {
-					sunset += 86400000;
-				}
-			} else {
-				sunset += 86400000;
-				if (sunrise < now && sunset < now) {
-					sunrise += 86400000;
-				}
-			}
-		}
+			setStartColor(gradient(0));
+			setEndColor(gradient(1));
+			setNowColor(gradient(percentComplete));
 
-		const isNight = !!(sunset < now && now < sunrise);
-		setIsNight(isNight);
+			setMoonPosition(percentComplete);
+		};
+		update();
 
-		let percentComplete = 0;
-		if (isNight) {
-			percentComplete = (now - sunset) / (sunrise - sunset);
-		} else {
-			percentComplete = (now - sunrise) / (sunset - sunrise);
-		}
+		const interval = setInterval(() => {
+			update();
+		}, 5000);
 
-		// let startColor, endColor;
-		let gradient: chroma.Scale<chroma.Color>;
-		if (sunrise < sunset) {
-			// startColor = new Color("#fcbf49");
-			// endColor = new Color("#390099");
-			gradient = chroma.scale([
-				"#4cc9f0",
-				"#61e8e1",
-				"#f2e863",
-				"#ff9f1c",
-				"#f72585",
-			]);
-			setEnd(sunset);
-			setStart(sunrise);
-		} else {
-			setEnd(sunrise);
-			setStart(sunset);
-			gradient = chroma.scale([
-				"#f72585",
-				"#560bad",
-				"#3a0ca3",
-				"#4361ee",
-				"#4cc9f0",
-			]);
-		}
-
-		setStartColor(gradient(0));
-		setEndColor(gradient(1));
-		setNowColor(gradient(percentComplete));
-
-		setMoonPosition(percentComplete);
+		return () => {
+			clearInterval(interval);
+		};
 	}, []);
 
-	// useEffect(() => {
-	//     if (moonPosition > 0) {
-
-	//     }
-	// }, [endColor, moonPosition, startColor]);
 	return (
 		<div className="py-2">
 			<motion.div
@@ -99,10 +116,6 @@ const SunMoonCycle = () => {
 				className=" w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col px-16 py-12"
 			>
 				<div className="relative w-full rounded-full bg-gray-700 ">
-					{/* <div
-                        style={{ color: startColor }}
-                        className="w-7 h-7 left-1 z-50 absolute bg-gray-800 top-1 shadow-sm rounded-full text-gray-800  p-1 "
-                    ></div> */}
 					<div className="z-50 absolute top-1 left-1 flex flex-col ">
 						<div
 							style={{ color: startColor?.toString() }}
