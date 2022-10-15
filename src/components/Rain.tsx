@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { getRainData } from "../utils/apiGetters";
 import { DashProp } from "../utils/types";
+import { useRainData } from "../pages/api/rain.swr";
 
 const Rain = ({ dash = false }: DashProp) => {
-	const { data } = useQuery(["rain"], getRainData, {});
+	const { data } = useRainData();
 	return (
 		<>
 			{data && (

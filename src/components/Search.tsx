@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getPointsData } from "../utils/apiGetters";
+import { useState, useEffect } from "react";
 import { Point, PointsData } from "../utils/types";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { usePointsData } from "../pages/api/points.swr";
 
 // eslint-disable-next-line no-undef
 type PointFeatureArray = GeoJSON.Feature<Point>[];
@@ -33,13 +32,13 @@ const Search = () => {
 	const [results, setResults] = useState<PointFeatureArray>([]);
 	const [searchLength, setSearchLength] = useState(4);
 
-	const { data } = useQuery(["points"], getPointsData, {
-		onSuccess: (data) => {
-			if (data?.points) {
-				getResults(data, search, searchLength);
-			}
-		},
-	});
+	const { data } = usePointsData();
+
+	useEffect(() => {
+		if (data?.points) {
+			getResults(data, search, searchLength);
+		}
+	}, [search, searchLength, data]);
 
 	const getResults = (pointsData: PointsData, term: string, len: number) => {
 		const results = filter(pointsData, term);

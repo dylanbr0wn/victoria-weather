@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { getPointsData } from "../utils/apiGetters";
 import { DashProp } from "../utils/types";
+import { usePointsData } from "../pages/api/points.swr";
 
 const MaxMin = ({ dash = false }: DashProp) => {
-	const { data } = useQuery(["points"], getPointsData, {});
+	const { data } = usePointsData();
 	return (
 		<>
 			{data && (

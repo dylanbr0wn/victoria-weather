@@ -1,18 +1,17 @@
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { calcAQICategory } from "../utils/helper";
-import { getWeatherData } from "../utils/apiGetters";
 import { DashProp } from "../utils/types";
+import { useWeatherData } from "../pages/api/weather.swr";
 
 const AirQuality = ({ dash = false }: DashProp) => {
-	const { data: airQuality } = useQuery(["weather"], getWeatherData, {
-		select(data) {
-			return calcAQICategory(data.current.air_quality.pm2_5);
-		},
-	});
+	const { data } = useWeatherData();
+
+	if (!data) return null;
+
+	const aqi = data.aqi;
+
 	return (
 		<>
-			{airQuality && (
+			{aqi && (
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -28,13 +27,13 @@ const AirQuality = ({ dash = false }: DashProp) => {
 						<div className={`flex w-full  ${dash ? " justify-center" : "p-3"}`}>
 							<div
 								className={`${dash ? "text-4xl" : "text-6xl"} ${
-									airQuality.color
+									aqi.color
 								} px-3 my-auto font-extrabold text-center`}
 							>
-								{airQuality.aqi}
+								{aqi.aqi}
 							</div>
 							<div
-								className={`${airQuality.color} leading-6 font-black ${
+								className={`${aqi.color} leading-6 font-black ${
 									dash ? "text-lg leading-none" : "text-2xl flex-grow"
 								}  inline-block self-center ml-3 text-center `}
 							>
@@ -56,13 +55,11 @@ const AirQuality = ({ dash = false }: DashProp) => {
 						>
 							The air quality is{" "}
 							<span
-								className={` ${dash ? "text-lg" : " text-2xl"}  ${
-									airQuality.color
-								}`}
+								className={` ${dash ? "text-lg" : " text-2xl"}  ${aqi.color}`}
 							>
-								{airQuality.concern}
+								{aqi.concern}
 							</span>
-							. {airQuality.message}
+							. {aqi.message}
 						</div>
 					</div>
 				</motion.div>
