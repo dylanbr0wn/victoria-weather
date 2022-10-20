@@ -11,14 +11,10 @@ import ErrorBoundary from "../components/ErrorBoundary";
 
 const Home = () => {
 	return (
-		<main className="flex-grow flex flex-col">
+		<main className="flex-grow flex flex-col z-10">
 			<div className="flex flex-col">
-				<div className=" h-[600px] p-4 bg-gray-900 w-full md:max-w-6xl mx-auto">
-					<AnimatePresence>
-						<ErrorBoundary>
-							<Map />
-						</ErrorBoundary>
-					</AnimatePresence>
+				<div className=" h-[600px] p-4  w-full md:max-w-6xl mx-auto">
+					<Map />
 				</div>
 			</div>
 			<div className="relative  w-full md:max-w-3xl mx-auto">
@@ -78,7 +74,7 @@ const Home = () => {
 				<div className="text-xl w-full border-b py-2 border-slate-700 text-slate-400 font-black px-2">
 					Explore
 				</div>
-				<div className=" bg-gray-900 flex-shrink-0 py-10">
+				<div className="  flex-shrink-0 py-10">
 					<div className="flex w-full max-w-3xl mx-auto">
 						<ErrorBoundary>
 							<Search />

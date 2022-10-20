@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 body {
-	@apply bg-gray-900;
+	--uv-glow-opacity: 1;
+	background-color: #0e101f;
 	margin: 0;
 	/* font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
 		"Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; */
@@ -35,4 +36,49 @@ code {
 
 .mapboxgl-popup-content {
 	@apply bg-gray-800 text-white rounded-lg shadow-md !important;
+}
+
+.bg-glow {
+	background: radial-gradient(
+				100% 915.19% at 100% 100%,
+				rgba(219, 0, 255, 0.2) 0%,
+				rgba(0, 0, 0, 0) 100%
+			)
+			/* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+		radial-gradient(
+				100% 915.19% at 0% 100%,
+				rgba(0, 133, 255, 0.2) 0%,
+				rgba(0, 0, 0, 0) 100%
+			)
+			/* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+		radial-gradient(
+				67.78% 171.19% at 100% 0%,
+				rgba(0, 163, 255, 0.2) 0%,
+				rgba(0, 0, 0, 0) 100%
+			)
+			/* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+		radial-gradient(
+				100% 297.98% at 0% 0%,
+				rgba(0, 255, 194, 0.068) 0%,
+				rgba(255, 255, 255, 0) 100%
+			)
+			/* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+}
+
+.uv-glow {
+	background: radial-gradient(
+			100% 373.79% at 0% 0%,
+			rgba(255, 184, 0, var(--uv-glow-opacity)) 0%,
+			rgba(255, 153, 0, 0) 100%
+		)
+		rgba(65, 0, 108, 0.58);
+}
+
+.aq-glow {
+	background: radial-gradient(
+			100% 373.79% at 50% 0%,
+			rgb(0, 255, 106, 0.5) 0%,
+			rgba(0, 255, 106, 0) 100%
+		)
+		rgba(0, 108, 67, 0);
 }

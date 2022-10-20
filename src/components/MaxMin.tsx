@@ -1,20 +1,12 @@
-import { motion } from "framer-motion";
 import { DashProp } from "../utils/types";
 import { usePointsData } from "../pages/api/points.swr";
+import AnimatePresence from "./common/AnimatePresence";
 
 const MaxMin = ({ dash = false }: DashProp) => {
 	const { data } = usePointsData();
 
-	if (!data) return null;
-
 	return (
-		<motion.div
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			exit={{ opacity: 0 }}
-			transition={{ duration: 1 }}
-			className={`w-full ${dash ? " " : "p-3"} `}
-		>
+		<AnimatePresence show={!!data}>
 			<div
 				className={`${
 					dash ? "p-3 flex space-x-1" : "p-5 "
@@ -103,7 +95,7 @@ const MaxMin = ({ dash = false }: DashProp) => {
 					</div>
 				</div>
 			</div>
-		</motion.div>
+		</AnimatePresence>
 	);
 };
 
