@@ -56,7 +56,6 @@ const CustParticles = ({ amountOfParticles }: CustParticlesProps) => {
 						enable: true,
 					},
 					move: {
-						directions: "none",
 						enable: true,
 						outModes: {
 							default: "bounce",
