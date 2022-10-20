@@ -29,11 +29,6 @@ const CustParticles = ({ amountOfParticles }: CustParticlesProps) => {
 				fpsLimit: 120,
 				interactivity: {
 					events: {
-						onClick: {
-							enable: true,
-							mode: "push",
-						},
-
 						resize: true,
 					},
 					modes: {
