@@ -3,9 +3,7 @@ import { DashProp } from "../utils/types";
 const Footer = ({ dash = false }: DashProp) => {
 	return (
 		<footer
-			className={`flex flex-shrink-0 z-10 items-center justify-center w-full ${
-				dash ? " h-10" : "h-24"
-			}  text-gray-500`}
+			className={`flex flex-shrink-0 z-10 items-center justify-center w-full h-10  text-gray-500`}
 		>
 			<div className="text-gray-500">
 				Made by{" "}

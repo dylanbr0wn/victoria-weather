@@ -7,11 +7,11 @@ const Home = dynamic(() => import("../components/Home"), {
 
 function App() {
 	return (
-		<div className=" min-h-screen w-screen flex flex-col relative bg-black">
+		<div className="h-screen min-h-[800px] flex flex-col relative bg-black">
 			<Header />
 			<Home />
 			<Footer />
-			<div className="absolute w-full h-full top-0 left-0 bg-glow opacity-50 pointer-events-none"></div>
+			<div className="absolute w-full h-full top-0 left-0 bg-glow opacity-40 pointer-events-none"></div>
 		</div>
 	);
 }

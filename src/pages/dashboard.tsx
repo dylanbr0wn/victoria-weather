@@ -43,12 +43,12 @@ function App() {
 						{/* Stats */}
 					</div>
 					<div className="flex w-full">
-						<Rain dash key={"rain"} />
+						<Rain key={"rain"} />
 					</div>
 
 					<div className="flex w-full">
 						<AnimatePresence>
-							<MaxMin dash key={"maxmin"} />
+							<MaxMin key={"maxmin"} />
 						</AnimatePresence>
 					</div>
 					<div className="text-slate-200 font-black border-b border-slate-700 my-3">
@@ -57,13 +57,13 @@ function App() {
 					<div className="flex w-full">
 						<div className="flex flex-col w-1/2">
 							<AnimatePresence>
-								<AirQuality dash key={"aqi"} />
+								<AirQuality key={"aqi"} />
 							</AnimatePresence>
 						</div>
 
 						<div className="flex flex-col w-1/2">
 							<AnimatePresence>
-								<UVIndex dash key={"uv"} />
+								<UVIndex key={"uv"} />
 							</AnimatePresence>
 						</div>
 					</div>

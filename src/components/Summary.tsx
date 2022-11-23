@@ -11,15 +11,6 @@ const Summary = ({ dash = false }: DashProp) => {
 
 	const { data: pointsData } = usePointsData();
 
-	const color =
-		pointsData?.average_temp < 10
-			? "text-blue-500"
-			: pointsData?.average_temp < 20
-			? "text-yellow-400"
-			: pointsData?.average_temp < 30
-			? "text-green-500"
-			: "text-red-600";
-
 	if (!data) return null;
 	if (!pointsData) return null;
 
@@ -32,27 +23,6 @@ const Summary = ({ dash = false }: DashProp) => {
 			className={`w-full ${dash ? "" : " p-3"}`}
 			key="summary"
 		>
-			<div
-				className={`${
-					dash ? "p-3 flex" : "p-5 "
-				} w-full rounded-md bg-gray-900 hover:bg-gray-800 transition-colors flex flex-col `}
-			>
-				<div className="flex justify-center">
-					<div className="text-7xl mr-8 flex flex-col text-center ">
-						<div>{weatherIcon(data.weather.current.condition.code).icon}</div>
-					</div>
-					<div className={` flex flex-col ${color}`}>
-						<div className={` tracking-wide text-6xl font-black text-center`}>
-							{pointsData?.average_temp.toFixed(1)}
-							<span className="text-4xl font-light">℃</span>
-						</div>
-						<div className="text-lg font-light leading-3 text-center">
-							Current Temperature
-						</div>
-					</div>
-				</div>
-			</div>
-
 			<div className="flex flex-col md:flex-row w-full md:space-x-2 mt-8 pb-5">
 				{data.weather.forecast.forecastday.map((day) => (
 					<DayForecast day={day} dash={dash} key={day.date} />

@@ -36,3 +36,65 @@
 		transform: rotate(360deg);
 	}
 }
+.tooltip {
+	animation-duration: 400ms;
+	animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+	/* will-change: transform, backdrop-filter; */
+}
+
+.tooltip[data-state="delayed-open"][data-side="top"] {
+	animation-name: slideDownAndFade;
+}
+.tooltip[data-state="delayed-open"][data-side="right"] {
+	animation-name: slideLeftAndFade;
+}
+.tooltip[data-state="delayed-open"][data-side="bottom"] {
+	animation-name: slideUpAndFade;
+}
+.tooltip[data-state="delayed-open"][data-side="left"] {
+	animation-name: slideRightAndFade;
+}
+
+@keyframes slideUpAndFade {
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideRightAndFade {
+	from {
+		opacity: 0;
+		left: -2px;
+	}
+	to {
+		opacity: 1;
+		left: 0;
+	}
+}
+
+@keyframes slideDownAndFade {
+	from {
+		opacity: 0;
+		top: -2px;
+	}
+	to {
+		opacity: 1;
+		top: 0;
+	}
+}
+
+@keyframes slideLeftAndFade {
+	from {
+		opacity: 0;
+		left: 2px;
+	}
+	to {
+		opacity: 1;
+		left: 0px;
+	}
+}

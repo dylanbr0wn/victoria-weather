@@ -114,42 +114,44 @@ export interface Weather {
 
 // Point Types
 
+export interface PointProperties {
+	description: string;
+	station_id: string;
+	station_name: string;
+	timezone: string;
+	elevation: number;
+	insolation: number;
+	insolation_predicted: number;
+	insolation_predicted_units: string;
+	insolation_units: string;
+	observation_time: string;
+	pressure: number;
+	pressure_units: string;
+	pressure_trend: string;
+	rain: number;
+	rain_units: string;
+	rain_rate: number;
+	rain_rate_units: string;
+	station_long_name: string;
+	temperature: number;
+	temperature_units: string;
+	uv_index: number;
+	uv_index_units: string;
+	wind_speed_direction: number;
+	wind_speed: number;
+}
+
 export interface Point extends GeoJSON.Point {
 	geometry: {
 		type: string;
 		coordinates: number[];
 	};
-	properties: {
-		description: string;
-		station_id: string;
-		station_name: string;
-		timezone: string;
-		elevation: number;
-		insolation: number;
-		insolation_predicted: number;
-		insolation_predicted_units: string;
-		insolation_units: string;
-		observation_time: string;
-		pressure: number;
-		pressure_units: string;
-		pressure_trend: string;
-		rain: number;
-		rain_units: string;
-		rain_rate: number;
-		rain_rate_units: string;
-		station_long_name: string;
-		temperature: number;
-		temperature_units: string;
-		uv_index: number;
-		uv_index_units: string;
-		wind_speed_direction: number;
-		wind_speed: number;
-	};
+	properties: PointProperties;
 	type: "Point";
 }
 
 export interface PointsData {
-	points: GeoJSON.FeatureCollection<Point>;
+	points: GeoJSON.FeatureCollection<GeoJSON.Point, PointProperties>;
 	min_point: Point;
 	max_point: Point;
 	average_temp: number;
