@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { DashProp } from "../utils/types";
 import { useWeatherData } from "../pages/api/weather.swr";
 import * as React from "react";
 import { Particles } from "react-particles";

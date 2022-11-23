@@ -79,7 +79,7 @@ function App() {
 				</div>
 			</main>
 
-			<Footer dash />
+			<Footer />
 		</div>
 	);
 }

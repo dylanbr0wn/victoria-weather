@@ -1,9 +1,7 @@
 import Map from "../components/Map2";
-import Search from "../components/Search";
 import Rain from "../components/Rain";
 import MaxMin from "../components/MaxMin";
 import AirQuality from "../components/AirQuality";
-import Summary from "../components/Summary";
 import UVIndex from "../components/UVIndex";
 import { AnimatePresence } from "framer-motion";
 import SunMoonCycle from "../components/SunMoonCycle";
@@ -24,7 +22,7 @@ const Home = () => {
 					<AnimatePresence>
 						<ErrorBoundary>
 							<div className="rounded-lg border-indigo-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-indigo-700/10">
-								<Current dash={false} />
+								<Current />
 								<div>
 									<MaxMin key={"maxmin"} />
 								</div>

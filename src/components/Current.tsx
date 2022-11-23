@@ -1,8 +1,6 @@
 import { usePointsData } from "../pages/api/points.swr";
-import { useWeatherData } from "../pages/api/weather.swr";
-import { weatherIcon } from "../utils/helper";
 
-export default function Current({ dash }) {
+export default function Current() {
 	// const { data } = useWeatherData();
 	const response = usePointsData();
 
