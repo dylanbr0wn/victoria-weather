@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Point, PointsData } from "../utils/types";
+import { PointProperties, PointsData } from "../utils/types";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { usePointsData } from "../pages/api/points.swr";
+import { Feature, Point } from "geojson";
 
 // eslint-disable-next-line no-undef
-type PointFeatureArray = GeoJSON.Feature<Point>[];
+type PointFeatureArray = Feature<Point, PointProperties>[];
 
 const filter = (data: PointsData, term: string): PointFeatureArray => {
 	if (!data?.points) return [];
