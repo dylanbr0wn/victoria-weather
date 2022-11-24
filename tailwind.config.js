@@ -8,6 +8,12 @@ module.exports = {
 			fontFamily: {
 				sans: ["Aileron", ...defaultTheme.fontFamily.sans],
 			},
+			colors: {
+				base: "#0e101f",
+				light: "#575fa8",
+				mute: "#2b2f53",
+				lighter: "#aeb4e6",
+			},
 		},
 	},
 	variants: {
