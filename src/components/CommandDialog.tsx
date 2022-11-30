@@ -21,15 +21,15 @@ function CommandItem({ point }: { point: Feature<Point, PointProperties> }) {
 					{point?.properties?.station_long_name}
 				</div>
 				<div className="flex-grow" />
-				<div className="ml-6 text-xs text-sky-500 flex items-center opacity-70 group-hover/item:opacity-100 transition-opacity">
-					<Droplet className="h-3 w-3" />{" "}
+				<div className="ml-6 text-xs text-sky-500 flex items-center opacity-70 group-hover/item:opacity-100 transition-opacity gap-2">
+					<Droplet className="h-3 w-3" />
 					<div>
 						{point?.properties.rain}
 						{point?.properties.rain_units}
 					</div>
 				</div>
-				<div className="text-xs text-red-500 flex items-center opacity-70 group-hover/item:opacity-100 transition-opacity">
-					<Thermometer className="h-3 w-3" />{" "}
+				<div className="text-xs text-red-500 flex items-center opacity-70 group-hover/item:opacity-100 transition-opacity ">
+					<Thermometer className="h-3 w-3" />
 					<div>
 						{point?.properties.temperature}°
 						{point?.properties.temperature_units}
