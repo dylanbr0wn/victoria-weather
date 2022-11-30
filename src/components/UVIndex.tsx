@@ -43,7 +43,7 @@ const UVIndex = () => {
 						</a>
 					</div>
 				</div>
-				<div className={`  text-white text-base text-center`}>
+				<div className={`  text-white text-center`}>
 					<span className={`text-lg text-amber-400`}>{uvData?.status} </span>
 					{uvData?.messageShort}
 					{/* {dash ? uvData?.messageShort : uvData?.message} */}

@@ -39,7 +39,7 @@ const Rain = () => {
 						</div>
 					</div>
 				</div>
-				<div className={`  text-white text-base flex-grow text-center`}>
+				<div className={`  text-white flex-grow text-center`}>
 					<span className="text-2xl text-sky-500">
 						{data?.number_reporting}
 					</span>{" "}

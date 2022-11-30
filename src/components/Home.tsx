@@ -15,7 +15,7 @@ const Home = () => {
 				<Map />
 			</div>
 			<div className="flex flex-col w-1/3 pl-1 pr-2 gap-2">
-				<div className="relative  w-full md:max-w-3xl mx-auto">
+				<div className="relative w-full md:max-w-3xl mx-auto">
 					{/* <div className="text-xl w-full border-b py-2 border-slate-700 text-slate-400 font-black px-2">
 						Weather and Forecast
 					</div> */}

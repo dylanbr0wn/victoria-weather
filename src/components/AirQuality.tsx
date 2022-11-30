@@ -124,7 +124,7 @@ const AirQuality = () => {
 						<div className=" font-light text-sm">10 minute average</div>
 					</div>
 				</div>
-				<div className={`  text-white text-base text-center`}>
+				<div className={`  text-white text-center`}>
 					The air quality is{" "}
 					<span className={` text-lg ${aqi.color}`}>{aqi.concern}</span>.{" "}
 					{/* {aqi.message} */}

@@ -202,13 +202,13 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 
 								<div className="text-sm  flex flex-col space-y-1">
 									<div className="flex w-full justify-center items-center">
-										<div className="text-base mr-2">📍</div>
+										<div className="mr-2">📍</div>
 										<div>{`${popupData.coordinates[1].toFixed(
 											7
 										)}, ${popupData.coordinates[0].toFixed(7)}`}</div>
 									</div>
 									<div className="flex w-full justify-center items-center">
-										<div className="text-base mr-2">🌡</div>
+										<div className="mr-2">🌡</div>
 										<div
 											className={`${
 												Number(popupData.properties.temperature) < 10
