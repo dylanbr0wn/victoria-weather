@@ -2,9 +2,8 @@ import Color from "colorjs.io";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
-import MoonIcon from "./MoonIcon";
-import SunIcon from "./SunIcon";
 import chroma from "chroma-js";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import dayjs from "dayjs";
 
 const SunMoonCycle = () => {
@@ -95,87 +94,42 @@ const SunMoonCycle = () => {
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			exit={{ opacity: 0 }}
-			className=" w-full rounded-md transition-colors flex flex-col px-4 py-2 h-[115px] justify-center"
+			className=" w-full rounded-md transition-colors relative h-[115px] justify-center group"
 		>
-			<div className="relative w-full rounded-full bg-gray-700 ">
-				{/* <div
-                        style={{ color: startColor }}
-                        className="w-7 h-7 left-1 z-50 absolute bg-gray-800 top-1 shadow-sm rounded-full text-gray-800  p-1 "
-                    ></div> */}
-				<div className="z-50 absolute top-1 left-1 flex flex-col ">
-					<div
-						style={{ color: startColor?.toString() }}
-						className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1"
-					>
-						{isNight ? <MoonIcon /> : <SunIcon />}
-					</div>
-					<div
-						style={{ color: startColor?.toString() }}
-						className={` text-sm font-black mt-2 transform ${
-							isNight ? "-translate-x-2" : "-translate-x-4"
-						} text-center leading-3`}
-					>
-						<div className="font-light font-mono">
-							{isNight ? "Sunset" : "Sunrise"}
+			<div
+				className={`h-full w-[450px] opacity-50 group-hover:opacity-100 transition-opacity duration-500 light-line absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${
+					!isNight ? "rotate-180" : ""
+				}`}
+			/>
+			<div
+				className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex  ${
+					isNight ? "flex-col" : "flex-col-reverse"
+				} gap-3`}
+			>
+				<div className=" text-3xl flex flex-col items-center">
+					<p className="text-xs leading-none tracking-widest text-amber-200 font-medium">
+						Sunrise at
+					</p>
+					<div className="flex items-center gap-2">
+						<ArrowUp className="h-7 w-7 text-amber-200 " />
+						<div className=" flex flex-col items-center">
+							<p className="leading-none bg-gradient-to-t font-bold text-transparent from-amber-300 to-amber-100 bg-clip-text">
+								{dayjs(end).format("h:mma")}
+							</p>
 						</div>
-						{dayjs(start).format("HH:mm")}
 					</div>
 				</div>
-				<motion.div
-					className="text-6xl relative h-9 rounded-full z-40"
-					initial={{
-						width: "1.75rem",
-						// backgroundImage: `linear-gradient(to right,rgb(59, 130, 246),${color})`,
-						// background: `linear-gradient(to right,lch(54.619% 66.365 277.595),${color})`,
-					}}
-					style={{
-						background: `linear-gradient(to right,${startColor},${nowColor})`,
-					}}
-					animate={{
-						width: `${10 + moonPosition * 80}%`,
-						// background: `linear-gradient(to right,lch(54.619% 66.365 277.595),${color})`,
-					}}
-					transition={{
-						duration: 1,
-					}}
-				>
-					<div className=" absolute top-1 right-1 flex flex-col content-end justify-end items-end">
-						<div
-							style={{ backgroundColor: nowColor.toString() }}
-							className="w-7 h-7 rounded-full  border-2 border-gray-700  shadow-sm "
-						></div>
-
-						<div
-							style={{ color: nowColor.toString() }}
-							className={` text-sm font-black  transform ${
-								moonPosition > 0.1 && moonPosition < 0.9
-									? "translate-x-2 mt-2"
-									: "translate-x-1 -translate-y-16"
-							} text-center leading-3`}
-						>
-							<div className="font-light font-mono">Now</div>
-							{dayjs().format("HH:mm")}
+				<div className="font-bold opacity-50 text-3xl flex flex-col items-center">
+					<p className="text-xs leading-none tracking-widest text-indigo-400 font-medium">
+						Sunset at
+					</p>
+					<div className="flex items-center gap-2">
+						<ArrowDown className="h-7 w-7 text-indigo-500 " />
+						<div className=" flex flex-col items-center">
+							<p className="bg-gradient-to-t leading-none font-bold text-transparent from-indigo-600 to-indigo-400 bg-clip-text">
+								{dayjs(start).format("h:mma")}
+							</p>
 						</div>
-					</div>
-				</motion.div>
-				<div className="w-7 h-7 top-1 absolute right-1 rounded-full p-1"></div>
-				<div className="z-30 absolute top-1 right-1 flex flex-col items-end">
-					<div
-						style={{ backgroundColor: endColor.toString() }}
-						className="w-7 h-7 bg-gray-800  rounded-full   shadow-sm p-1 "
-					>
-						{isNight ? <SunIcon /> : <MoonIcon />}
-					</div>
-					<div
-						style={{ color: endColor.toString() }}
-						className={` text-sm font-black mt-2 transform ${
-							isNight ? "translate-x-4" : "translate-x-3"
-						} text-center leading-3`}
-					>
-						<div className="font-light font-mono">
-							{isNight ? "Sunrise" : "Sunset"}
-						</div>
-						{dayjs(end).format("HH:mm")}
 					</div>
 				</div>
 			</div>

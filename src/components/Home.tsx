@@ -67,7 +67,7 @@ const Home = () => {
 						</AnimatePresence>
 						<AnimatePresence>
 							<ErrorBoundary>
-								<div className="rounded-lg border-pink-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-pink-700/10">
+								<div className="rounded-lg border-purple-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-purple-700/10">
 									<SunMoonCycle key={"sunmoon"} />
 								</div>
 							</ErrorBoundary>
