@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import AnimatePresence from "./common/AnimatePresence";
 import { EdittingWrapper } from "./EditingWrapper";
 
-const SunMoonCycle = () => {
+const SunMoonCycle = ({ id }: { id: string }) => {
 	const [start, setStart] = useState<number>();
 	const [end, setEnd] = useState<number>();
 	const [isNight, setIsNight] = useState(false);
@@ -44,9 +44,10 @@ const SunMoonCycle = () => {
 
 	return (
 		<EdittingWrapper
+			id={id}
 			alternate={
-				<div className="w-full rounded-lg bg-[#120a1d]/50 backdrop-blur flex justify-center items-center h-[115px] border-purple-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-purple-700/10">
-					<div className="bg-gradient-to-r from-amber-300 to-purple-700 bg-clip-text text-transparent text-3xl font-bold text-center pointer-events-none">
+				<div className="w-full rounded-lg bg-gradient-to-r from-amber-400 to-purple-700 backdrop-blur flex justify-center items-center h-[115px] border-purple-800 border-2 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-purple-700/10">
+					<div className="bg-gradient-to-b from-purple-900 to-[#120a1d] bg-clip-text text-transparent text-3xl font-bold text-center pointer-events-none">
 						Sunrise and Sunset
 					</div>
 				</div>

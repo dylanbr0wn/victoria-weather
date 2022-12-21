@@ -1,7 +1,7 @@
 import { usePointsData } from "../pages/api/points.swr";
 import { EdittingWrapper } from "./EditingWrapper";
 
-export default function Current() {
+export default function Current({ id }: { id: string }) {
 	// const { data } = useWeatherData();
 	const response = usePointsData();
 
@@ -20,9 +20,10 @@ export default function Current() {
 
 	return (
 		<EdittingWrapper
+			id={id}
 			alternate={
-				<div className="w-full rounded-lg bg-[#0f0e10]/50  backdrop-blur flex justify-center items-center h-[115px] border-gray-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-gray-700/10">
-					<div className="bg-gradient-to-b  pointer-events-none  from-gray-300 to-gray-500 bg-clip-text text-transparent text-3xl font-bold text-center">
+				<div className="w-full rounded-lg bg-gradient-to-b from-gray-400 to-gray-300 backdrop-blur flex justify-center items-center h-[115px] border-gray-800 border transition-all duration-500 shadow-lg shadow-transparent hover:shadow-gray-700/10">
+					<div className="bg-gradient-to-b  pointer-events-none  to-[#0f0e10] from-gray-800 bg-clip-text text-transparent text-3xl font-bold text-center">
 						Current Temperature
 					</div>
 				</div>

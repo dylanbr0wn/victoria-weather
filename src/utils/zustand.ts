@@ -78,10 +78,16 @@ export const useLayoutStore = create<LayoutStore>()(
 
 type EditStore = {
 	editMode: boolean;
-	setEditMode: (editMode: boolean) => void;
+	setEditMode: (editMode: boolean | ((editMode: boolean) => boolean)) => void;
 };
 
-export const useEditStore = create<EditStore>((set) => ({
+export const useEditStore = create<EditStore>((set, get) => ({
 	editMode: false,
-	setEditMode: (editMode: boolean) => set({ editMode }),
+	setEditMode: (editMode) => {
+		if (typeof editMode === "function") {
+			set({ editMode: editMode(get().editMode) });
+		} else {
+			set({ editMode });
+		}
+	},
 }));

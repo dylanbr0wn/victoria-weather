@@ -2,16 +2,17 @@ import { useRainData } from "../pages/api/rain.swr";
 import AnimatePresence from "./common/AnimatePresence";
 import { EdittingWrapper } from "./EditingWrapper";
 
-const Rain = () => {
+const Rain = ({ id }: { id: string }) => {
 	const { data } = useRainData();
 
 	if (!data) return null;
 
 	return (
 		<EdittingWrapper
+			id={id}
 			alternate={
-				<div className="w-full rounded-lg bg-[#070d16]/50 backdrop-blur flex justify-center items-center h-[115px] border-sky-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10">
-					<div className="bg-gradient-to-t from-sky-700 to-sky-300 bg-clip-text text-transparent text-3xl font-bold pointer-events-none">
+				<div className="w-full rounded-lg bg-gradient-to-t from-sky-300 to-sky-200 bg-blend-color-dodge backdrop-blur-lg flex justify-center items-center h-[115px] border-sky-800 border-2  transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10">
+					<div className="bg-gradient-to-t from-[#11091b] to-sky-800 bg-clip-text text-transparent text-3xl font-bold pointer-events-none">
 						Rain Data
 					</div>
 				</div>

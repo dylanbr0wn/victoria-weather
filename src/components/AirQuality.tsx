@@ -82,7 +82,7 @@ const CustParticles = ({ amountOfParticles }: CustParticlesProps) => {
 	);
 };
 
-const AirQuality = () => {
+const AirQuality = ({ id }: { id: string }) => {
 	const { data } = useWeatherData();
 
 	const aqi = data?.aqi;
@@ -90,9 +90,10 @@ const AirQuality = () => {
 
 	return (
 		<EdittingWrapper
+			id={id}
 			alternate={
-				<div className="w-full rounded-lg bg-[#050e10]/50 backdrop-blur flex justify-center items-center h-[115px] border-emerald-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-emerald-700/10">
-					<div className="pointer-events-none bg-gradient-to-t from-green-800 to-green-300 bg-clip-text text-transparent text-3xl font-bold">
+				<div className="w-full rounded-lg  bg-gradient-to-t from-green-400 to-green-300 backdrop-blur flex justify-center items-center h-[115px] border-emerald-800 border-2 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-emerald-700/10">
+					<div className="pointer-events-none bg-gradient-to-t to-green-800 from-[#050e10] bg-clip-text text-transparent text-3xl font-bold">
 						Air Quality
 					</div>
 				</div>

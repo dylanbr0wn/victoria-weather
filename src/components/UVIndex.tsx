@@ -3,7 +3,7 @@ import AnimatePresence from "./common/AnimatePresence";
 import * as React from "react";
 import { EdittingWrapper } from "./EditingWrapper";
 
-const UVIndex = () => {
+const UVIndex = ({ id }: { id: string }) => {
 	const { data } = useWeatherData();
 
 	const uvData = data?.uv;
@@ -20,8 +20,8 @@ const UVIndex = () => {
 	return (
 		<EdittingWrapper
 			alternate={
-				<div className="w-full rounded-lg bg-[#161007]/50  backdrop-blur flex justify-center items-center h-[115px] border-amber-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-amber-700/10">
-					<div className="bg-gradient-to-b from-amber-300 to-orange-500 bg-clip-text text-transparent text-3xl font-bold pointer-events-none">
+				<div className="w-full rounded-lg  backdrop-blur flex justify-center items-center h-[115px] border-amber-700 border-2  transition-all duration-500 shadow-lg shadow-transparent hover:shadow-amber-700/10 bg-gradient-to-b from-amber-300 to-orange-500">
+					<div className="bg-gradient-to-t from-[#161007] to-amber-900  bg-clip-text text-transparent text-3xl font-bold pointer-events-none">
 						UV Index
 					</div>
 				</div>

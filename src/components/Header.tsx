@@ -43,7 +43,7 @@ const Header = () => {
 						<Github className="h-6 w-auto text-white opacity-70 hover:opacity-90 transition-opacity duration-500" />
 					</a>
 					{/* </Tooltip> */}
-					<button onClick={() => setEditMode(true)}>
+					<button onClick={() => setEditMode((old) => !old)}>
 						<Cog className="h-5 w-auto text-white opacity-70 hover:opacity-90 transition-all duration-500 hover:rotate-45 " />
 					</button>
 				</div>
