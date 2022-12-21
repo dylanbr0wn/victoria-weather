@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
-import { Github, Sun } from "lucide-react";
+import { Cog, Edit, Github, Pencil, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEditStore } from "../utils/zustand";
 import CommandMenu from "./CommandDialog";
 
 const Header = () => {
+	const { setEditMode } = useEditStore((store) => ({
+		setEditMode: store.setEditMode,
+	}));
+
 	return (
 		<div className="h-16 z-10 flex-shrink-0 w-full">
 			<div className="w-full px-10 mx-auto text-white flex py-2 justify-between items-center h-full">
@@ -38,6 +43,9 @@ const Header = () => {
 						<Github className="h-6 w-auto text-white opacity-70 hover:opacity-90 transition-opacity duration-500" />
 					</a>
 					{/* </Tooltip> */}
+					<button onClick={() => setEditMode(true)}>
+						<Cog className="h-5 w-auto text-white opacity-70 hover:opacity-90 transition-all duration-500 hover:rotate-45 " />
+					</button>
 				</div>
 			</div>
 		</div>

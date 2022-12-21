@@ -93,6 +93,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 						latitude: lat ?? 48.45,
 						zoom: zoom ?? 11,
 					}}
+					attributionControl={false}
 					style={{ borderRadius: "0.5rem", overflow: "hidden" }}
 					mapStyle="mapbox://styles/dylanbrown/ckukftmpa1mlg17mlkvo86j4x"
 					mapboxAccessToken={
