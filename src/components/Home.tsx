@@ -14,7 +14,7 @@ import {
 	Widgets,
 } from "../utils/zustand";
 import { ReactNode } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import Map from "./Map2";
 import { Reorder, motion, AnimatePresence } from "framer-motion";
 import { Dialog } from "./common/Dialog";
@@ -164,7 +164,6 @@ const Home = () => {
 					{layout.info.map((row, i) => (
 						<div key={row.id} className="flex gap-3">
 							<Reorder.Group
-								axis="x"
 								values={row.widgets}
 								onReorder={(order) => updateRow(i, order)}
 								className="flex-grow flex gap-3"
@@ -174,6 +173,7 @@ const Home = () => {
 										<Reorder.Item
 											key={item.id}
 											layout
+											drag
 											initial={{ opacity: 0, x: 50 }}
 											animate={{ opacity: 1, x: 0 }}
 											exit={{ opacity: 0, x: 50 }}
@@ -183,6 +183,18 @@ const Home = () => {
 											{getWidget(item)}
 										</Reorder.Item>
 									))}
+									{row.widgets.length === 0 && (
+										<motion.div
+											key="empty"
+											className="w-full h-[115px] bg-base border border-neutral-400/40 rounded-lg flex items-center justify-center p-1"
+											layout
+										>
+											<button className="h-full w-full rounded-md flex items-center justify-center hover:bg-rose-500/30 gap-3">
+												<div className="text-lg text-rose-500">Remove Row</div>{" "}
+												<Trash className="h-6 w-6 text-rose-500" />
+											</button>
+										</motion.div>
+									)}
 								</AnimatePresence>
 							</Reorder.Group>
 							{isEdit && (

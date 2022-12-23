@@ -27,14 +27,13 @@ export function EdittingWrapper({
 
 	function removeWidget() {
 		updateLayout((layout) => {
-			const newLayout = layout.info
-				.map((row) => {
-					return {
-						...row,
-						widgets: row.widgets.filter((w) => w.id !== id),
-					};
-				})
-				.filter((row) => row.widgets.length > 0);
+			const newLayout = layout.info.map((row) => {
+				return {
+					...row,
+					widgets: row.widgets.filter((w) => w.id !== id),
+				};
+			});
+			// .filter((row) => row.widgets.length > 0);
 			return {
 				...layout,
 				info: newLayout,

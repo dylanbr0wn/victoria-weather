@@ -27,23 +27,34 @@ export function buildRow(): WidgetRow {
 	};
 }
 
+// const defaultDashboardLayout: Layout = {
+// 	map: {},
+// 	info: [
+// 		{
+// 			id: cuid(),
+// 			widgets: [buildWidget(Widgets.Temp)],
+// 		},
+// 		{ id: cuid(), widgets: [buildWidget(Widgets.Rain)] },
+// 		{ id: cuid(), widgets: [buildWidget(Widgets.UV)] },
+// 		{ id: cuid(), widgets: [buildWidget(Widgets.Sun)] },
+// 		{ id: cuid(), widgets: [buildWidget(Widgets.AQI)] },
+// 	],
+// };
+
 const defaultDashboardLayout: Layout = {
 	map: {},
 	info: [
-		{
-			id: cuid(),
-			widgets: [buildWidget(Widgets.Temp)],
-		},
-		{ id: cuid(), widgets: [buildWidget(Widgets.Rain)] },
-		{ id: cuid(), widgets: [buildWidget(Widgets.UV)] },
-		{ id: cuid(), widgets: [buildWidget(Widgets.Sun)] },
-		{ id: cuid(), widgets: [buildWidget(Widgets.AQI)] },
+		buildWidget(Widgets.Temp),
+		buildWidget(Widgets.Rain),
+		buildWidget(Widgets.UV),
+		buildWidget(Widgets.Sun),
+		buildWidget(Widgets.AQI),
 	],
 };
 
 export type Layout = {
 	map: {};
-	info: WidgetRow[];
+	info: WidgetInfo[];
 };
 
 export type WidgetInfo = { type: Widgets; w: number; h: number; id: string };
