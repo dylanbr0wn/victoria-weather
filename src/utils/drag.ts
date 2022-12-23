@@ -1,6 +1,5 @@
 import { config, useSprings } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
-import { useRef } from "react";
 import { Layout, WidgetRow } from "./zustand";
 
 function getRowColFromIndex(

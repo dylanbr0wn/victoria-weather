@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Cog, Edit, Github, Pencil, Sun } from "lucide-react";
+import { Cog, Github, Sun } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEditStore } from "../utils/zustand";
