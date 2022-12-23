@@ -2,13 +2,14 @@ import { useRainData } from "../pages/api/rain.swr";
 import AnimatePresence from "./common/AnimatePresence";
 import { EdittingWrapper } from "./EditingWrapper";
 
-const Rain = ({ id }: { id: string }) => {
+const Rain = ({ id, isPreview }: { id: string; isPreview?: boolean }) => {
 	const { data } = useRainData();
 
 	if (!data) return null;
 
 	return (
 		<EdittingWrapper
+			isPreview={isPreview}
 			id={id}
 			alternate={
 				<div className="w-full rounded-lg bg-gradient-to-t from-sky-300 to-sky-200 bg-blend-color-dodge backdrop-blur-lg flex justify-center items-center h-[115px] border-sky-800 border-2  transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10">
@@ -19,7 +20,7 @@ const Rain = ({ id }: { id: string }) => {
 			}
 		>
 			<AnimatePresence show={!!data}>
-				<div className="w-full rounded-lg py-2 px-4 mix-blend-soft-light relative overflow-hidden group h-[115px] flex flex-col justify-evenly border-sky-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10 bg-[#11091b]">
+				<div className="w-full rounded-lg py-2 px-4 mix-blend-screen relative overflow-hidden group h-[115px] flex flex-col justify-evenly border-sky-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10 bg-[#11091b]">
 					<div className={`flex  justify-center gap-3 items-center`}>
 						<div className={` text-5xl flex-shrink`}>💧</div>
 						<div className="flex flex-col items-center">

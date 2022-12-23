@@ -13,13 +13,11 @@ import {
 	WidgetRow,
 	Widgets,
 } from "../utils/zustand";
-import { ReactNode, useRef, useState } from "react";
-import { Minus, Plus, PlusCircle, PlusSquare, Trash, X } from "lucide-react";
-import { animated } from "@react-spring/web";
-import { getIndexFromRowCol, useDragGrid } from "../utils/drag";
+import { ReactNode } from "react";
+import { Plus } from "lucide-react";
 import Map from "./Map2";
-import { useGesture, useHover } from "@use-gesture/react";
 import { Reorder, motion, AnimatePresence } from "framer-motion";
+import { Dialog } from "./common/Dialog";
 
 function getWidget(info: WidgetInfo): ReactNode {
 	switch (info.type) {
@@ -38,36 +36,92 @@ function getWidget(info: WidgetInfo): ReactNode {
 	}
 }
 
+function getWidgetPreview(type: Widgets): ReactNode {
+	switch (type) {
+		case Widgets.AQI:
+			return <AirQuality isPreview id={type.toString()} />;
+		case Widgets.Rain:
+			return <Rain isPreview id={type.toString()} />;
+		case Widgets.UV:
+			return <UVIndex isPreview id={type.toString()} />;
+		case Widgets.Sun:
+			return <SunMoonCycle isPreview id={type.toString()} />;
+		case Widgets.Temp:
+			return <Current isPreview id={type.toString()} />;
+		default:
+			return null;
+	}
+}
+
 const Home = () => {
 	const { layout, updateLayout, layoutType } = useLayoutStore();
 
-	const { isEdit } = useEditStore((s) => ({
+	const {
+		isEdit,
+		selectedRow,
+		selectedWidget,
+		setIsReplaceDialogOpen,
+		setIsSelectDialogOpen,
+		isReplaceDialogOpen,
+		isSelectDialogOpen,
+		setSelectedRow,
+	} = useEditStore((s) => ({
 		isEdit: s.editMode,
-		setEditMode: s.setEditMode,
+		selectedRow: s.selectedRow,
+		selectedWidget: s.selectedWidget,
+		setSelectedRow: s.setSelectedRow,
+		setIsSelectDialogOpen: s.setOpenAddWidget,
+		setIsReplaceDialogOpen: s.setOpenChangeWidget,
+		isReplaceDialogOpen: s.openChangeWidget,
+		isSelectDialogOpen: s.openAddWidget,
 	}));
 
 	const isPage = layoutType === LayoutType.Page;
 
-	function addToRow(index: number) {
+	function addToRow(id: string, widget: Widgets) {
 		const newLayout: WidgetRow[] = [...layout.info];
-		newLayout[index].widgets.push(buildWidget());
+		newLayout.forEach((row) => {
+			if (row.id === id) {
+				row.widgets.push(buildWidget(widget));
+			}
+		});
 		updateLayout((layout) => ({
 			...layout,
 			info: newLayout,
 		}));
 	}
 
-	function removeFromRow(index: number, id: string) {
-		const newLayout = [...layout.info];
-		newLayout[index] = {
-			...newLayout[index],
-			widgets: newLayout[index].widgets.filter((item) => id !== item.id),
-		};
+	function replaceWidget(id: string, widget: Widgets) {
+		let newLayout: WidgetRow[] = [...layout.info];
+		newLayout = newLayout.map((row) => ({
+			...row,
+			widgets: row.widgets.map((w) => {
+				if (w.id === id) {
+					return {
+						...w,
+						type: widget,
+					};
+				}
+				return w;
+			}),
+		}));
 		updateLayout((layout) => ({
 			...layout,
 			info: newLayout,
 		}));
 	}
+
+	// function removeFromRow(index: number, id: string) {
+	// 	const newLayout = [...layout.info];
+	// 	newLayout[index] = {
+	// 		...newLayout[index],
+	// 		widgets: newLayout[index].widgets.filter((item) => id !== item.id),
+	// 	};
+	// 	updateLayout((layout) => ({
+	// 		...layout,
+	// 		info: newLayout,
+	// 	}));
+	// }
 	function addRow() {
 		const newLayout = [...layout.info];
 		newLayout.push(buildWidgetRow([buildWidget(Widgets.Rain)]));
@@ -76,14 +130,14 @@ const Home = () => {
 			info: newLayout,
 		}));
 	}
-	function removeRow(index: number) {
-		const newLayout = [...layout.info];
-		newLayout.splice(index, 1);
-		updateLayout((layout) => ({
-			...layout,
-			info: newLayout,
-		}));
-	}
+	// function removeRow(index: number) {
+	// 	const newLayout = [...layout.info];
+	// 	newLayout.splice(index, 1);
+	// 	updateLayout((layout) => ({
+	// 		...layout,
+	// 		info: newLayout,
+	// 	}));
+	// }
 
 	function updateRow(index: number, widgets: WidgetInfo[]) {
 		const newLayout = [...layout.info];
@@ -137,7 +191,10 @@ const Home = () => {
 									initial={{ opacity: 0 }}
 									animate={{ opacity: 1 }}
 									exit={{ opacity: 0 }}
-									onClick={() => addToRow(i)}
+									onClick={() => {
+										setIsSelectDialogOpen(true);
+										setSelectedRow(row.id);
+									}}
 									className="px-0.5 flex-shrink-0 h-full rounded-lg  border-indigo-400/30 hover:border-indigo-400/40 border-2 backdrop-blur-lg flex items-center justify-center shadow-lg shadow-transparent hover:shadow-indigo-400/30 active:scale-95 transition duration-500"
 								>
 									<Plus className="h-8 w-8 text-indigo-300" />
@@ -145,15 +202,62 @@ const Home = () => {
 							)}
 						</div>
 					))}
-
-					<button
-						className="py-1 w-full rounded-lg  border-indigo-400/30 hover:border-indigo-400/40 border-2 backdrop-blur-lg flex items-center justify-center shadow-lg shadow-transparent hover:shadow-indigo-400/30 active:scale-95 transition duration-500"
-						onClick={() => addRow()}
-					>
-						<Plus className="h-7 w-7 text-indigo-300" />
-					</button>
+					{isEdit && (
+						<button
+							className="py-1 w-full rounded-lg  border-indigo-400/30 hover:border-indigo-400/40 border-2 backdrop-blur-lg flex items-center justify-center shadow-lg shadow-transparent hover:shadow-indigo-400/30 active:scale-95 transition duration-500"
+							onClick={() => addRow()}
+						>
+							<Plus className="h-7 w-7 text-indigo-300" />
+						</button>
+					)}
 				</div>
 			</div>
+			<Dialog
+				open={isSelectDialogOpen}
+				setOpen={setIsSelectDialogOpen}
+				title={<h3 className="text-2xl text-white font-bold">Add a widget</h3>}
+			>
+				<div className="flex flex-wrap mt-2 z-50">
+					{Object.values(Widgets).map((widget) => (
+						<motion.button
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							key={widget}
+							onClick={() => {
+								addToRow(selectedRow, Widgets[widget]);
+								setIsSelectDialogOpen(false);
+							}}
+							className="w-1/2 p-2"
+						>
+							{getWidgetPreview(Widgets[widget])}
+						</motion.button>
+					))}
+				</div>
+			</Dialog>
+			<Dialog
+				open={isReplaceDialogOpen}
+				setOpen={setIsReplaceDialogOpen}
+				title={
+					<h3 className="text-2xl text-white font-bold">Replace widget</h3>
+				}
+			>
+				<div className="flex flex-wrap mt-2 z-50">
+					{Object.values(Widgets).map((widget) => (
+						<motion.button
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							key={widget}
+							onClick={() => {
+								replaceWidget(selectedWidget, Widgets[widget]);
+								setIsReplaceDialogOpen(false);
+							}}
+							className="w-1/2 p-2"
+						>
+							{getWidgetPreview(Widgets[widget])}
+						</motion.button>
+					))}
+				</div>
+			</Dialog>
 		</main>
 	);
 };

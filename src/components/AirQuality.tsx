@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useWeatherData } from "../pages/api/weather.swr";
 import * as React from "react";
 import { Particles } from "react-particles";
@@ -82,7 +81,7 @@ const CustParticles = ({ amountOfParticles }: CustParticlesProps) => {
 	);
 };
 
-const AirQuality = ({ id }: { id: string }) => {
+const AirQuality = ({ id, isPreview }: { id: string; isPreview?: boolean }) => {
 	const { data } = useWeatherData();
 
 	const aqi = data?.aqi;
@@ -91,6 +90,7 @@ const AirQuality = ({ id }: { id: string }) => {
 	return (
 		<EdittingWrapper
 			id={id}
+			isPreview={isPreview}
 			alternate={
 				<div className="w-full rounded-lg  bg-gradient-to-t from-green-400 to-green-300 backdrop-blur flex justify-center items-center h-[115px] border-emerald-800 border-2 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-emerald-700/10">
 					<div className="pointer-events-none bg-gradient-to-t to-green-800 from-[#050e10] bg-clip-text text-transparent text-3xl font-bold">
@@ -100,7 +100,7 @@ const AirQuality = ({ id }: { id: string }) => {
 			}
 		>
 			<AnimatePresence show={!!aqi}>
-				<div className=" w-full rounded-lg py-2 px-4 mix-blend-soft-light relative overflow-hidden group h-[115px] flex flex-col justify-evenly border-emerald-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-emerald-700/10 bg-[#11091b]">
+				<div className=" w-full rounded-lg py-2 px-4 mix-blend-screen relative overflow-hidden group h-[115px] flex flex-col justify-evenly border-emerald-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-emerald-700/10 bg-[#091b0b6d]">
 					<div className={`flex justify-center items-center `}>
 						<div
 							className={`text-5xl px-2 my-auto font-extrabold text-center bg-gradient-to-t from-green-800 to-green-300 bg-clip-text text-transparent`}

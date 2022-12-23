@@ -79,6 +79,14 @@ export const useLayoutStore = create<LayoutStore>()(
 type EditStore = {
 	editMode: boolean;
 	setEditMode: (editMode: boolean | ((editMode: boolean) => boolean)) => void;
+	selectedRow: string | null;
+	setSelectedRow: (selectedRow: string | null) => void;
+	selectedWidget: string | null;
+	setSelectedWidget: (selectedWidget: string | null) => void;
+	openAddWidget: boolean;
+	setOpenAddWidget: (openAddWidget: boolean) => void;
+	openChangeWidget: boolean;
+	setOpenChangeWidget: (openChangeWidget: boolean) => void;
 };
 
 export const useEditStore = create<EditStore>((set, get) => ({
@@ -89,5 +97,21 @@ export const useEditStore = create<EditStore>((set, get) => ({
 		} else {
 			set({ editMode });
 		}
+	},
+	selectedRow: null,
+	setSelectedRow: (selectedRow) => {
+		set({ selectedRow });
+	},
+	selectedWidget: null,
+	setSelectedWidget: (selectedWidget) => {
+		set({ selectedWidget });
+	},
+	openAddWidget: false,
+	setOpenAddWidget: (openAddWidget) => {
+		set({ openAddWidget });
+	},
+	openChangeWidget: false,
+	setOpenChangeWidget: (openChangeWidget) => {
+		set({ openChangeWidget });
 	},
 }));

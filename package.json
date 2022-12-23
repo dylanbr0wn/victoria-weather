@@ -17,6 +17,7 @@
 	"dependencies": {
 		"@formkit/auto-animate": "1.0.0-beta.3",
 		"@next-fetch/swr": "^0.0.2",
+		"@radix-ui/react-dialog": "^1.0.2",
 		"@radix-ui/react-tooltip": "^1.0.2",
 		"@react-spring/web": "^9.5.5",
 		"@tailwindcss/forms": "^0.5.2",

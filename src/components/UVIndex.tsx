@@ -3,7 +3,7 @@ import AnimatePresence from "./common/AnimatePresence";
 import * as React from "react";
 import { EdittingWrapper } from "./EditingWrapper";
 
-const UVIndex = ({ id }: { id: string }) => {
+const UVIndex = ({ id, isPreview }: { id: string; isPreview?: boolean }) => {
 	const { data } = useWeatherData();
 
 	const uvData = data?.uv;
@@ -19,6 +19,8 @@ const UVIndex = ({ id }: { id: string }) => {
 
 	return (
 		<EdittingWrapper
+			id={id}
+			isPreview={isPreview}
 			alternate={
 				<div className="w-full rounded-lg  backdrop-blur flex justify-center items-center h-[115px] border-amber-700 border-2  transition-all duration-500 shadow-lg shadow-transparent hover:shadow-amber-700/10 bg-gradient-to-b from-amber-300 to-orange-500">
 					<div className="bg-gradient-to-t from-[#161007] to-amber-900  bg-clip-text text-transparent text-3xl font-bold pointer-events-none">
