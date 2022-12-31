@@ -73,20 +73,23 @@ export const Dialog = ({ open, setOpen, title, children }: ModalProps) => {
 						>
 							<D.Content
 								forceMount
-								className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  rounded-xl border border-indigo-400/40 bg-base/70 p-5 z-50 shadow-xl shadow-indigo-400/20 backdrop-blur-xl `}
+								className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  rounded-xl border border-indigo-400/40 bg-base/80 z-50 shadow-xl shadow-indigo-400/20 backdrop-blur-xl flex flex-col w-1/2`}
 							>
-								<D.Title>{title}</D.Title>
+								<div className="flex items-center justify-between py-3 px-5 border-b border-indigo-400/40 bg-base rounded-t-xl">
+									<D.Title>{title}</D.Title>
+									<D.Close asChild>
+										<button className="text-neutral-400 hover:text-neutral-100 transition-colors duration-500 ">
+											<X className="h-5 w-5 " />
+										</button>
+									</D.Close>
+								</div>
 
 								<D.Description asChild>
 									<div className="text-2xl "> {children}</div>
 								</D.Description>
 
 								<D.Close asChild>
-									<div className="absolute top-3 right-3">
-										<button>
-											<X className="h-5 w-5" />
-										</button>
-									</div>
+									<div className="absolute top-3 right-3"></div>
 								</D.Close>
 							</D.Content>
 						</motion.div>

@@ -5,18 +5,202 @@ import Map, {
 	NavigationControl,
 	ScaleControl,
 	Source,
+	Layer,
+	Marker,
 } from "react-map-gl";
-import { Popup } from "react-map-gl";
-import { Layer } from "react-map-gl";
-import { flushSync } from "react-dom";
 import { useMapData } from "../pages/api/map.swr";
 import { usePointsData } from "../pages/api/points.swr";
-import AnimatePresence from "./common/AnimatePresence";
+import { Building2 } from "lucide-react";
+import { Feature, Point } from "geojson";
+import { PointProperties } from "../utils/types";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMapStore } from "../utils/zustand";
 
 interface MapProps {
 	lat?: number;
 	lng?: number;
 	zoom?: number;
+}
+
+type MapMarkerProps = {
+	data: Feature<Point, PointProperties>;
+};
+
+function MapMarker({ data }: MapMarkerProps) {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const { hoveredMarker, setHoveredMarker } = useMapStore();
+
+	const id = data.properties.station_id;
+
+	return (
+		<Marker
+			longitude={data.geometry.coordinates[0]}
+			latitude={data.geometry.coordinates[1]}
+			style={{ zIndex: isOpen ? 300 : hoveredMarker === id ? 400 : 200 }}
+		>
+			<AnimatePresence>
+				{!isOpen && (
+					<motion.div
+						key={`icon-${id}`}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1, transition: { delay: 0.3 } }}
+						exit={{ opacity: 0 }}
+						className="absolute top-0 left-0 h-8 w-8 -z-10 text-base"
+					>
+						<div className="absolute top-full  left-1/2 -translate-x-1/2 pointer-events-none">
+							{data.properties.temperature}℃
+						</div>
+						<div className="absolute top-full text-white blur-xs -z-10 font-bold blur-sm left-1/2 -translate-x-1/2 pointer-events-none ">
+							{data.properties.temperature}℃
+						</div>
+					</motion.div>
+				)}
+				{isOpen && (
+					<motion.div
+						key={`open-${id}`}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1, transition: { delay: 0.3 } }}
+						exit={{ opacity: 0 }}
+						className="absolute top-0 left-0 h-8 w-64 -z-10"
+					>
+						<div className="absolute top-full  left-1/2 -translate-x-1/2 pointer-events-none">
+							Click for details
+						</div>
+						<div className="absolute top-full text-white blur-xs -z-10 font-bold blur-sm left-1/2 -translate-x-1/2 pointer-events-none ">
+							Click for details
+						</div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+			<AnimatePresence>
+				<motion.button
+					key={`root-${id}`}
+					onClick={() => {
+						if (hoveredMarker === id) setHoveredMarker(null);
+						else setHoveredMarker(id);
+					}}
+					initial={{ width: "2rem", zIndex: 1 }}
+					whileHover={{ zIndex: 2 }}
+					animate={{
+						height: hoveredMarker === id ? "16rem" : "2rem",
+						transition: { mass: 1.2 },
+						width: isOpen ? "17rem" : "2rem",
+					}}
+					onHoverStart={() => {
+						setIsOpen(true);
+					}}
+					onHoverEnd={() => {
+						setIsOpen(false);
+						setHoveredMarker(null);
+					}}
+					className={`bg-base rounded-[18px] shadow text-base top-0 left-0 absolute flex flex-col overflow-hidden hover:border-indigo-400 border border-transparent box-content transition-colors duration-500`}
+				>
+					<motion.div
+						key="popup"
+						animate={{
+							transition: { mass: 1.2 },
+						}}
+						className="flex gap-3 items-center p-2 "
+						// initial={{ width: "2rem" }}
+
+						// exit={{ width: "2rem", transition: { delay: 0.3 } }}
+					>
+						<Building2 className="h-4 w-4 text-white flex-shrink-0" />
+
+						<AnimatePresence>
+							{isOpen && (
+								// <motion.a
+								// 	layout
+								// 	key={`title-${id}`}
+								// 	title="Station Data"
+								// 	rel="noopener noreferrer"
+								// 	target="_blank"
+								// 	href={`https://www.victoriaweather.ca/station.php?id=${data.properties.station_id}`}
+								// 	className="block h-4"
+								// >
+								<motion.h3
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									initial={{ opacity: 0 }}
+									className="font-bold leading-tight text-white text-sm text-left w-56 truncate h-4"
+								>
+									{data.properties.station_long_name}
+								</motion.h3>
+								// </motion.a>
+							)}
+						</AnimatePresence>
+					</motion.div>
+
+					<AnimatePresence>
+						{hoveredMarker === id && data && (
+							<motion.div
+								key={`info-${id}`}
+								animate={{ opacity: 1, transition: { delay: 0.3 } }}
+								exit={{ opacity: 0 }}
+								initial={{ opacity: 0 }}
+								className=" text-white p-4 w-64 h-64 text-sm  flex flex-col space-y-1 "
+							>
+								<div className="flex items-center">
+									<div className="mr-2">📍</div>
+									<div>{`${data.geometry.coordinates[1].toFixed(
+										7
+									)}, ${data.geometry.coordinates[0].toFixed(7)}`}</div>
+								</div>
+								<div className="flex items-center">
+									<div className="mr-2">🌡</div>
+									<div
+										className={`${
+											Number(data.properties.temperature) < 10
+												? "text-blue-500"
+												: Number(data.properties.temperature) < 20
+												? "text-yellow-400"
+												: Number(data.properties.temperature) < 30
+												? "text-green-500"
+												: "text-red-600"
+										}`}
+									>
+										{Number(data.properties.temperature).toFixed(1)}℃
+									</div>
+								</div>
+								<div className="flex items-center">
+									<div className="text-base mr-2">💧</div>
+									<div className="text-sky-500">
+										{data.properties.rain} {data.properties.rain_units}
+									</div>
+								</div>
+								<div className="flex  text-sky-200 items-center">
+									<div className="mr-2">Pressure</div>
+									<div className="text-sky-200">
+										{data.properties.pressure} {data.properties.pressure_units}
+									</div>
+								</div>
+								<div className="flex text-violet-300 items-center">
+									<div className="mr-2">Wind</div>
+									<div className="">
+										{data.properties.wind_speed}{" "}
+										{data.properties.wind_speed_units}{" "}
+										{Number(data.properties.wind_speed) !== 0
+											? data.properties.wind_speed_heading
+											: ""}
+									</div>
+								</div>
+								{data.properties.humidity ? (
+									<div className="flex text-cyan-300 items-center">
+										<div className="mr-2">Humidity</div>
+										<div className="">
+											{data.properties.humidity}{" "}
+											{data.properties.humidity_units}
+										</div>
+									</div>
+								) : null}
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</motion.button>
+			</AnimatePresence>
+		</Marker>
+	);
 }
 
 const CustMap = ({ lat, lng, zoom }: MapProps) => {
@@ -82,8 +266,8 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 	const show = !!pointsData && !!data;
 
 	return (
-		<div className="h-full relative text-center flex flex-col ">
-			<AnimatePresence show={show}>
+		<div className="h-full relative text-center flex flex-col w-full">
+			{show && (
 				<Map
 					id="map"
 					onLoad={onMapLoad}
@@ -120,152 +304,21 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 							paint={{
 								"line-color": "#119DA4",
 							}}
-							// style={(feature) => {
-							//         return { color: "#119DA4", opacity: 1, fill: false };
-							//     }}
 						/>
 					</Source>
-					<Source
-						id="points"
-						clusterProperties={{
-							totalTemperature: ["+", ["get", "temperature"]],
-						}}
-						cluster
-						type="geojson"
-						data={pointsData?.points}
-					>
-						<Layer
-							interactive
-							id="point"
-							type="symbol"
-							paint={{
-								"text-color": "#000",
-								"text-halo-color": "#fff",
-								"text-halo-width": 0.5,
-								"text-halo-blur": 1.5,
-							}}
-							layout={
-								// {
-								// 	"text-field": "station_id",
-								// 	"icon-image": "mapbox-marker-icon-gray",
-								// 	"text-anchor": "top",
-								// }
-								{
-									"text-field": [
-										"concat",
-										[
-											"case",
-											["has", "temperature"],
-											["get", "temperature"],
-											[
-												"number-format",
+					<span className="isolate">
+						{pointsData?.points.features.map((feature) => {
+							return (
+								<MapMarker key={feature.properties.station_id} data={feature} />
+							);
+						})}
+					</span>
 
-												[
-													"/",
-													["get", "totalTemperature"],
-													["get", "point_count"],
-												],
-												{ "max-fraction-digits": 1 },
-											],
-										],
-										"°C",
-									],
-									"icon-image": "mapbox-marker-icon-gray",
-									"text-anchor": "top",
-								}
-							}
-						/>
-					</Source>
-					{showPopup && (
-						<Popup
-							longitude={popupData.coordinates[0]}
-							latitude={popupData.coordinates[1]}
-							anchor="bottom"
-							focusAfterOpen={false}
-							onClose={() => {
-								flushSync(() => {
-									setPopupData(undefined);
-									setShowPopup(false);
-								});
-							}}
-						>
-							<div className="p-3">
-								<a
-									title="Station Data"
-									rel="noopener noreferrer"
-									target="_blank"
-									href={`https://www.victoriaweather.ca/station.php?id=${popupData.properties.station_id}`}
-								>
-									<h3 className="font-bold text-lg pb-2 leading-tight hover:underline">
-										{popupData.properties["station_long_name"]}
-									</h3>
-								</a>
-
-								<div className="text-sm  flex flex-col space-y-1">
-									<div className="flex w-full justify-center items-center">
-										<div className="mr-2">📍</div>
-										<div>{`${popupData.coordinates[1].toFixed(
-											7
-										)}, ${popupData.coordinates[0].toFixed(7)}`}</div>
-									</div>
-									<div className="flex w-full justify-center items-center">
-										<div className="mr-2">🌡</div>
-										<div
-											className={`${
-												Number(popupData.properties.temperature) < 10
-													? "text-blue-500"
-													: Number(popupData.properties.temperature) < 20
-													? "text-yellow-400"
-													: Number(popupData.properties.temperature) < 30
-													? "text-green-500"
-													: "text-red-600"
-											}`}
-										>
-											{Number(popupData.properties.temperature).toFixed(1)}℃
-										</div>
-									</div>
-									<div className="flex w-full justify-center items-center">
-										<div className="text-base mr-2">💧</div>
-										<div className="text-sky-500">
-											{popupData.properties.rain}{" "}
-											{popupData.properties.rain_units}
-										</div>
-									</div>
-									<div className="flex w-full text-sky-200 justify-center items-center">
-										<div className="mr-2">Pressure</div>
-										<div className="text-sky-200">
-											{popupData.properties.pressure}{" "}
-											{popupData.properties.pressure_units}
-										</div>
-									</div>
-									<div className="flex w-full text-violet-300 justify-center items-center">
-										<div className="mr-2">Wind</div>
-										<div className="">
-											{popupData.properties.wind_speed}{" "}
-											{popupData.properties.wind_speed_units}{" "}
-											{Number(popupData.properties.wind_speed) !== 0
-												? popupData.properties.wind_speed_heading
-												: ""}
-										</div>
-									</div>
-									{popupData.properties.humidity ? (
-										<div className="flex w-full text-cyan-300 justify-center items-center">
-											<div className="mr-2">Humidity</div>
-											<div className="">
-												{popupData.properties.humidity}{" "}
-												{popupData.properties.humidity_units}
-											</div>
-										</div>
-									) : null}
-								</div>
-							</div>
-						</Popup>
-					)}
 					<ScaleControl />
 					<FullscreenControl />
 					<NavigationControl />
 				</Map>
-			</AnimatePresence>
+			)}
 			{!show && (
 				<div className="w-full h-full bg-slate-800 animate-pulse rounded-lg overflow-hidden flex flex-col justify-center">
 					<div className=" text-white ">Loading map...</div>

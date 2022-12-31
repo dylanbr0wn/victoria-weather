@@ -27,22 +27,11 @@ export function buildRow(): WidgetRow {
 	};
 }
 
-// const defaultDashboardLayout: Layout = {
-// 	map: {},
-// 	info: [
-// 		{
-// 			id: cuid(),
-// 			widgets: [buildWidget(Widgets.Temp)],
-// 		},
-// 		{ id: cuid(), widgets: [buildWidget(Widgets.Rain)] },
-// 		{ id: cuid(), widgets: [buildWidget(Widgets.UV)] },
-// 		{ id: cuid(), widgets: [buildWidget(Widgets.Sun)] },
-// 		{ id: cuid(), widgets: [buildWidget(Widgets.AQI)] },
-// 	],
-// };
-
 const defaultDashboardLayout: Layout = {
-	map: {},
+	map: {
+		position: "left",
+		width: 66,
+	},
 	info: [
 		buildWidget(Widgets.Temp),
 		buildWidget(Widgets.Rain),
@@ -53,7 +42,7 @@ const defaultDashboardLayout: Layout = {
 };
 
 export type Layout = {
-	map: {};
+	map: { position: "left" | "right"; width: number };
 	info: WidgetInfo[];
 };
 
@@ -88,41 +77,25 @@ export const useLayoutStore = create<LayoutStore>()(
 );
 
 type EditStore = {
-	editMode: boolean;
-	setEditMode: (editMode: boolean | ((editMode: boolean) => boolean)) => void;
-	selectedRow: string | null;
-	setSelectedRow: (selectedRow: string | null) => void;
-	selectedWidget: string | null;
-	setSelectedWidget: (selectedWidget: string | null) => void;
-	openAddWidget: boolean;
-	setOpenAddWidget: (openAddWidget: boolean) => void;
-	openChangeWidget: boolean;
-	setOpenChangeWidget: (openChangeWidget: boolean) => void;
+	isConfigureDialogOpen: boolean;
+	setIsConfigureDialogOpen: (isConfigureDialogOpen: boolean) => void;
 };
 
 export const useEditStore = create<EditStore>((set, get) => ({
-	editMode: false,
-	setEditMode: (editMode) => {
-		if (typeof editMode === "function") {
-			set({ editMode: editMode(get().editMode) });
-		} else {
-			set({ editMode });
-		}
+	isConfigureDialogOpen: false,
+	setIsConfigureDialogOpen: (isConfigureDialogOpen: boolean) => {
+		set({ isConfigureDialogOpen });
 	},
-	selectedRow: null,
-	setSelectedRow: (selectedRow) => {
-		set({ selectedRow });
-	},
-	selectedWidget: null,
-	setSelectedWidget: (selectedWidget) => {
-		set({ selectedWidget });
-	},
-	openAddWidget: false,
-	setOpenAddWidget: (openAddWidget) => {
-		set({ openAddWidget });
-	},
-	openChangeWidget: false,
-	setOpenChangeWidget: (openChangeWidget) => {
-		set({ openChangeWidget });
+}));
+
+type MapStore = {
+	hoveredMarker: string | null;
+	setHoveredMarker: (hoveredMarker: string | null) => void;
+};
+
+export const useMapStore = create<MapStore>((set) => ({
+	hoveredMarker: null,
+	setHoveredMarker: (hoveredMarker: string | null) => {
+		set({ hoveredMarker });
 	},
 }));

@@ -7,7 +7,7 @@ import CommandMenu from "./CommandDialog";
 
 const Header = () => {
 	const { setEditMode } = useEditStore((store) => ({
-		setEditMode: store.setEditMode,
+		setEditMode: store.setIsConfigureDialogOpen,
 	}));
 
 	return (

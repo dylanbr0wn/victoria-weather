@@ -139,6 +139,10 @@ export interface PointProperties {
 	uv_index_units: string;
 	wind_speed_direction: number;
 	wind_speed: number;
+	wind_speed_units: string;
+	wind_speed_heading: string;
+	humidity: string;
+	humidity_units: string;
 }
 
 export interface Point extends GeoJSON.Point {

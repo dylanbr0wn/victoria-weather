@@ -14,10 +14,21 @@ import {
 	Widgets,
 } from "../utils/zustand";
 import { ReactNode } from "react";
-import { Plus, Trash } from "lucide-react";
+import { Check, LayoutDashboard, Plus, Trash } from "lucide-react";
 import Map from "./Map2";
-import { Reorder, motion, AnimatePresence } from "framer-motion";
+import {
+	Reorder,
+	motion,
+	AnimatePresence,
+	useDragControls,
+} from "framer-motion";
 import { Dialog } from "./common/Dialog";
+import { EdittingWrapper } from "./EditingWrapper";
+import * as Tabs from "@radix-ui/react-tabs";
+import { Radio } from "./common/Radio";
+import * as Slider from "@radix-ui/react-slider";
+import { WidthSlider } from "./common/Slider";
+import * as Checkbox from "@radix-ui/react-checkbox";
 
 function getWidget(info: WidgetInfo): ReactNode {
 	switch (info.type) {
@@ -53,38 +64,44 @@ function getWidgetPreview(type: Widgets): ReactNode {
 	}
 }
 
+function DraggableItem({ widget }: { widget: WidgetInfo }) {
+	const controls = useDragControls();
+	return (
+		<Reorder.Item
+			key={widget.id}
+			layout
+			drag
+			dragControls={controls}
+			dragListener={false}
+			initial={{ opacity: 0, x: 50 }}
+			animate={{ opacity: 1, x: 0 }}
+			exit={{ opacity: 0, x: 50 }}
+			value={widget}
+			style={{ width: `${widget.w * 100}%` }}
+			className="flex-grow"
+		>
+			<EdittingWrapper onPointerDown={(e) => controls.start(e)}>
+				{getWidget(widget)}
+			</EdittingWrapper>
+		</Reorder.Item>
+	);
+}
+
 const Home = () => {
 	const { layout, updateLayout, layoutType } = useLayoutStore();
 
-	const {
-		isEdit,
-		selectedRow,
-		selectedWidget,
-		setIsReplaceDialogOpen,
-		setIsSelectDialogOpen,
-		isReplaceDialogOpen,
-		isSelectDialogOpen,
-		setSelectedRow,
-	} = useEditStore((s) => ({
-		isEdit: s.editMode,
-		selectedRow: s.selectedRow,
-		selectedWidget: s.selectedWidget,
-		setSelectedRow: s.setSelectedRow,
-		setIsSelectDialogOpen: s.setOpenAddWidget,
-		setIsReplaceDialogOpen: s.setOpenChangeWidget,
-		isReplaceDialogOpen: s.openChangeWidget,
-		isSelectDialogOpen: s.openAddWidget,
-	}));
+	const { isConfigureDialogOpen, setIsConfigureDialogOpen } = useEditStore(
+		(s) => ({
+			isConfigureDialogOpen: s.isConfigureDialogOpen,
+			setIsConfigureDialogOpen: s.setIsConfigureDialogOpen,
+		})
+	);
 
 	const isPage = layoutType === LayoutType.Page;
 
 	function addToRow(id: string, widget: Widgets) {
-		const newLayout: WidgetRow[] = [...layout.info];
-		newLayout.forEach((row) => {
-			if (row.id === id) {
-				row.widgets.push(buildWidget(widget));
-			}
-		});
+		const newLayout = [...layout.info];
+		newLayout.push(buildWidget(widget));
 		updateLayout((layout) => ({
 			...layout,
 			info: newLayout,
@@ -92,183 +109,158 @@ const Home = () => {
 	}
 
 	function replaceWidget(id: string, widget: Widgets) {
-		let newLayout: WidgetRow[] = [...layout.info];
-		newLayout = newLayout.map((row) => ({
-			...row,
-			widgets: row.widgets.map((w) => {
-				if (w.id === id) {
-					return {
-						...w,
-						type: widget,
-					};
-				}
-				return w;
-			}),
-		}));
+		let newLayout = layout.info.map((w) =>
+			w.id === id ? buildWidget(widget) : w
+		);
 		updateLayout((layout) => ({
 			...layout,
 			info: newLayout,
 		}));
 	}
 
-	// function removeFromRow(index: number, id: string) {
-	// 	const newLayout = [...layout.info];
-	// 	newLayout[index] = {
-	// 		...newLayout[index],
-	// 		widgets: newLayout[index].widgets.filter((item) => id !== item.id),
-	// 	};
-	// 	updateLayout((layout) => ({
-	// 		...layout,
-	// 		info: newLayout,
-	// 	}));
-	// }
-	function addRow() {
-		const newLayout = [...layout.info];
-		newLayout.push(buildWidgetRow([buildWidget(Widgets.Rain)]));
+	function updateRow(widgets: WidgetInfo[]) {
 		updateLayout((layout) => ({
 			...layout,
-			info: newLayout,
+			info: widgets,
 		}));
 	}
-	// function removeRow(index: number) {
-	// 	const newLayout = [...layout.info];
-	// 	newLayout.splice(index, 1);
-	// 	updateLayout((layout) => ({
-	// 		...layout,
-	// 		info: newLayout,
-	// 	}));
-	// }
 
-	function updateRow(index: number, widgets: WidgetInfo[]) {
-		const newLayout = [...layout.info];
-		newLayout[index] = {
-			...newLayout[index],
-			widgets,
-		};
-		updateLayout((layout) => ({
-			...layout,
-			info: newLayout,
-		}));
+	function isInLayout(widget: Widgets) {
+		return layout.info.some((w) => w.type === widget);
 	}
 
 	return (
-		<main className="flex-grow z-10 overflow-hidden">
-			<div className={`flex ${isPage ? "flex-col" : "flex-row"} h-full`}>
-				<div className="flex-grow px-3">
+		<main className="flex-grow z-10 overflow-hidden p-3">
+			<div
+				className={`flex h-full gap-3 ${
+					layout.map.position === "left" ? "flex-row" : "flex-row-reverse"
+				} `}
+			>
+				<div className="flex-grow">
 					<Map />
 				</div>
 				<div
-					className={`flex flex-col gap-3 px-3 w-[500px]
-					 `}
+					className="flex flex-col gap-3 "
+					style={{ width: `${100 - layout.map.width}%` }}
 				>
-					{layout.info.map((row, i) => (
-						<div key={row.id} className="flex gap-3">
-							<Reorder.Group
-								values={row.widgets}
-								onReorder={(order) => updateRow(i, order)}
-								className="flex-grow flex gap-3"
-							>
-								<AnimatePresence>
-									{row.widgets.map((item) => (
-										<Reorder.Item
-											key={item.id}
-											layout
-											drag
-											initial={{ opacity: 0, x: 50 }}
-											animate={{ opacity: 1, x: 0 }}
-											exit={{ opacity: 0, x: 50 }}
-											value={item}
-											className="w-full"
-										>
-											{getWidget(item)}
-										</Reorder.Item>
-									))}
-									{row.widgets.length === 0 && (
-										<motion.div
-											key="empty"
-											className="w-full h-[115px] bg-base border border-neutral-400/40 rounded-lg flex items-center justify-center p-1"
-											layout
-										>
-											<button className="h-full w-full rounded-md flex items-center justify-center hover:bg-rose-500/30 gap-3">
-												<div className="text-lg text-rose-500">Remove Row</div>{" "}
-												<Trash className="h-6 w-6 text-rose-500" />
-											</button>
-										</motion.div>
-									)}
-								</AnimatePresence>
-							</Reorder.Group>
-							{isEdit && (
-								<motion.button
-									layout
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-									onClick={() => {
-										setIsSelectDialogOpen(true);
-										setSelectedRow(row.id);
-									}}
-									className="px-0.5 flex-shrink-0 h-full rounded-lg  border-indigo-400/30 hover:border-indigo-400/40 border-2 backdrop-blur-lg flex items-center justify-center shadow-lg shadow-transparent hover:shadow-indigo-400/30 active:scale-95 transition duration-500"
-								>
-									<Plus className="h-8 w-8 text-indigo-300" />
-								</motion.button>
-							)}
-						</div>
-					))}
-					{isEdit && (
-						<button
-							className="py-1 w-full rounded-lg  border-indigo-400/30 hover:border-indigo-400/40 border-2 backdrop-blur-lg flex items-center justify-center shadow-lg shadow-transparent hover:shadow-indigo-400/30 active:scale-95 transition duration-500"
-							onClick={() => addRow()}
-						>
-							<Plus className="h-7 w-7 text-indigo-300" />
-						</button>
-					)}
+					<Reorder.Group
+						onReorder={updateRow}
+						values={layout.info}
+						className="w-full flex flex-wrap gap-3"
+					>
+						{layout.info.map((widget) => (
+							<DraggableItem key={widget.id} widget={widget} />
+						))}
+					</Reorder.Group>
 				</div>
 			</div>
 			<Dialog
-				open={isSelectDialogOpen}
-				setOpen={setIsSelectDialogOpen}
-				title={<h3 className="text-2xl text-white font-bold">Add a widget</h3>}
+				open={isConfigureDialogOpen}
+				setOpen={setIsConfigureDialogOpen}
+				title={<h3 className="text-xl text-lighter font-bold">Settings</h3>}
 			>
-				<div className="flex flex-wrap mt-2 z-50">
-					{Object.values(Widgets).map((widget) => (
-						<motion.button
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							key={widget}
-							onClick={() => {
-								addToRow(selectedRow, Widgets[widget]);
-								setIsSelectDialogOpen(false);
-							}}
-							className="w-1/2 p-2"
+				<Tabs.Root defaultValue="layout" className="flex h-[400px]">
+					<Tabs.List className="flex flex-col border-r rounded-bl-xl w-32 border-indigo-400/40 bg-base divide-y">
+						<Tabs.Trigger
+							value="layout"
+							className=" aria-selected:text-lighter flex gap-3 items-center p-3 text-neutral-400 aria-selected:hover:text-neutral-100 hover:text-neutral-100 transition-colors"
 						>
-							{getWidgetPreview(Widgets[widget])}
-						</motion.button>
-					))}
-				</div>
-			</Dialog>
-			<Dialog
-				open={isReplaceDialogOpen}
-				setOpen={setIsReplaceDialogOpen}
-				title={
-					<h3 className="text-2xl text-white font-bold">Replace widget</h3>
-				}
-			>
-				<div className="flex flex-wrap mt-2 z-50">
-					{Object.values(Widgets).map((widget) => (
-						<motion.button
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							key={widget}
-							onClick={() => {
-								replaceWidget(selectedWidget, Widgets[widget]);
-								setIsReplaceDialogOpen(false);
-							}}
-							className="w-1/2 p-2"
-						>
-							{getWidgetPreview(Widgets[widget])}
-						</motion.button>
-					))}
-				</div>
+							<LayoutDashboard className="h-4 w-4 " />
+							<span className="text-lg font-bold">Layout</span>
+						</Tabs.Trigger>
+					</Tabs.List>
+					<Tabs.Content value="layout" className="w-full overflow-scroll">
+						<div className="flex flex-col gap-3 text-lighter p-3 ">
+							<p className="text-sm">
+								Configure your dashboard as you please!{" "}
+							</p>
+							<div>
+								<h3 className="text-lg font-bold ">Map Location</h3>
+								<p className="text-sm">
+									Which side of the dashboard should the map be?
+								</p>
+								<Radio
+									onChange={(position) =>
+										updateLayout((layout) => ({
+											...layout,
+											map: {
+												...layout.map,
+												position,
+											},
+										}))
+									}
+									value={layout.map.position}
+									options={[
+										{ label: "Left", value: "left" },
+										{ label: "Right", value: "right" },
+									]}
+								/>
+							</div>
+							<div className="pb-3">
+								<h3 className="text-lg font-bold ">Map Size</h3>
+								<p className="text-sm">
+									How much of the dashboard should the map take up?
+								</p>
+								<WidthSlider
+									value={layout.map.width}
+									handleChange={(width) =>
+										updateLayout((layout) => {
+											return {
+												...layout,
+												map: {
+													...layout.map,
+													width,
+												},
+											};
+										})
+									}
+								/>
+							</div>
+							<div>
+								<h3 className="text-lg font-bold">Widgets</h3>
+								<p className="text-sm">Which widgets should be displayed?</p>
+
+								<ul className="flex flex-wrap gap-3 justify-between">
+									{Object.keys(Widgets)
+										.filter((v) => isNaN(Number(v)))
+										.map((item) => (
+											<li className="w-2/5 h-[115px]" key={item}>
+												<Checkbox.Root
+													checked={isInLayout(Widgets[item])}
+													onCheckedChange={(checked) => {
+														if (checked) {
+															updateLayout((layout) => ({
+																...layout,
+																info: [
+																	...layout.info,
+																	buildWidget(Widgets[item]),
+																],
+															}));
+														} else {
+															updateLayout((layout) => ({
+																...layout,
+																info: layout.info.filter(
+																	(widget) => widget.type !== Widgets[item]
+																),
+															}));
+														}
+													}}
+													className="w-full relative"
+												>
+													<Checkbox.Indicator className="absolute top-0 left-0 w-full h-full border-4 border-indigo-400 rounded-lg z-10">
+														<div className="absolute top-0 left-0 p-1 bg-indigo-400 rounded-br-xl">
+															<Check className="h-6 w-6 text-base" />
+														</div>
+													</Checkbox.Indicator>
+													{getWidgetPreview(Widgets[item])}
+												</Checkbox.Root>
+											</li>
+										))}
+								</ul>
+							</div>
+						</div>
+					</Tabs.Content>
+				</Tabs.Root>
 			</Dialog>
 		</main>
 	);

@@ -36,11 +36,11 @@ code {
 	@apply text-red-600;
 }
 .mapboxgl-popup-tip {
-	@apply border-t-gray-800;
+	@apply border-y-base #{!important};
 }
 
 .mapboxgl-popup-content {
-	@apply bg-gray-800 text-white rounded-lg shadow-md;
+	@apply bg-base text-white rounded-lg shadow-md #{!important};
 }
 
 .bg-glow {
