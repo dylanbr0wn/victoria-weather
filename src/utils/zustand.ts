@@ -13,6 +13,7 @@ export enum Widgets {
 	AQI,
 	Rain,
 	Temp,
+	MaxMin,
 }
 
 export type WidgetRow = {
@@ -34,6 +35,7 @@ const defaultDashboardLayout: Layout = {
 	},
 	info: [
 		buildWidget(Widgets.Temp),
+		buildWidget(Widgets.MaxMin),
 		buildWidget(Widgets.Rain),
 		buildWidget(Widgets.UV),
 		buildWidget(Widgets.Sun),
@@ -78,12 +80,19 @@ export const useLayoutStore = create<LayoutStore>()(
 
 type EditStore = {
 	isConfigureDialogOpen: boolean;
-	setIsConfigureDialogOpen: (isConfigureDialogOpen: boolean) => void;
+	setIsConfigureDialogOpen: (
+		isConfigureDialogOpen: boolean | ((old: boolean) => boolean)
+	) => void;
 };
 
 export const useEditStore = create<EditStore>((set, get) => ({
 	isConfigureDialogOpen: false,
-	setIsConfigureDialogOpen: (isConfigureDialogOpen: boolean) => {
+	setIsConfigureDialogOpen: (isConfigureDialogOpen) => {
+		if (typeof isConfigureDialogOpen === "function") {
+			isConfigureDialogOpen = isConfigureDialogOpen(
+				get().isConfigureDialogOpen
+			);
+		}
 		set({ isConfigureDialogOpen });
 	},
 }));

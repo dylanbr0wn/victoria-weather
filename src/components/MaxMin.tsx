@@ -29,7 +29,8 @@ function processPoints(
 ) {
 	const maxTemp = max?.properties.temperature;
 	const minTemp = min?.properties.temperature;
-	if (!maxTemp || !minTemp) return null;
+
+	if (maxTemp === undefined || minTemp === undefined) return null;
 	const tempScalePoints = points.reduce<TempScalePoint>((acc, point) => {
 		if (point.properties.station_id === max.properties.station_id) return acc;
 		if (point.properties.station_id === min.properties.station_id) return acc;
@@ -55,6 +56,7 @@ function processPoints(
 		}
 		return acc;
 	}, {});
+	console.log(tempScalePoints);
 	return Object.values(tempScalePoints);
 }
 
@@ -71,8 +73,8 @@ const MaxMin = () => {
 
 	return (
 		<AnimatePresence show={!!data}>
-			<div className={`flex pt-16 pb-6 w-full rounded-md justify-center`}>
-				<div className="w-3/4 h-2 relative mx-auto">
+			<div className="w-full rounded-lg py-2 px-4 mix-blend-screen relative overflow-hidden group h-[115px] flex flex-col justify-end gap-3 border-violet-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-violet-700/10 bg-gradient-to-r from-[#07051c] to-[#1f1106]">
+				<div className="w-3/4 h-2 relative mx-auto mt-8">
 					<div className="h-full w-full rounded-full bg-gradient-to-r from-indigo-700 via-teal-400 to-orange-600" />
 					<div className="absolute w-full h-full rounded-full bg-gradient-to-r from-indigo-700 via-teal-400 to-orange-600 mx-auto blur-xl top-0" />
 
@@ -98,9 +100,6 @@ const MaxMin = () => {
 								<div className="rounded-full h-10 w-10 bg-indigo-600 absolute top-0 left-0 -translate-y-[10px] -translate-x-[10px] -z-10 peer-hover:opacity-20 opacity-0 transition-opacity duration-300 blur " />
 							</div>
 						</Tooltip>
-						{/* <div className="text-indigo-400 opacity-80 font-thin ">
-							{data?.min_point.properties.station_long_name}
-						</div> */}
 					</div>
 
 					{tempPoints?.map((point) => {
@@ -171,13 +170,14 @@ const MaxMin = () => {
 								</svg>
 							</div>
 						</Tooltip>
-
-						{/* <div className="text-orange-400 opacity-80 font-thin ">
-							{data?.max_point.properties.station_long_name}
-						</div> */}
 					</div>
-
-					{/* <div className="rounded-full h-5 w-5 bg-orange-600 absolute right-0 top-0 translate-x-1/2 -translate-y-[6px] shadow-md z-10"></div> */}
+				</div>
+				<div className="w-full text-center text-sm text-white">
+					{tempPoints?.length}
+					<span className="opacity-50">
+						{" "}
+						stations reporting temperature data
+					</span>
 				</div>
 			</div>
 		</AnimatePresence>

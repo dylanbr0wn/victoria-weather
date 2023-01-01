@@ -81,7 +81,7 @@ const CustParticles = ({ amountOfParticles }: CustParticlesProps) => {
 	);
 };
 
-const AirQuality = ({ id, isPreview }: { id: string; isPreview?: boolean }) => {
+const AirQuality = () => {
 	const { data } = useWeatherData();
 
 	const aqi = data?.aqi;

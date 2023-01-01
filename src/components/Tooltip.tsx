@@ -12,7 +12,7 @@ export default function Tooltip({ children, content }: PointToolTipProps) {
 			<RTooltip.Trigger asChild>{children}</RTooltip.Trigger>
 			<RTooltip.Portal>
 				<RTooltip.Content className=" z-50" sideOffset={5}>
-					<div className="bg-black/50 py-1 px-2 border rounded-lg backdrop-blur-lg text-white border-neutral-800">
+					<div className="bg-black/50 py-1 px-2 border rounded-lg backdrop-blur-lg text-white border-indigo-400/40">
 						{content}
 					</div>
 

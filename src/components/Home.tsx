@@ -5,43 +5,38 @@ import SunMoonCycle from "../components/SunMoonCycle";
 import Current from "./Current";
 import {
 	buildWidget,
-	buildWidgetRow,
 	LayoutType,
 	useEditStore,
 	useLayoutStore,
 	WidgetInfo,
-	WidgetRow,
 	Widgets,
 } from "../utils/zustand";
 import { ReactNode } from "react";
-import { Check, LayoutDashboard, Plus, Trash } from "lucide-react";
+import { Check, LayoutDashboard } from "lucide-react";
 import Map from "./Map2";
-import {
-	Reorder,
-	motion,
-	AnimatePresence,
-	useDragControls,
-} from "framer-motion";
+import { Reorder, useDragControls } from "framer-motion";
 import { Dialog } from "./common/Dialog";
 import { EdittingWrapper } from "./EditingWrapper";
 import * as Tabs from "@radix-ui/react-tabs";
 import { Radio } from "./common/Radio";
-import * as Slider from "@radix-ui/react-slider";
 import { WidthSlider } from "./common/Slider";
 import * as Checkbox from "@radix-ui/react-checkbox";
+import MaxMin from "./MaxMin";
 
 function getWidget(info: WidgetInfo): ReactNode {
 	switch (info.type) {
 		case Widgets.AQI:
-			return <AirQuality id={info.id} />;
+			return <AirQuality />;
 		case Widgets.Rain:
-			return <Rain id={info.id} />;
+			return <Rain />;
 		case Widgets.UV:
 			return <UVIndex id={info.id} />;
 		case Widgets.Sun:
 			return <SunMoonCycle id={info.id} />;
 		case Widgets.Temp:
 			return <Current id={info.id} />;
+		case Widgets.MaxMin:
+			return <MaxMin />;
 		default:
 			return null;
 	}
@@ -50,15 +45,17 @@ function getWidget(info: WidgetInfo): ReactNode {
 function getWidgetPreview(type: Widgets): ReactNode {
 	switch (type) {
 		case Widgets.AQI:
-			return <AirQuality isPreview id={type.toString()} />;
+			return <AirQuality />;
 		case Widgets.Rain:
-			return <Rain isPreview id={type.toString()} />;
+			return <Rain isPreview />;
 		case Widgets.UV:
 			return <UVIndex isPreview id={type.toString()} />;
 		case Widgets.Sun:
 			return <SunMoonCycle isPreview id={type.toString()} />;
 		case Widgets.Temp:
 			return <Current isPreview id={type.toString()} />;
+		case Widgets.MaxMin:
+			return <MaxMin />;
 		default:
 			return null;
 	}
@@ -140,7 +137,7 @@ const Home = () => {
 					<Map />
 				</div>
 				<div
-					className="flex flex-col gap-3 "
+					className="flex flex-col gap-3 overflow-scroll"
 					style={{ width: `${100 - layout.map.width}%` }}
 				>
 					<Reorder.Group
@@ -252,7 +249,9 @@ const Home = () => {
 															<Check className="h-6 w-6 text-base" />
 														</div>
 													</Checkbox.Indicator>
-													{getWidgetPreview(Widgets[item])}
+													<span className="pointer-events-none">
+														{getWidgetPreview(Widgets[item])}
+													</span>
 												</Checkbox.Root>
 											</li>
 										))}

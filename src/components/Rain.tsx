@@ -2,7 +2,7 @@ import { useRainData } from "../pages/api/rain.swr";
 import AnimatePresence from "./common/AnimatePresence";
 import { EdittingWrapper } from "./EditingWrapper";
 
-const Rain = ({ id, isPreview }: { id: string; isPreview?: boolean }) => {
+const Rain = ({ isPreview }: { isPreview?: boolean }) => {
 	const { data } = useRainData();
 
 	if (!data) return null;
