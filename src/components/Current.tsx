@@ -22,7 +22,7 @@ function DayForecast({ day }: { day: Weather["forecast"]["forecastday"][0] }) {
 			className={`flex  flex-col  py-1 px-2 transition-all opacity-50 hover:opacity-100 duration-500 border-indigo-400/20 first:border-r last:border-l`}
 		>
 			<div className="flex text-center">
-				<div className="text-slate-500 text-sm font-bold  leading-none rounded bg-gray-800 px-0.5">
+				<div className="text-slate-500 text-sm font-bold  leading-none rounded dark:bg-neutral-800 bg-neutral-300 px-0.5 transition-colors duration-500">
 					{dayjs(day.date).format("D/MM")}
 				</div>
 			</div>
@@ -90,7 +90,7 @@ export default function Current({
       </div> */}
 						<div className={` flex flex-col ${color}`}>
 							<div className="flex text-center">
-								<div className="text-slate-500 text-sm font-bold  leading-none rounded bg-gray-800 px-0.5">
+								<div className="text-slate-500 text-sm font-bold  leading-none rounded dark:bg-neutral-800 bg-neutral-300 px-0.5 transition-colors duration-500">
 									{dayjs(observation_time).format("D/MM")}
 								</div>
 							</div>
