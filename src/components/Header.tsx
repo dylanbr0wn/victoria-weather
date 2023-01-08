@@ -1,9 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import { Cog, Github, Sun } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useEditStore } from "../utils/zustand";
 import CommandMenu from "./CommandDialog";
+
+const ThemeButton = dynamic(() => import("./ThemeButton"), { ssr: false });
 
 const Header = () => {
 	const { setEditMode } = useEditStore((store) => ({
@@ -12,7 +15,7 @@ const Header = () => {
 
 	return (
 		<div className="h-16 z-10 flex-shrink-0 w-full">
-			<div className="w-full px-10 mx-auto text-white flex py-2 justify-between items-center h-full">
+			<div className="w-full px-10 mx-auto dark:text-white flex py-2 justify-between items-center h-full">
 				{/* <div className="py-3 text-4xl inline-block"></div> */}
 				<div className="py-1 px-2 inline-block ">
 					<Link href="/" className="block">
@@ -29,9 +32,7 @@ const Header = () => {
 					<CommandMenu />
 
 					{/* <Tooltip content={<span className="text-sm">Light Mode</span>}> */}
-					<button>
-						<Sun className="h-6 w-auto text-white opacity-70 hover:opacity-90 transition-opacity duration-500" />
-					</button>
+					<ThemeButton />
 					{/* </Tooltip> */}
 
 					{/* <Tooltip content={<span className="text-sm">GitHub</span>}> */}
@@ -40,11 +41,11 @@ const Header = () => {
 						target="_blank"
 						rel="noreferrer"
 					>
-						<Github className="h-6 w-auto text-white opacity-70 hover:opacity-90 transition-opacity duration-500" />
+						<Github className="h-6 w-auto dark:text-white opacity-70 hover:opacity-90 transition-opacity duration-500" />
 					</a>
 					{/* </Tooltip> */}
 					<button onClick={() => setEditMode((old) => !old)}>
-						<Cog className="h-5 w-auto text-white opacity-70 hover:opacity-90 transition-all duration-500 hover:rotate-45 " />
+						<Cog className="h-5 w-auto dark:text-white opacity-70 hover:opacity-90 transition-all duration-500 hover:rotate-45 " />
 					</button>
 				</div>
 			</div>

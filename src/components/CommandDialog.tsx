@@ -7,17 +7,18 @@ import { PointProperties } from "../utils/types";
 
 function CommandItem({ point }: { point: Feature<Point, PointProperties> }) {
 	return (
-		<a
-			rel="noopener noreferrer"
-			target="_blank"
-			href={`https://www.victoriaweather.ca/station.php?id=${point?.properties.station_id}`}
+		<Command.Item
+			value={point?.properties.station_long_name}
+			className=" py-3 px-4  border border-t-transparent border-x-transparent border-mute hover:border-light last:border-b-transparent last:rounded-b-lg transition-all  cursor-pointer hover:scale-105 dark:bg-base bg-white hover:rounded-lg z-10 hover:z-50 group/item relative shadow-lg shadow-transparent hover:shadow-indigo-700/30"
 		>
-			<Command.Item
-				value={point?.properties.station_long_name}
-				className=" py-3 px-4  flex items-center gap-3 border border-t-transparent border-x-transparent border-mute hover:border-light last:border-b-transparent last:rounded-b-lg transition-all  cursor-pointer hover:scale-105 bg-base hover:rounded-lg z-10 hover:z-50 group/item relative shadow-lg shadow-transparent hover:shadow-indigo-700/30"
+			<a
+				className=" flex items-center gap-3"
+				rel="noopener noreferrer"
+				target="_blank"
+				href={`https://www.victoriaweather.ca/station.php?id=${point?.properties.station_id}`}
 			>
 				<Building className="h-5 w-5 text-light" />
-				<div className="text-lighter">
+				<div className="dark:text-lighter text-light">
 					{point?.properties?.station_long_name}
 				</div>
 				<div className="flex-grow" />
@@ -35,14 +36,14 @@ function CommandItem({ point }: { point: Feature<Point, PointProperties> }) {
 						{point?.properties.temperature_units}
 					</div>
 				</div>
-			</Command.Item>
-		</a>
+			</a>
+		</Command.Item>
 	);
 }
 
 function EmptyCommandItem({ search }: { search: string }) {
 	return (
-		<Command.Empty className=" py-3 px-4  flex items-center gap-3 border border-t-transparent border-x-transparent border-mute last:border-b-transparent last:rounded-b-lg transition-all bg-base  z-10  relative shadow-lg shadow-transparent">
+		<Command.Empty className=" py-3 px-4  flex items-center gap-3 border border-t-transparent border-x-transparent border-mute last:border-b-transparent last:rounded-b-lg transition-all dark:bg-base bg-white  z-10  relative shadow-lg shadow-transparent">
 			<X className="h-5 w-5 text-light" />
 			<div className="text-lighter ">
 				No results found for{" "}
@@ -65,11 +66,13 @@ function CommandList({
 			onClick={(e) => {
 				e.stopPropagation();
 			}}
-			className="border-mute border-x border-b transition-all duration-500 shadow-lg shadow-transparent bg-base w-3/4 rounded-b-lg "
+			className="border-mute border-x border-b transition-all duration-500 shadow-lg shadow-transparent dark:bg-base bg-white w-3/4 rounded-b-lg "
 		>
 			<EmptyCommandItem search={search} />
 			{truncated.map((point) => {
-				return <CommandItem key={point.properties.station_id} point={point} />;
+				return (
+					<CommandItem key={point.properties.station_long_name} point={point} />
+				);
 			})}
 		</Command.List>
 	);
@@ -100,9 +103,9 @@ export default function CommandMenu() {
 		<>
 			<button
 				onClick={() => setOpen(true)}
-				className="flex gap-2 border border-indigo-400 border-opacity-20 rounded-lg px-2 py-1 h-10 items-center hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-indigo-700/10"
+				className="flex gap-2 border dark:border-indigo-400/40 border-indigo-600/40 rounded-lg px-2 py-1 h-10 items-center hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-indigo-700/10"
 			>
-				<p className="opacity-40 text-sm font-semibold text-indigo-200">
+				<p className="opacity-40 text-sm font-semibold dark:text-indigo-200 text-indigo-800">
 					Search Stations...
 				</p>
 
@@ -110,7 +113,7 @@ export default function CommandMenu() {
 					CMD + K
 				</kbd>
 				{/* <input className="bg-transparent focus-visible:outline-none px-2" /> */}
-				<Search className="h-5 w-5 text-white opacity-70" />
+				<Search className="h-5 w-5 dark:text-white opacity-70" />
 			</button>
 			<Command.Dialog
 				open={open}
@@ -126,7 +129,7 @@ export default function CommandMenu() {
 						onClick={(e) => {
 							e.stopPropagation();
 						}}
-						className=" w-full rounded-lg bg-base text-white text-lg p-3 border-mute border group outline-non focus-within:border-light focus-within:ring-0 flex items-center gap-3 shadow-lg shadow-transparent focus-within:shadow-indigo-700/30 transition-all duration-300"
+						className=" w-full rounded-lg dark:bg-base bg-white dark:text-white text-lg p-3 border-mute border group outline-non focus-within:border-light focus-within:ring-0 flex items-center gap-3 shadow-lg shadow-transparent focus-within:shadow-indigo-700/30 transition-all duration-300"
 					>
 						<Search className="pointer-events-auto text-light group-focus-within:text-lighter stroke-current transition-colors duration-300" />
 						<Command.Input

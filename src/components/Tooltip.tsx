@@ -12,11 +12,11 @@ export default function Tooltip({ children, content }: PointToolTipProps) {
 			<RTooltip.Trigger asChild>{children}</RTooltip.Trigger>
 			<RTooltip.Portal>
 				<RTooltip.Content className=" z-50" sideOffset={5}>
-					<div className="bg-black/50 py-1 px-2 border rounded-lg backdrop-blur-lg text-white border-indigo-400/40">
+					<div className="dark:bg-black/50 bg-white/50 py-1 px-2 border rounded-lg backdrop-blur-lg dark:text-white border-indigo-400/40">
 						{content}
 					</div>
 
-					<RTooltip.Arrow className="text-neutral-800 z-50 bg-transparent fill-current backdrop-blur" />
+					{/* <RTooltip.Arrow className="text-neutral-800 z-50 bg-transparent fill-current backdrop-blur" /> */}
 				</RTooltip.Content>
 			</RTooltip.Portal>
 		</RTooltip.Root>

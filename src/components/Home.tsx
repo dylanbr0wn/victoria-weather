@@ -11,9 +11,8 @@ import {
 	WidgetInfo,
 	Widgets,
 } from "../utils/zustand";
-import { ReactNode } from "react";
+import { PointerEventHandler, ReactNode } from "react";
 import { Check, LayoutDashboard } from "lucide-react";
-import Map from "./Map2";
 import { Reorder, useDragControls } from "framer-motion";
 import { Dialog } from "./common/Dialog";
 import { EdittingWrapper } from "./EditingWrapper";
@@ -22,21 +21,26 @@ import { Radio } from "./common/Radio";
 import { WidthSlider } from "./common/Slider";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import MaxMin from "./MaxMin";
+import dynamic from "next/dynamic";
 
-function getWidget(info: WidgetInfo): ReactNode {
+const Map = dynamic(() => import("./Map2"), {
+	ssr: false,
+});
+
+function getWidget(info: WidgetInfo) {
 	switch (info.type) {
 		case Widgets.AQI:
-			return <AirQuality />;
+			return AirQuality;
 		case Widgets.Rain:
-			return <Rain />;
+			return Rain;
 		case Widgets.UV:
-			return <UVIndex id={info.id} />;
+			return UVIndex;
 		case Widgets.Sun:
-			return <SunMoonCycle id={info.id} />;
+			return SunMoonCycle;
 		case Widgets.Temp:
-			return <Current id={info.id} />;
+			return Current;
 		case Widgets.MaxMin:
-			return <MaxMin />;
+			return MaxMin;
 		default:
 			return null;
 	}
@@ -49,11 +53,11 @@ function getWidgetPreview(type: Widgets): ReactNode {
 		case Widgets.Rain:
 			return <Rain isPreview />;
 		case Widgets.UV:
-			return <UVIndex isPreview id={type.toString()} />;
+			return <UVIndex isPreview />;
 		case Widgets.Sun:
-			return <SunMoonCycle isPreview id={type.toString()} />;
+			return <SunMoonCycle />;
 		case Widgets.Temp:
-			return <Current isPreview id={type.toString()} />;
+			return <Current isPreview />;
 		case Widgets.MaxMin:
 			return <MaxMin />;
 		default:
@@ -63,6 +67,9 @@ function getWidgetPreview(type: Widgets): ReactNode {
 
 function DraggableItem({ widget }: { widget: WidgetInfo }) {
 	const controls = useDragControls();
+
+	const Widget = getWidget(widget);
+
 	return (
 		<Reorder.Item
 			key={widget.id}
@@ -77,9 +84,7 @@ function DraggableItem({ widget }: { widget: WidgetInfo }) {
 			style={{ width: `${widget.w * 100}%` }}
 			className="flex-grow"
 		>
-			<EdittingWrapper onPointerDown={(e) => controls.start(e)}>
-				{getWidget(widget)}
-			</EdittingWrapper>
+			<Widget handleDrag={(e) => controls.start(e)} />
 		</Reorder.Item>
 	);
 }
@@ -154,20 +159,20 @@ const Home = () => {
 			<Dialog
 				open={isConfigureDialogOpen}
 				setOpen={setIsConfigureDialogOpen}
-				title={<h3 className="text-xl text-lighter font-bold">Settings</h3>}
+				title="Settings"
 			>
 				<Tabs.Root defaultValue="layout" className="flex h-[400px]">
-					<Tabs.List className="flex flex-col border-r rounded-bl-xl w-32 border-indigo-400/40 bg-base divide-y">
+					<Tabs.List className="flex flex-col border-r rounded-bl-xl w-32 border-indigo-400/40 dark:bg-base bg-white divide-y">
 						<Tabs.Trigger
 							value="layout"
-							className=" aria-selected:text-lighter flex gap-3 items-center p-3 text-neutral-400 aria-selected:hover:text-neutral-100 hover:text-neutral-100 transition-colors"
+							className=" aria-selected:text-lighter flex gap-3 items-center p-3 text-neutral-400 dark:aria-selected:hover:text-neutral-100 dark:hover:text-neutral-100 hover:text-mute aria-selected:hover:text-mute transition-colors"
 						>
-							<LayoutDashboard className="h-4 w-4 " />
+							<LayoutDashboard className="h-4 w-4" />
 							<span className="text-lg font-bold">Layout</span>
 						</Tabs.Trigger>
 					</Tabs.List>
 					<Tabs.Content value="layout" className="w-full overflow-scroll">
-						<div className="flex flex-col gap-3 text-lighter p-3 ">
+						<div className="flex flex-col gap-3 dark:text-lighter text-base p-3 ">
 							<p className="text-sm">
 								Configure your dashboard as you please!{" "}
 							</p>

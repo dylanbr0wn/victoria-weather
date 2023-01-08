@@ -5,7 +5,7 @@ import { Weather } from "../../utils/types";
 export const useWeatherData = query(async () => {
 	const weather = (await (
 		await fetch(
-			"https://api.weatherapi.com/v1/forecast.json?key=236a08e4d6dc414092a40006211210&q=Victoria%20BC&days=3&aqi=yes&alerts=no"
+			"https://api.weatherapi.com/v1/forecast.json?key=236a08e4d6dc414092a40006211210&q=Victoria%20BC&days=4&aqi=yes&alerts=no"
 		)
 	).json()) as unknown as Weather;
 

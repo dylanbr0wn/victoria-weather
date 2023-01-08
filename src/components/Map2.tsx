@@ -64,10 +64,10 @@ function MapMarker({ data }: MapMarkerProps) {
 						exit={{ opacity: 0 }}
 						className="absolute top-0 left-0 h-8 w-8 -z-10 text-base -translate-x-1/2 -translate-y-1/2"
 					>
-						<div className="absolute top-full  left-1/2 -translate-x-1/2 pointer-events-none">
+						<div className="absolute top-full text-white dark:text-black left-1/2 -translate-x-1/2 pointer-events-none">
 							{data.properties.temperature}℃
 						</div>
-						<div className="absolute top-full text-white blur-xs -z-10 font-bold blur-sm left-1/2 -translate-x-1/2 pointer-events-none ">
+						<div className="absolute top-full dark:text-white text-black blur-xs -z-10 font-bold blur-sm left-1/2 -translate-x-1/2 pointer-events-none ">
 							{data.properties.temperature}℃
 						</div>
 					</motion.div>
@@ -80,10 +80,10 @@ function MapMarker({ data }: MapMarkerProps) {
 						exit={{ opacity: 0 }}
 						className="absolute top-0 left-0 h-8 w-64 -z-10 -translate-x-1/2 -translate-y-1/2"
 					>
-						<div className="absolute top-full  left-1/2 -translate-x-1/2 pointer-events-none">
+						<div className="absolute top-full text-white dark:text-black left-1/2 -translate-x-1/2 pointer-events-none">
 							Click for details
 						</div>
-						<div className="absolute top-full text-white blur-xs -z-10 font-bold blur-sm left-1/2 -translate-x-1/2 pointer-events-none ">
+						<div className="absolute top-full dark:text-white text-black blur-xs -z-10 font-bold blur-sm left-1/2 -translate-x-1/2 pointer-events-none ">
 							Click for details
 						</div>
 					</motion.div>
@@ -110,7 +110,7 @@ function MapMarker({ data }: MapMarkerProps) {
 						setIsOpen(false);
 						setHoveredMarker(null);
 					}}
-					className="bg-base rounded-[16px] shadow-lg shadow-black/50 text-base top-0 left-0 absolute flex flex-col overflow-hidden hover:outline-indigo-400 outline outline-transparent outline-offset-0 transition-colors duration-500 -translate-x-1/2 -translate-y-1/2"
+					className="dark:bg-base bg-white rounded-[16px] shadow-lg shadow-black/30 text-base top-0 left-0 absolute flex flex-col overflow-hidden hover:outline-indigo-400 outline outline-transparent outline-offset-0 transition-colors duration-500 -translate-x-1/2 -translate-y-1/2"
 				>
 					<motion.div
 						key="popup"
@@ -122,7 +122,7 @@ function MapMarker({ data }: MapMarkerProps) {
 
 						// exit={{ width: "2rem", transition: { delay: 0.3 } }}
 					>
-						<MapPin className="h-4 w-4 text-white flex-shrink-0" />
+						<MapPin className="h-4 w-4 dark:text-white flex-shrink-0" />
 
 						<AnimatePresence>
 							{isOpen && (
@@ -139,7 +139,7 @@ function MapMarker({ data }: MapMarkerProps) {
 									animate={{ opacity: 1 }}
 									exit={{ opacity: 0 }}
 									initial={{ opacity: 0 }}
-									className="font-bold leading-tight text-white text-sm text-center w-56 truncate h-4"
+									className="font-bold leading-tight dark:text-white text-black text-sm text-center w-56 truncate h-4"
 								>
 									{data.properties.station_long_name}
 								</motion.h3>
@@ -155,7 +155,7 @@ function MapMarker({ data }: MapMarkerProps) {
 								animate={{ opacity: 1, transition: { delay: 0.3 } }}
 								exit={{ opacity: 0 }}
 								initial={{ opacity: 0 }}
-								className=" text-white px-4 pb-4 w-full h-full text-sm flex flex-wrap gap-1 justify-start"
+								className=" dark:text-white px-4 pb-4 w-full h-full text-sm flex flex-wrap gap-1 justify-start"
 							>
 								<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-full">
 									<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
@@ -205,58 +205,69 @@ function MapMarker({ data }: MapMarkerProps) {
 										{data.properties.rain} {data.properties.rain_units}
 									</dd>
 								</div>
-								<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
-									<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
-										<Shrink className="h-4 w-4 " />
-										<span>Pressure</span>
-									</dt>
+								{data.properties.pressure && (
+									<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
+										<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
+											<Shrink className="h-4 w-4 " />
+											<span>Pressure</span>
+										</dt>
 
-									<dd className="text-sky-200">
-										{data.properties.pressure} {data.properties.pressure_units}
-									</dd>
-								</div>
-								<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
-									<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
-										<AirVent className="h-4 w-4 " />
-										<span>Wind</span>
-									</dt>
+										<dd className="dark:text-sky-200 text-sky-800">
+											{data.properties.pressure}{" "}
+											{data.properties.pressure_units}
+										</dd>
+									</div>
+								)}
+								{data.properties.wind_speed && (
+									<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
+										<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
+											<AirVent className="h-4 w-4 " />
+											<span>Wind</span>
+										</dt>
 
-									<dd className="text-violet-300">
-										{data.properties.wind_speed}{" "}
-										{data.properties.wind_speed_units}{" "}
-										{Number(data.properties.wind_speed) !== 0
-											? data.properties.wind_speed_heading
-											: ""}
-									</dd>
-								</div>
-								<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
-									<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
-										<GlassWater className="h-4 w-4 " />
-										<span>Humidity</span>
-									</dt>
+										<dd className="dark:text-violet-300 text-violet-600">
+											{data.properties.wind_speed}{" "}
+											{data.properties.wind_speed_units}{" "}
+											{Number(data.properties.wind_speed) !== 0
+												? data.properties.wind_speed_heading
+												: ""}
+										</dd>
+									</div>
+								)}
+								{data.properties.humidity && (
+									<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
+										<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
+											<GlassWater className="h-4 w-4 " />
+											<span>Humidity</span>
+										</dt>
 
-									<dd className="text-cyan-300">
-										{data.properties.humidity} {data.properties.humidity_units}
-									</dd>
-								</div>
-								<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
-									<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
-										<Sun className="h-4 w-4 " />
-										<span>Insolation</span>
-									</dt>
+										<dd className="dark:text-cyan-300 text-cyan-600">
+											{data.properties.humidity}{" "}
+											{data.properties.humidity_units}
+										</dd>
+									</div>
+								)}
+								{data.properties.insolation && (
+									<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-1/3 flex-grow">
+										<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
+											<Sun className="h-4 w-4 " />
+											<span>Insolation</span>
+										</dt>
 
-									<dd className="text-amber-300">
-										{data.properties.insolation}{" "}
-										{data.properties.insolation_units}
-									</dd>
-								</div>
+										<dd className="dark:text-amber-300 text-amber-600">
+											{data.properties.insolation}{" "}
+											{data.properties.insolation_units}
+										</dd>
+									</div>
+								)}
+
 								<div className="flex flex-col gap-1 justify-start items-start p-1 rounded-sm hover:bg-neutral-500/10 transition-colors w-full">
 									<dt className="mr-2 flex gap-1 items-center text-neutral-500 ">
 										<Timer className="h-4 w-4 " />
 										<span>Observation Time</span>
 									</dt>
 
-									<dd className="text-neutral-300">
+									<dd className="dark:text-neutral-300 text-neutral-700">
 										{data.properties.observation_time}
 									</dd>
 								</div>

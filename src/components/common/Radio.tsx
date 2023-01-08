@@ -30,7 +30,7 @@ function RadioItem({ value, label }: { value: string; label: string }) {
 	return (
 		<div className="flex gap-3 items-center">
 			<RadioGroup.Item
-				className="h-5 w-5 bg-lighter rounded-full"
+				className="h-5 w-5 dark:bg-lighter bg-mute rounded-full"
 				value={value}
 				id={value.toLowerCase()}
 			>
@@ -40,12 +40,15 @@ function RadioItem({ value, label }: { value: string; label: string }) {
 							exit={{ scale: 0 }}
 							animate={{ scale: 1 }}
 							initial={{ scale: 0 }}
-							className="w-full h-full flex items-center justify-center z-10 after:bg-mute content-[''] after:h-3 after:w-3 after:block after:rounded-full"
+							className="w-full h-full flex items-center justify-center z-10 dark:after:bg-mute after:bg-lighter content-[''] after:h-3 after:w-3 after:block after:rounded-full"
 						/>
 					</RadioGroup.Indicator>
 				</AnimatePresence>
 			</RadioGroup.Item>
-			<label htmlFor={value.toLowerCase()} className="text-sm text-lighter">
+			<label
+				htmlFor={value.toLowerCase()}
+				className="text-sm dark:text-lighter text-black"
+			>
 				{label}
 			</label>
 		</div>
