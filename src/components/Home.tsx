@@ -249,7 +249,7 @@ const Home = () => {
 													}}
 													className="w-full relative"
 												>
-													<Checkbox.Indicator className="absolute top-0 left-0 w-full h-full border-4 border-indigo-400 rounded-lg z-10">
+													<Checkbox.Indicator className="absolute top-0 left-0 w-full h-full border-4 border-indigo-400 rounded-lg z-50">
 														<div className="absolute top-0 left-0 p-1 bg-indigo-400 rounded-br-xl">
 															<Check className="h-6 w-6 text-base" />
 														</div>
