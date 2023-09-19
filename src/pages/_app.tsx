@@ -1,6 +1,7 @@
 import "../styles/index.scss";
 import "../styles/App.css";
 import "mapbox-gl/dist/mapbox-gl.css";
+import "@radix-ui/themes/styles.css";
 import { Provider as TooltipProvider } from "@radix-ui/react-tooltip";
 export { reportWebVitals } from "next-axiom";
 import { Analytics } from "@vercel/analytics/react";

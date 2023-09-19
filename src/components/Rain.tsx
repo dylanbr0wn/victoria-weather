@@ -1,3 +1,6 @@
+"use client";
+
+import { Card, Flex, Text } from "@radix-ui/themes";
 import { useRainData } from "../pages/api/rain.swr";
 import AnimatePresence from "./common/AnimatePresence";
 import { EdittingWrapper } from "./EditingWrapper";
@@ -15,39 +18,12 @@ const Rain = ({
 
 	return (
 		<AnimatePresence show={!!data}>
-			<EdittingWrapper onPointerDown={handleDrag} isPreview={isPreview}>
-				<div className="w-full rounded-lg py-2 px-4 relative overflow-hidden group h-[115px] flex flex-col justify-evenly border-sky-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10 dark:bg-[#11091b] bg-[#dbe1f3]">
-					<div className={`flex  justify-center gap-3 items-center`}>
-						<div className={` text-5xl flex-shrink`}>💧</div>
-						<div className="flex flex-col items-center">
-							<div className="flex items-end leading-none ">
-								<div
-									className={` text-4xl  font-black bg-gradient-to-t from-sky-700 to-sky-300 bg-clip-text text-transparent`}
-								>
-									{!data.average_rain || data.average_rain === 0
-										? "0.00"
-										: data.average_rain?.toFixed(2)}
-								</div>
-								<div
-									className={`text-2xl bg-gradient-to-t from-sky-700 to-sky-300 bg-clip-text text-transparent ml-1`}
-								>
-									mm
-								</div>
-							</div>
-							<div
-								className={`text-xs tracking-widest  leading-4 text-sky-600`}
-							>
-								today on average
-							</div>
-						</div>
-					</div>
-					<div className={`  dark:text-white flex-grow text-center`}>
-						<span className="text-2xl text-sky-500">
-							{data?.number_reporting}
-						</span>{" "}
-						stations are currently reporting rain.{" "}
-					</div>
-					<div className="mix-blend-darken dark:mix-blend-screen">
+			<Flex gap="3" direction="column" align="center">
+				<Flex gap="5" align="center" justify="center">
+					<div className="relative h-20 w-8 overflow-hidden rounded-b-full border-x border-b border-sky-100/50 bg-gradient-to-tr from-slate-900 to-slate-800">
+						<div className="absolute right-0 top-1/4 z-10 h-[1px] w-3 bg-sky-100/50" />
+						<div className="absolute right-0 top-1/2 z-10 h-[1px] w-3 bg-sky-100/50" />
+						<div className="absolute right-0 top-3/4 z-10 h-[1px] w-3 bg-sky-100/50" />
 						<svg
 							version="1.1"
 							xmlns="http://www.w3.org/2000/svg"
@@ -65,29 +41,54 @@ const Rain = ({
 						</svg>
 						<div
 							id="water"
-							className="water bg-sky-400 opacity-5 group-hover:opacity-30 transition-all duration-500"
+							className="water  bg-sky-400 transition-all duration-500 group-hover:opacity-30"
 							style={{
 								transform: `translateY(${
-									115 - (data.average_rain / 56) * 115
+									70 - 50 * ((data.average_rain ?? 0) / 40)
 								}px)`,
 							}}
 						>
 							<svg
 								viewBox="0 0 560 20"
-								className="water_wave water_wave_back fill-current text-sky-700"
+								className="water_wave water_wave_back -z-10 fill-current text-sky-700"
 							>
 								<use xlinkHref="#wave"></use>
 							</svg>
 							<svg
 								viewBox="0 0 560 20"
-								className="water_wave water_wave_front fill-current text-sky-400"
+								className="water_wave water_wave_front z-0 fill-current text-sky-400"
 							>
 								<use xlinkHref="#wave"></use>
 							</svg>
 						</div>
 					</div>
+					<Flex direction="column">
+						<div className="flex items-end leading-none ">
+							<div
+								className={` bg-gradient-to-t  from-sky-700 to-sky-300 bg-clip-text text-4xl font-black text-transparent`}
+							>
+								{!data.average_rain || data.average_rain === 0
+									? "0.00"
+									: data.average_rain?.toFixed(2)}
+							</div>
+							<div
+								className={`ml-1 bg-gradient-to-t from-sky-700 to-sky-300 bg-clip-text text-2xl text-transparent`}
+							>
+								mm
+							</div>
+						</div>
+						<Text size="2" align="center" color="gray">
+							average past 24 hours
+						</Text>
+					</Flex>
+				</Flex>
+				<div>
+					<Text size="5" color="sky">
+						{data?.number_reporting}
+					</Text>{" "}
+					<Text size="3">stations currently reporting rain.</Text>{" "}
 				</div>
-			</EdittingWrapper>
+			</Flex>
 		</AnimatePresence>
 	);
 };

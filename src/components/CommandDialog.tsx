@@ -1,3 +1,5 @@
+"use client";
+
 import { Command, useCommandState } from "cmdk";
 import { Feature, FeatureCollection, Point } from "geojson";
 import { Building, Droplet, Search, Thermometer, X } from "lucide-react";

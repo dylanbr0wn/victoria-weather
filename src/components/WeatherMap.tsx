@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback, useRef } from "react";
 import Map, {
 	FullscreenControl,
@@ -8,27 +10,21 @@ import Map, {
 	Layer,
 	Marker,
 } from "react-map-gl";
-import { useMapData } from "../pages/api/map.swr";
-import { usePointsData } from "../pages/api/points.swr";
 import {
 	AirVent,
-	Building2,
 	Droplets,
 	GlassWater,
 	Locate,
 	MapPin,
 	MoveHorizontal,
 	MoveVertical,
-	Pin,
-	Pointer,
 	Shrink,
-	StretchVertical,
 	Sun,
 	Thermometer,
 	Timer,
 } from "lucide-react";
 import { Feature, Point } from "geojson";
-import { PointProperties } from "../utils/types";
+import { MapData, PointProperties, PointsData } from "../utils/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMapStore } from "../utils/zustand";
 
@@ -36,6 +32,9 @@ interface MapProps {
 	lat?: number;
 	lng?: number;
 	zoom?: number;
+	intersection: MapData["intersection"] | null;
+	island: MapData["island"] | null;
+	points: PointsData | null;
 }
 
 type MapMarkerProps = {
@@ -280,10 +279,14 @@ function MapMarker({ data }: MapMarkerProps) {
 	);
 }
 
-const CustMap = ({ lat, lng, zoom }: MapProps) => {
-	const { data } = useMapData();
-	const { data: pointsData } = usePointsData(null);
-
+const CustMap = ({
+	lat,
+	lng,
+	zoom,
+	intersection,
+	island,
+	points,
+}: MapProps) => {
 	const mapRef = useRef<MapRef>(null);
 	const [showPopup, setShowPopup] = useState(false);
 	const [popupData, setPopupData] = useState<
@@ -340,7 +343,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 		});
 	}, []);
 
-	const show = !!pointsData && !!data;
+	const show = !!points && !!island && !!intersection;
 
 	return (
 		<div className="h-full relative text-center flex flex-col w-full">
@@ -361,11 +364,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 						"pk.eyJ1IjoiZHlsYW5icm93biIsImEiOiJjbDRua2dwdzIwM2xwM2JtcHNpdXYwZTF3In0.2zd_5VVn2rjFNe94WVPtaQ"
 					}
 				>
-					<Source
-						id="isobands"
-						type="geojson"
-						data={data?.intersection.intersection}
-					>
+					<Source id="isobands" type="geojson" data={intersection.intersection}>
 						<Layer
 							id="isoband"
 							type="fill"
@@ -375,7 +374,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 							}}
 						/>
 					</Source>
-					<Source id="islands" type="geojson" data={data?.island.island}>
+					<Source id="islands" type="geojson" data={island.island}>
 						<Layer
 							type="line"
 							paint={{
@@ -384,7 +383,7 @@ const CustMap = ({ lat, lng, zoom }: MapProps) => {
 						/>
 					</Source>
 					<span className="isolate">
-						{pointsData?.points.features.map((feature) => {
+						{points.points.features.map((feature) => {
 							return (
 								<MapMarker key={feature.properties.station_id} data={feature} />
 							);

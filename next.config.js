@@ -4,10 +4,12 @@ const { withAxiom } = require("next-axiom");
 const { withSwrApiEndpoints } = require("@next-fetch/swr");
 
 const nextConfig = withAxiom(
-	withSwrApiEndpoints({
-		reactStrictMode: true,
-		swcMinify: true,
-	})
+  withSwrApiEndpoints({
+    reactStrictMode: true,
+    experimental: {
+      appDir: true
+    }
+  })
 );
 
 module.exports = nextConfig;

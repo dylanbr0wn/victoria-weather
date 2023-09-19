@@ -1,11 +1,13 @@
+"use client";
+
 import dayjs from "dayjs";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { usePointsData } from "../pages/api/points.swr";
 import { useWeatherData } from "../pages/api/weather.swr";
-import { weatherIcon } from "../utils/helper";
 import { Weather } from "../utils/types";
 import AnimatePresence from "./common/AnimatePresence";
 import { EdittingWrapper } from "./EditingWrapper";
+import { Card } from "@radix-ui/themes";
 
 function DayForecast({ day }: { day: Weather["forecast"]["forecastday"][0] }) {
 	const color =
@@ -19,30 +21,30 @@ function DayForecast({ day }: { day: Weather["forecast"]["forecastday"][0] }) {
 
 	return (
 		<div
-			className={`flex  flex-col  py-1 px-2 transition-all opacity-50 hover:opacity-100 duration-500 border-indigo-400/20 first:border-r last:border-l`}
+			className={`flex  flex-col  border-indigo-400/20 px-2 py-1 opacity-50 transition-all duration-500 first:border-r last:border-l hover:opacity-100`}
 		>
 			<div className="flex text-center">
-				<div className="text-slate-500 text-sm font-bold  leading-none rounded dark:bg-neutral-800 bg-neutral-300 px-0.5 transition-colors duration-500">
+				<div className="rounded bg-neutral-300 px-0.5  text-sm font-bold leading-none text-slate-500 transition-colors duration-500 dark:bg-neutral-800">
 					{dayjs(day.date).format("D/MM")}
 				</div>
 			</div>
 
 			<div
-				className={` tracking-wide text-3xl  leading-none font-black text-center ${color}`}
+				className={` text-center text-3xl  font-black leading-none tracking-wide ${color}`}
 			>
 				{day.day.avgtemp_c.toFixed(1)}
 				{/* <span className="text-2xl font-light">℃</span> */}
 			</div>
 
-			<div className={`flex justify-between leading-none  h-full `}>
+			<div className={`flex h-full justify-between  leading-none `}>
 				<ArrowDown className="h-4 w-4 text-sky-500" />
-				<div className="text-sky-500 font-light">
+				<div className="font-light text-sky-500">
 					{/* <b className="font-black mr-1">L:</b> */}
 
 					{day.day.mintemp_c.toFixed(1)}
 				</div>
 				<ArrowUp className="h-4 w-4 text-orange-500" />
-				<div className="text-orange-500 font-light">
+				<div className="font-light text-orange-500">
 					{/* <b className="font-black mr-1">H:</b> */}
 					{day.day.maxtemp_c.toFixed(1)}
 				</div>
@@ -80,44 +82,42 @@ export default function Current({
 
 	return (
 		<AnimatePresence show={!!pointsData}>
-			<EdittingWrapper onPointerDown={handleDrag} isPreview={isPreview}>
-				<div
-					className={`w-full rounded-lg py-2 px-4 relative overflow-hidden group h-[115px] flex flex-col justify-evenly border-sky-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10 dark:bg-[#11091b] bg-[#dee9f4]`}
-				>
-					<div className="flex justify-evenly">
-						{/* <div className="text-7xl mr-8 flex flex-col text-center ">
-        <div>{weatherIcon(data.weather.current.condition.code).icon}</div>
-      </div> */}
-						<div className={` flex flex-col ${color}`}>
-							<div className="flex text-center">
-								<div className="text-slate-500 text-sm font-bold  leading-none rounded dark:bg-neutral-800 bg-neutral-300 px-0.5 transition-colors duration-500">
-									{dayjs(observation_time).format("D/MM")}
-								</div>
-							</div>
-							<div
-								className={` tracking-wide ${
-									isPreview ? "text-4xl" : "text-5xl"
-								}  font-black text-center`}
-							>
-								{pointsData?.average_temp.toFixed(1)}
-								<span className="text-3xl font-light">℃</span>
-							</div>
-							<div
-								className={` ${
-									isPreview ? "text-sm" : "text-sm"
-								}  font-light leading-3 text-center`}
-							>
-								{observation_time.format("DD/MM/YYYY hh:MM")}
+			<Card size="3" className="group h-full">
+				<div className="flex justify-evenly">
+					<div className={` flex flex-col ${color}`}>
+						<div className="flex text-center">
+							<div className="rounded bg-neutral-300 px-0.5  text-sm font-bold leading-none text-slate-500 transition-colors duration-500 dark:bg-neutral-800">
+								{dayjs(observation_time).format("D/MM")}
 							</div>
 						</div>
-						<div className="flex items-center ">
-							{weatherData?.weather.forecast.forecastday.slice(1).map((day) => (
-								<DayForecast day={day} key={day.date} />
-							))}
+						<div
+							className={` tracking-wide ${
+								isPreview ? "text-4xl" : "text-5xl"
+							}  text-center font-black`}
+						>
+							{pointsData?.average_temp.toFixed(1)}
+							<span className="text-3xl font-light">℃</span>
+						</div>
+						<div
+							className={` ${
+								isPreview ? "text-sm" : "text-sm"
+							}  text-center font-light leading-3`}
+						>
+							{observation_time.format("DD/MM/YYYY hh:MM")}
 						</div>
 					</div>
+					<div className="flex items-center ">
+						{weatherData?.weather.forecast.forecastday.slice(1).map((day) => (
+							<DayForecast day={day} key={day.date} />
+						))}
+					</div>
 				</div>
-			</EdittingWrapper>
+			</Card>
+			{/* <div
+					className={`w-full rounded-lg py-2 px-4 relative overflow-hidden group h-[115px] flex flex-col justify-evenly border-sky-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-sky-700/10 dark:bg-[#11091b] bg-[#dee9f4]`}
+				> */}
+
+			{/* </div> */}
 		</AnimatePresence>
 	);
 }

@@ -26,7 +26,7 @@ code {
 	background-color: transparent;
 }
 .mapboxgl-popup-close-button {
-	@apply w-5 h-5 rounded mr-1 mt-1;
+	@apply mr-1 mt-1 h-5 w-5 rounded;
 }
 .mapboxgl-popup-close-button:hover {
 	@apply bg-red-600/10;
@@ -40,7 +40,7 @@ code {
 }
 
 .mapboxgl-popup-content {
-	@apply bg-base text-white rounded-lg shadow-md #{!important};
+	@apply rounded-lg bg-base text-white shadow-md #{!important};
 }
 
 .bg-glow {
@@ -93,21 +93,22 @@ code {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	transform: translate(0, 100%);
-	// scale: 1 0.5;
 	&_wave {
 		width: 200%;
 		position: absolute;
 		bottom: 100%;
-		scale: 1 0.5;
+		scale: 1 1;
 		transform-origin: bottom;
 		&_back {
+			scale: 2 3;
+			margin-bottom: 0.5px;
 			right: 0;
-			animation: wave-back 5s infinite linear;
+			animation: wave-back 3s infinite linear;
 		}
 		&_front {
+			scale: 1 2;
 			left: 0;
-			margin-bottom: -1px;
+			margin-bottom: 0px;
 			animation: wave-front 2s infinite linear;
 		}
 	}
@@ -138,7 +139,7 @@ code {
 		black,
 		transparent
 	);
-	// mask-image: radial-gradient(100% 50% at center center, black, transparent);
+	mask-image: radial-gradient(50% 50% at center center, black, transparent);
 
 	// transform: translateY(-200px) rotate(180deg) translateZ(0px);
 	transform-origin: center center;
@@ -150,4 +151,54 @@ code {
 	background-size: 50% 100%, 50% 100%;
 	background-position-x: 0.05%, 99.95%;
 	background-position-y: 0%, 0%;
+}
+
+.search-item:first-child > .seperator {
+	display: none;
+}
+
+.light-line-uv {
+	background: conic-gradient(
+			from 90deg at 60% 50%,
+			#0f023600 0deg,
+			#0f023600 180deg,
+			#c08a54 360deg
+		),
+		conic-gradient(
+			from -90deg at 40% 50%,
+			#c08a54 0deg,
+			#0f023600 180deg,
+			#0f023600 360deg
+		);
+
+	-webkit-mask-image: radial-gradient(
+		50% 50% at center center,
+		black,
+		transparent
+	);
+	mask-image: radial-gradient(50% 50% at center center, black, transparent);
+
+	// transform: translateY(-200px) rotate(180deg) translateZ(0px);
+	transform-origin: center center;
+	background-repeat: no-repeat;
+	background-clip: border-box border-box;
+	background-attachment: scroll scroll;
+	background-color: transparent;
+	background-origin: padding-box padding-box;
+	background-size: 50% 100%, 50% 100%;
+	background-position-x: 0.05%, 99.95%;
+	background-position-y: 0%, 0%;
+}
+
+.uv-beam {
+	background-size: 100% 100%;
+	background-position: 0px 0px;
+	// background-image: conic-gradient(
+	// 	from 0deg at 50% 50%,
+	// 	#ffa70000 41%,
+	// 	#ffecb9ff 50%,
+	// 	#ffa70000 57%
+	// );
+
+	mask-image: radial-gradient(50% 50% at center center, black, transparent);
 }

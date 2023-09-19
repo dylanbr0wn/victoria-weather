@@ -1,5 +1,5 @@
 import cuid from "cuid";
-import create from "zustand";
+import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 export enum LayoutType {
@@ -69,13 +69,18 @@ export function buildWidgetRow(widgets: WidgetInfo[]): WidgetRow {
 }
 
 export const useLayoutStore = create<LayoutStore>()(
-	persist((set, get) => ({
-		layoutType: LayoutType.DashBoard,
-		layout: defaultDashboardLayout,
-		updateLayout: (update: (layout: Layout) => Layout) => {
-			set({ layout: update(get().layout) });
-		},
-	}))
+	persist(
+		(set, get) => ({
+			layoutType: LayoutType.DashBoard,
+			layout: defaultDashboardLayout,
+			updateLayout: (update: (layout: Layout) => Layout) => {
+				set({ layout: update(get().layout) });
+			},
+		}),
+		{
+			name: "layout",
+		}
+	)
 );
 
 type EditStore = {

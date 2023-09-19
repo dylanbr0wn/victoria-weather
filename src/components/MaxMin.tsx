@@ -1,11 +1,12 @@
+"use client";
+
 import { Point, PointProperties, PointsData } from "../utils/types";
 import { usePointsData } from "../pages/api/points.swr";
 import AnimatePresence from "./common/AnimatePresence";
 import { useMemo } from "react";
 import type { Feature, Point as GeoPoint } from "geojson";
-import { MapPin } from "lucide-react";
-import Tooltip from "./Tooltip";
 import { EdittingWrapper } from "./EditingWrapper";
+import { Card, Flex, HoverCard, Strong, Text, Tooltip } from "@radix-ui/themes";
 
 const getPointTemperature = (point: Point | undefined) => {
 	return `${point?.properties.temperature}   °${point?.properties.temperature_units}`;
@@ -32,9 +33,9 @@ function processPoints(
 	const minTemp = min?.properties.temperature;
 
 	if (maxTemp === undefined || minTemp === undefined) return null;
-	const tempScalePoints = points.reduce<TempScalePoint>((acc, point) => {
-		if (point.properties.station_id === max.properties.station_id) return acc;
-		if (point.properties.station_id === min.properties.station_id) return acc;
+	const tempScalePoints = points?.reduce<TempScalePoint>((acc, point) => {
+		if (point.properties.station_id === max?.properties.station_id) return acc;
+		if (point.properties.station_id === min?.properties.station_id) return acc;
 
 		const tempScalePoint = acc[point.properties.temperature];
 		const pointPercentage = calcPercentage(
@@ -58,7 +59,7 @@ function processPoints(
 		return acc;
 	}, {});
 	console.log(tempScalePoints);
-	return Object.values(tempScalePoints);
+	return Object.values(tempScalePoints ?? {});
 }
 
 const MaxMin = ({
@@ -79,117 +80,112 @@ const MaxMin = ({
 	if (!data) return null;
 
 	return (
-		<AnimatePresence show={!!data}>
-			<EdittingWrapper onPointerDown={handleDrag} isPreview={isPreview}>
-				<div className="w-full rounded-lg py-2 px-4 relative overflow-hidden group h-[115px] flex flex-col justify-end gap-3 border-violet-400 border border-opacity-20 hover:border-opacity-30 transition-all duration-500 shadow-lg shadow-transparent hover:shadow-violet-700/10 bg-gradient-to-r dark:from-[#07051c] dark:to-[#1f1106] from-[#dbd9f0] to-[#f1d9c7]">
-					<div className="w-3/4 h-2 relative mx-auto mt-8">
-						<div className="h-full w-full rounded-full bg-gradient-to-r from-indigo-700 via-teal-400 to-orange-600" />
-						<div className="absolute w-full h-full rounded-full bg-gradient-to-r from-indigo-700 via-teal-400 to-orange-600 mx-auto blur-xl top-0" />
+		<Flex mt="4" justify="between" direction="column" align="baseline" gap="3">
+			<div className="relative mx-auto mt-12 h-2 w-3/4">
+				<div className="h-full w-full rounded-full bg-gradient-to-r from-indigo-700 via-teal-400 to-orange-600" />
+				<div className="absolute top-0 mx-auto h-full w-full rounded-full bg-gradient-to-r from-indigo-700 via-teal-400 to-orange-600 blur-xl" />
 
-						<div className=" absolute left-0 bottom-0 translate-y-1.5 -translate-x-1/2  flex flex-col items-center justify-center gap-2 z-20  pointer-events-none">
-							<div className="bg-gradient-to-t from-indigo-600 to-indigo-400 font-bold text-transparent bg-clip-text text-2xl">
-								{getPointTemperature(data?.min_point)}
-							</div>
-							<Tooltip
-								content={
-									<div className="flex flex-col justify-center gap-1">
-										<h4 className="bg-gradient-to-t text-center from-indigo-600 to-indigo-400 font-bold text-transparent bg-clip-text text-2xl">
-											{getPointTemperature(data?.min_point)}
-										</h4>
-
-										<div className="text-sm flex gap-2 items-center text-indigo-500">
-											<div>{data?.min_point.properties.station_long_name}</div>
-										</div>
-									</div>
-								}
-							>
-								<div className="relative h-5 w-5 cursor-pointer">
-									<div className="rounded-full h-5 w-5 bg-indigo-600 shadow-md peer pointer-events-auto" />
-									<div className="rounded-full h-10 w-10 bg-indigo-600 absolute top-0 left-0 -translate-y-[10px] -translate-x-[10px] -z-10 peer-hover:opacity-20 opacity-0 transition-opacity duration-300 blur " />
-								</div>
-							</Tooltip>
-						</div>
-
-						{tempPoints?.map((point) => {
-							return (
-								<Tooltip
-									key={point.percentage}
-									content={
-										<div className="flex flex-col justify-center gap-1">
-											<h4 className="font-bold text-xl text-center">
-												{point.temp}
-											</h4>
-											{point.points.map((p) => (
-												<div
-													className="text-sm flex gap-2 items-center"
-													key={p.properties.station_id}
-												>
-													<MapPin className="w-3 h-3 text-neutral-700" />
-													<div>{p.properties.station_long_name}</div>
-												</div>
-											))}
-										</div>
-									}
-								>
-									<div
-										style={{ left: `${point.percentage}%` }}
-										className="h-3 w-[4px] rounded-full dark:bg-neutral-300 bg-neutral-600 absolute -translate-y-2.5 hover:scale-150 transition-all duration-300 z-10 dark:hover:bg-white hover:bg-black cursor-pointer"
-									/>
-								</Tooltip>
-							);
-						})}
-						<div className="absolute right-0 bottom-0 translate-y-2 translate-x-1/2 z-20 flex flex-col items-center justify-center gap-2 group pointer-events-none">
-							<div className=" bg-gradient-to-t from-orange-600 to-orange-400 font-bold text-transparent bg-clip-text text-2xl">
-								{getPointTemperature(data?.max_point)}
-							</div>
-							<Tooltip
-								content={
-									<div className="flex flex-col justify-center gap-1">
-										<h4 className="bg-gradient-to-t text-center from-orange-600 to-orange-400 font-bold text-transparent bg-clip-text text-2xl">
-											{getPointTemperature(data?.max_point)}
-										</h4>
-
-										<div className="text-sm flex gap-2 items-center text-orange-500">
-											<div>{data?.max_point.properties.station_long_name}</div>
-										</div>
-									</div>
-								}
-							>
-								<div className="relative h-6 w-6 cursor-pointer">
-									<svg
-										className="rounded h-6 w-6 text-orange-600 absolute  drop-shadow-md peer pointer-events-auto"
-										width="16"
-										height="13"
-										viewBox="0 0 16 13"
-										fill="currentColor"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path d="M7.13392 0.5C7.51882 -0.166667 8.48107 -0.166666 8.86597 0.500001L14.9282 11C15.3131 11.6667 14.8319 12.5 14.0621 12.5H1.93777C1.16797 12.5 0.686846 11.6667 1.07175 11L7.13392 0.5Z" />
-									</svg>
-									<svg
-										className="rounded h-12 w-12 text-orange-600 absolute top-0 left-0 -translate-y-3 -translate-x-3 -z-10 peer-hover:opacity-20 opacity-0 transition-opacity duration-300 blur"
-										width="16"
-										height="13"
-										viewBox="0 0 16 13"
-										fill="currentColor"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path d="M7.13392 0.5C7.51882 -0.166667 8.48107 -0.166666 8.86597 0.500001L14.9282 11C15.3131 11.6667 14.8319 12.5 14.0621 12.5H1.93777C1.16797 12.5 0.686846 11.6667 1.07175 11L7.13392 0.5Z" />
-									</svg>
-								</div>
-							</Tooltip>
-						</div>
+				<div className=" pointer-events-none absolute bottom-0 left-0 z-20  flex -translate-x-1/2 translate-y-1.5 flex-col items-center justify-center  gap-2">
+					<div className="bg-gradient-to-t from-indigo-600 to-indigo-400 bg-clip-text text-2xl font-bold text-transparent">
+						{getPointTemperature(data?.min_point)}
 					</div>
-					<div className="w-full text-center text-sm dark:text-white">
-						{tempPoints?.length}
-						<span className="opacity-50">
-							{" "}
-							stations reporting temperature data
-						</span>
-					</div>
+					<HoverCard.Root>
+						<HoverCard.Trigger>
+							<div className="relative h-5 w-5 cursor-pointer">
+								<div className="peer pointer-events-auto h-5 w-5 rounded-full border border-transparent bg-indigo-600 shadow-md transition-colors hover:border-indigo-300" />
+								<div className="absolute left-0 top-0 -z-10 h-10 w-10 -translate-x-[10px] -translate-y-[10px] rounded-full bg-indigo-600 opacity-0 blur transition-opacity duration-300 peer-hover:opacity-10 " />
+							</div>
+						</HoverCard.Trigger>
+						<HoverCard.Content align="center" side="top">
+							<div className="flex flex-col justify-center gap-1">
+								<Text align="center" size="5">
+									<Strong>{getPointTemperature(data?.min_point)}</Strong>
+								</Text>
+								<Text size="2">
+									{data?.min_point.properties.station_long_name}
+								</Text>
+							</div>
+						</HoverCard.Content>
+					</HoverCard.Root>
 				</div>
-			</EdittingWrapper>
-		</AnimatePresence>
+
+				{tempPoints?.map((point) => {
+					return (
+						<HoverCard.Root key={point.percentage}>
+							<HoverCard.Trigger>
+								<div
+									style={{ left: `${point.percentage}%` }}
+									className="absolute z-10 h-3 w-[4px] -translate-y-2.5 cursor-pointer rounded-full bg-neutral-600 transition-all duration-300 hover:scale-150 hover:bg-black dark:bg-neutral-300 dark:hover:bg-white"
+								/>
+							</HoverCard.Trigger>
+							<HoverCard.Content align="center" side="top">
+								<div className="flex flex-col justify-center gap-1">
+									<Text align="center" size="5">
+										<Strong>{point.temp}</Strong>
+									</Text>
+									{point.points.map((p) => (
+										<ul
+											className="flex list-inside list-disc items-center gap-2 text-sm"
+											key={p.properties.station_id}
+										>
+											{/* <SewingPinIcon height={16} width={16} /> */}
+											<li className="list-item">
+												<Text size="2">{p.properties.station_long_name}</Text>
+											</li>
+										</ul>
+									))}
+								</div>
+							</HoverCard.Content>
+						</HoverCard.Root>
+					);
+				})}
+				<div className="group pointer-events-none absolute bottom-0 right-0 z-20 flex translate-x-1/2 translate-y-2 flex-col items-center justify-center gap-2">
+					<div className=" bg-gradient-to-t from-orange-600 to-orange-400 bg-clip-text text-2xl font-bold text-transparent">
+						{getPointTemperature(data?.max_point)}
+					</div>
+					<HoverCard.Root>
+						<HoverCard.Trigger>
+							<div className="relative h-6 w-6 cursor-pointer">
+								<svg
+									className="peer pointer-events-auto absolute h-6 w-6  rounded stroke-transparent stroke-1 text-orange-600 drop-shadow-md transition-colors hover:stroke-orange-200"
+									width="16"
+									height="13"
+									viewBox="0 0 16 13"
+									fill="currentColor"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path d="M7.13392 0.5C7.51882 -0.166667 8.48107 -0.166666 8.86597 0.500001L14.9282 11C15.3131 11.6667 14.8319 12.5 14.0621 12.5H1.93777C1.16797 12.5 0.686846 11.6667 1.07175 11L7.13392 0.5Z" />
+								</svg>
+								<svg
+									className="absolute left-0 top-0 -z-10 h-12 w-12 -translate-x-3 -translate-y-3 rounded text-orange-600 opacity-0 blur transition-opacity duration-300 peer-hover:opacity-10"
+									width="16"
+									height="13"
+									viewBox="0 0 16 13"
+									fill="currentColor"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path d="M7.13392 0.5C7.51882 -0.166667 8.48107 -0.166666 8.86597 0.500001L14.9282 11C15.3131 11.6667 14.8319 12.5 14.0621 12.5H1.93777C1.16797 12.5 0.686846 11.6667 1.07175 11L7.13392 0.5Z" />
+								</svg>
+							</div>
+						</HoverCard.Trigger>
+						<HoverCard.Content align="center" side="top">
+							<div className="flex flex-col justify-center gap-1">
+								<Text align="center" size="5">
+									<Strong>{getPointTemperature(data?.max_point)}</Strong>
+								</Text>
+								<Text size="2">
+									{data?.max_point.properties.station_long_name}
+								</Text>
+							</div>
+						</HoverCard.Content>
+					</HoverCard.Root>
+				</div>
+			</div>
+			<div className="w-full text-center text-sm dark:text-white">
+				{tempPoints?.length}
+				<span className="opacity-50"> stations reporting temperature data</span>
+			</div>
+		</Flex>
 	);
 };
 
