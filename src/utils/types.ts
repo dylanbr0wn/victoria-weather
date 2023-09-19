@@ -1,4 +1,7 @@
 /* eslint-disable no-undef */
+
+import { Geometry } from "geojson";
+
 //Weather Types
 interface Location {
 	country: string;
@@ -172,7 +175,7 @@ interface Isoband extends GeoJSON.Feature<GeoJSON.Polygon> {
 
 export interface MapData {
 	intersection: {
-		intersection: GeoJSON.FeatureCollection<null, Isoband>;
+		intersection: GeoJSON.FeatureCollection<Geometry, Isoband>;
 	};
 	island: {
 		island: GeoJSON.Feature<GeoJSON.Polygon>;

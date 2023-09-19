@@ -3,7 +3,7 @@ import { ConfigureDialog } from "./ConfigureDialog";
 import { getMapData } from "../utils/mapData";
 import { getPointsData } from "../utils/pointsData";
 import { getRainData } from "../utils/rainData";
-import { getWeatherData } from "../utils/weatherData";
+import { WeatherData, getWeatherData } from "../utils/weatherData";
 import { WidgetsList } from "./WidgetsList";
 import { Badge, Card, Em, Flex, Heading, Strong, Text } from "@radix-ui/themes";
 import Current from "./Current";
@@ -15,16 +15,22 @@ import AirQuality from "./AirQuality";
 import { useLayoutStore } from "../utils/zustand";
 import dayjs from "dayjs";
 import { ClockIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
+import { FeatureCollection, Geometry } from "geojson";
+import { MapData, PointsData, RainData } from "../utils/types";
 
 const Map = dynamic(() => import("./WeatherMap"), {
 	ssr: false,
 });
 
-export default async function Home() {
-	const { intersection, island } = await getMapData();
-	const points = await getPointsData();
-	const rain = await getRainData();
-	const weather = await getWeatherData();
+type HomeProps = {
+  intersection: MapData['intersection']
+  island: MapData['island']
+  points: PointsData
+  rain: RainData
+  weather: WeatherData
+}
+
+export default async function Home({intersection, island, points, weather, rain}: HomeProps) {
 
 	const observation_time = dayjs(points?.points[0]?.observation_time);
 
@@ -36,7 +42,7 @@ export default async function Home() {
 				</div>
 				<Flex direction="column" gap="2" className="w-1/3">
 					<Card size="2" variant="ghost" className="h-full">
-						<Flex direction="column" gap="6">
+						<Flex p="3" direction="column" gap="6">
 							<Flex justify="center">
 								<Flex direction="column" align="start">
 									<Badge>
@@ -54,10 +60,11 @@ export default async function Home() {
 									</Text>
 								</Flex>
 							</Flex>
-							<MaxMin />
-							<Flex gap="6" pt="5">
-								<Rain />
-								<UVIndex />
+							{!!points ? <MaxMin points={points} /> : null}
+
+							<Flex gap="6" pt="5" justify="center">
+                {!!rain ? <Rain rain={rain} /> : null}
+								<UVIndex uvData={weather.uv} />
 							</Flex>
 						</Flex>
 					</Card>

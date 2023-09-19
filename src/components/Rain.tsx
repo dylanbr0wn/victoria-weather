@@ -1,23 +1,15 @@
 "use client";
 
 import { Card, Flex, Text } from "@radix-ui/themes";
-import { useRainData } from "../pages/api/rain.swr";
-import AnimatePresence from "./common/AnimatePresence";
-import { EdittingWrapper } from "./EditingWrapper";
+import { RainData } from "../utils/types";
 
 const Rain = ({
-	isPreview,
-	handleDrag = () => {},
+	rain
 }: {
-	isPreview?: boolean;
-	handleDrag?: React.PointerEventHandler<HTMLButtonElement>;
+	rain: RainData
 }) => {
-	const { data } = useRainData();
-
-	if (!data) return null;
 
 	return (
-		<AnimatePresence show={!!data}>
 			<Flex gap="3" direction="column" align="center">
 				<Flex gap="5" align="center" justify="center">
 					<div className="relative h-20 w-8 overflow-hidden rounded-b-full border-x border-b border-sky-100/50 bg-gradient-to-tr from-slate-900 to-slate-800">
@@ -44,7 +36,7 @@ const Rain = ({
 							className="water  bg-sky-400 transition-all duration-500 group-hover:opacity-30"
 							style={{
 								transform: `translateY(${
-									70 - 50 * ((data.average_rain ?? 0) / 40)
+									70 - 50 * ((rain.average_rain ?? 0) / 40)
 								}px)`,
 							}}
 						>
@@ -67,9 +59,9 @@ const Rain = ({
 							<div
 								className={` bg-gradient-to-t  from-sky-700 to-sky-300 bg-clip-text text-4xl font-black text-transparent`}
 							>
-								{!data.average_rain || data.average_rain === 0
+								{!rain.average_rain || rain.average_rain === 0
 									? "0.00"
-									: data.average_rain?.toFixed(2)}
+									: rain.average_rain?.toFixed(2)}
 							</div>
 							<div
 								className={`ml-1 bg-gradient-to-t from-sky-700 to-sky-300 bg-clip-text text-2xl text-transparent`}
@@ -84,12 +76,11 @@ const Rain = ({
 				</Flex>
 				<div>
 					<Text size="5" color="sky">
-						{data?.number_reporting}
+						{rain.number_reporting}
 					</Text>{" "}
 					<Text size="3">stations currently reporting rain.</Text>{" "}
 				</div>
 			</Flex>
-		</AnimatePresence>
 	);
 };
 export default Rain;

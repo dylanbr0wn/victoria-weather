@@ -1,12 +1,9 @@
 "use client";
 
 import { Point, PointProperties, PointsData } from "../utils/types";
-import { usePointsData } from "../pages/api/points.swr";
-import AnimatePresence from "./common/AnimatePresence";
 import { useMemo } from "react";
 import type { Feature, Point as GeoPoint } from "geojson";
-import { EdittingWrapper } from "./EditingWrapper";
-import { Card, Flex, HoverCard, Strong, Text, Tooltip } from "@radix-ui/themes";
+import { Flex, HoverCard, Strong, Text } from "@radix-ui/themes";
 
 const getPointTemperature = (point: Point | undefined) => {
 	return `${point?.properties.temperature}   °${point?.properties.temperature_units}`;
@@ -58,26 +55,19 @@ function processPoints(
 		}
 		return acc;
 	}, {});
-	console.log(tempScalePoints);
 	return Object.values(tempScalePoints ?? {});
 }
 
 const MaxMin = ({
-	handleDrag = () => {},
-	isPreview,
+	points
 }: {
-	isPreview?: boolean;
-	handleDrag?: React.PointerEventHandler<HTMLButtonElement>;
+	points: PointsData
 }) => {
-	const { data } = usePointsData();
-
 	const tempPoints = useMemo(
 		() =>
-			processPoints(data?.points.features, data?.max_point, data?.min_point),
-		[data]
+			processPoints(points.points.features, points.max_point, points.min_point),
+		[points]
 	);
-
-	if (!data) return null;
 
 	return (
 		<Flex mt="4" justify="between" direction="column" align="baseline" gap="3">
@@ -87,7 +77,7 @@ const MaxMin = ({
 
 				<div className=" pointer-events-none absolute bottom-0 left-0 z-20  flex -translate-x-1/2 translate-y-1.5 flex-col items-center justify-center  gap-2">
 					<div className="bg-gradient-to-t from-indigo-600 to-indigo-400 bg-clip-text text-2xl font-bold text-transparent">
-						{getPointTemperature(data?.min_point)}
+						{getPointTemperature(points.min_point)}
 					</div>
 					<HoverCard.Root>
 						<HoverCard.Trigger>
@@ -99,10 +89,10 @@ const MaxMin = ({
 						<HoverCard.Content align="center" side="top">
 							<div className="flex flex-col justify-center gap-1">
 								<Text align="center" size="5">
-									<Strong>{getPointTemperature(data?.min_point)}</Strong>
+									<Strong>{getPointTemperature(points.min_point)}</Strong>
 								</Text>
 								<Text size="2">
-									{data?.min_point.properties.station_long_name}
+									{points.min_point.properties.station_long_name}
 								</Text>
 							</div>
 						</HoverCard.Content>
@@ -141,7 +131,7 @@ const MaxMin = ({
 				})}
 				<div className="group pointer-events-none absolute bottom-0 right-0 z-20 flex translate-x-1/2 translate-y-2 flex-col items-center justify-center gap-2">
 					<div className=" bg-gradient-to-t from-orange-600 to-orange-400 bg-clip-text text-2xl font-bold text-transparent">
-						{getPointTemperature(data?.max_point)}
+						{getPointTemperature(points.max_point)}
 					</div>
 					<HoverCard.Root>
 						<HoverCard.Trigger>
@@ -171,10 +161,10 @@ const MaxMin = ({
 						<HoverCard.Content align="center" side="top">
 							<div className="flex flex-col justify-center gap-1">
 								<Text align="center" size="5">
-									<Strong>{getPointTemperature(data?.max_point)}</Strong>
+									<Strong>{getPointTemperature(points.max_point)}</Strong>
 								</Text>
 								<Text size="2">
-									{data?.max_point.properties.station_long_name}
+									{points.max_point.properties.station_long_name}
 								</Text>
 							</div>
 						</HoverCard.Content>

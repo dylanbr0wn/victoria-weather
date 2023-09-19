@@ -299,50 +299,6 @@ const CustMap = ({
 
 	const curRef = useRef<string>();
 
-	const onMapLoad = useCallback(() => {
-		mapRef.current.on("click", "isoband", () => {
-			setPopupData(undefined);
-			setShowPopup(false);
-			curRef.current = "";
-		});
-
-		mapRef.current.on("click", "point", (e) => {
-			// Change the cursor style as a UI indicator.
-			// mapRef.current.getCanvas().style.cursor = "pointer";
-
-			if (!e.features[0].properties.station_id) return;
-
-			// Copy coordinates array.
-
-			let lng = Number(e.features[0].properties.longitude);
-			let lat = Number(e.features[0].properties.latitude);
-
-			const properties = e.features[0].properties;
-
-			// Ensure that if the map is zoomed out such that multiple
-			// copies of the feature are visible, the popup appears
-			// over the copy being pointed to.
-			while (Math.abs(e.lngLat.lng - lng) > 180) {
-				lng += e.lngLat.lng > lng ? 360 : -360;
-			}
-			setPopupData({
-				coordinates: [lng, lat],
-				properties,
-			});
-			curRef.current = properties.station_id;
-			setShowPopup(true);
-		});
-		mapRef.current.on("mousemove", "point", (e) => {
-			if (!e?.features[0]?.properties?.station_id) return;
-			mapRef.current.getCanvas().style.cursor = "pointer";
-		});
-
-		mapRef.current.on("mouseleave", "point", () => {
-			// Reset the cursor style
-			mapRef.current.getCanvas().style.cursor = "";
-		});
-	}, []);
-
 	const show = !!points && !!island && !!intersection;
 
 	return (
@@ -350,7 +306,6 @@ const CustMap = ({
 			{show && (
 				<Map
 					id="map"
-					onLoad={onMapLoad}
 					ref={mapRef}
 					initialViewState={{
 						longitude: lng ?? -123.35,

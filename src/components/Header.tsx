@@ -15,10 +15,11 @@ import Link from "next/link";
 // import { useEditStore } from "../utils/zustand";
 import CommandMenu from "./CommandDialog";
 import Search from "./Search";
+import { PointsData } from "../utils/types";
 
 const ThemeButton = dynamic(() => import("./ThemeButton"), { ssr: false });
 
-const Header = () => {
+const Header = ({points}: {points: PointsData}) => {
 	// const { setEditMode } = useEditStore((store) => ({
 	// 	setEditMode: store.setIsConfigureDialogOpen,
 	// }));
@@ -39,7 +40,7 @@ const Header = () => {
 					</Link>
 				</div>
 				<Flex gap="3">
-					<Search />
+					<Search points={points} />
 					<ThemeButton />
 					<IconButton asChild variant="outline" size="3">
 						<a

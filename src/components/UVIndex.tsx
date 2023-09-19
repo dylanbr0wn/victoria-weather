@@ -7,13 +7,12 @@ import { EdittingWrapper } from "./EditingWrapper";
 import { Card, Flex, Text } from "@radix-ui/themes";
 import { SunIcon } from "@radix-ui/react-icons";
 import { useTime, useTransform, motion } from "framer-motion";
+import { WeatherData } from "../utils/weatherData";
 
 const UVIndex = ({
-	handleDrag = () => {},
-	isPreview,
+	uvData
 }: {
-	isPreview?: boolean;
-	handleDrag?: React.PointerEventHandler<HTMLButtonElement>;
+	uvData: WeatherData['uv']
 }) => {
 	// const { data } = useWeatherData();
 
@@ -30,14 +29,14 @@ const UVIndex = ({
 	// 	opacity.set(0);
 	// });
 
-	// React.useEffect(() => {
-	// 	if (uvData?.uv) {
-	// 		document.body.style.setProperty(
-	// 			"--uv-glow-opacity",
-	// 			`${Math.min(0.4 + uvData.uv / 11, 1)}`
-	// 		);
-	// 	}
-	// }, [uvData?.uv]);
+	React.useEffect(() => {
+		if (uvData?.uv) {
+			document.body.style.setProperty(
+				"--uv-glow-opacity",
+				`${Math.min(0.4 + uvData.uv / 11, 1)}`
+			);
+		}
+	}, [uvData?.uv]);
 
 	return (
 		// <AnimatePresence show={!!uvData}>
@@ -97,11 +96,9 @@ const UVIndex = ({
 				className={`flex items-end justify-center pb-2 pt-6 tracking-widest`}
 			>
 				<div
-					className={`${
-						isPreview ? "text-3xl" : "text-5xl"
-					} bg-gradient-to-t from-amber-300/50 via-amber-300/75 to-amber-200 bg-clip-text font-black leading-none text-transparent`}
+					className={`text-5xl bg-gradient-to-t from-amber-300/50 via-amber-300/75 to-amber-200 bg-clip-text font-black leading-none text-transparent`}
 				>
-					{1}
+					{uvData.uv}
 				</div>
 				<a
 					href="https://en.wikipedia.org/wiki/Ultraviolet_index"
@@ -112,12 +109,12 @@ const UVIndex = ({
 					UV Index
 				</a>
 			</div>
-			{/* <div className="text-center">
+			<div className="text-center">
 					<Text size="4" color="amber">
 						{uvData?.status}{" "}
 					</Text>
-					<Text size="3">{uvData?.messageShort}</Text>
-				</div> */}
+					<Text size="3">{uvData.messageShort}</Text>
+				</div>
 		</Flex>
 	);
 };

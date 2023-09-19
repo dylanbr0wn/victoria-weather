@@ -1,9 +1,6 @@
 "use client";
-import { useState, useEffect, useCallback, useRef } from "react";
-import { PointProperties, PointsData } from "../utils/types";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { usePointsData } from "../pages/api/points.swr";
-import { Feature, Point } from "geojson";
+import { useState } from "react";
+import {  PointsData } from "../utils/types";
 import {
 	Box,
 	Button,
@@ -18,17 +15,13 @@ import {
 	TextField,
 } from "@radix-ui/themes";
 import { PopoverAnchor } from "@radix-ui/react-popover";
-import { ArrowRightIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { ExternalLink } from "lucide-react";
 import { Command } from "cmdk";
 
-// eslint-disable-next-line no-undef
-type PointFeatureArray = Feature<Point, PointProperties>[];
-
-const Search = () => {
+const Search = ({points}: {points: PointsData}) => {
 	const [search, setSearch] = useState("");
 
-	const { data } = usePointsData();
 	const [popoverOpen, setPopoverOpen] = useState(false);
 
 	const onSearch = ({ target }) => {
@@ -73,7 +66,7 @@ const Search = () => {
 								<Command.List className="group flex flex-col gap-1">
 									<Command.Empty>No results found.</Command.Empty>
 
-									{data?.points.features.map(({ properties, geometry }, i) => {
+									{points.points.features.map(({ properties, geometry }, i) => {
 										const coordinates = `${geometry.coordinates[1].toFixed(
 											7
 										)}, ${geometry.coordinates[0].toFixed(7)}`;
