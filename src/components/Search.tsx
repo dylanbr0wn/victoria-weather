@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {  PointsData } from "../utils/types";
 import {
 	Box,
@@ -23,6 +23,12 @@ const Search = ({points}: {points: PointsData}) => {
 	const [search, setSearch] = useState("");
 
 	const [popoverOpen, setPopoverOpen] = useState(false);
+
+  const [container, setContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    setContainer(document.getElementById('page-root'))
+  },[])
 
 	const onSearch = ({ target }) => {
 		setSearch(target.value);
@@ -52,9 +58,10 @@ const Search = ({points}: {points: PointsData}) => {
 					</TextField.Root>
 				</PopoverAnchor>
 				<Popover.Content
+          container={container}
 					align="end"
 					onOpenAutoFocus={(e) => e.preventDefault()}
-					className="w-full md:w-[600px]"
+					className="w-full md:w-[600px] z-50"
 				>
 					<Inset>
 						<ScrollArea

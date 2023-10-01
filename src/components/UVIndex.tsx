@@ -1,12 +1,9 @@
 "use client";
 
-import { useWeatherData } from "../pages/api/weather.swr";
-import AnimatePresence from "./common/AnimatePresence";
 import * as React from "react";
-import { EdittingWrapper } from "./EditingWrapper";
-import { Card, Flex, Text } from "@radix-ui/themes";
+import { Flex, Text } from "@radix-ui/themes";
 import { SunIcon } from "@radix-ui/react-icons";
-import { useTime, useTransform, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { WeatherData } from "../utils/weatherData";
 
 const UVIndex = ({
@@ -14,20 +11,6 @@ const UVIndex = ({
 }: {
 	uvData: WeatherData['uv']
 }) => {
-	// const { data } = useWeatherData();
-
-	// const uvData = data?.uv;
-
-	// const opacity = useTransform(
-	// 	time,
-	// 	[0, 2000, 4000], // For every 4 seconds...
-	// 	[0, 0.5, 0], // ...rotate 360deg
-	// 	{ clamp: false }
-	// );
-
-	// opacity.on("animationComplete", () => {
-	// 	opacity.set(0);
-	// });
 
 	React.useEffect(() => {
 		if (uvData?.uv) {
@@ -39,8 +22,7 @@ const UVIndex = ({
 	}, [uvData?.uv]);
 
 	return (
-		// <AnimatePresence show={!!uvData}>
-		<Flex direction="column" gap="1" align="center" className="relative">
+		<Flex mt="5" direction="column" gap="1" align="center" className="relative">
 			<div className="pointer-events-none absolute left-1/2 top-0 h-[300px] w-[450px] -translate-x-1/2">
 				<div className="absolute left-1/2 top-0 z-10 w-min -translate-x-1/2 -translate-y-1/2 text-amber-200">
 					<SunIcon className="animate-spin-slow" height={30} width={30} />

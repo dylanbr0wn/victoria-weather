@@ -1,12 +1,14 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Aileron", ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-mona-sans)', ...defaultTheme.fontFamily.sans],
+        hubot: ['var(--font-hubot-sans)', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         base: "#0e101f",
