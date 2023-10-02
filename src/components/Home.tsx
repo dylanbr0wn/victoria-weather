@@ -1,21 +1,14 @@
 import dynamic from "next/dynamic";
 import { WeatherData } from "../utils/weatherData";
-import {
-	Badge,
-	Box,
-	Card,
-	Flex,
-	Heading,
-	Separator,
-	Strong,
-	Text,
-} from "@radix-ui/themes";
+import { Badge, Box, Card, Flex, Text } from "@radix-ui/themes";
 import MaxMin from "./MaxMin";
 import Rain from "./Rain";
 import UVIndex from "./UVIndex";
 import dayjs from "dayjs";
 import { ClockIcon } from "@radix-ui/react-icons";
 import { MapData, PointsData, RainData } from "../utils/types";
+import AirQuality from "./AirQuality";
+import SunMoonCycle from "./SunMoonCycle";
 
 const Map = dynamic(() => import("./WeatherMap"), {
 	ssr: false,
@@ -71,19 +64,22 @@ export default function Home({
 	const observation_time = dayjs(points?.points[0]?.observation_time);
 
 	return (
-		<main className="z-10 flex-grow overflow-hidden p-3">
+		<main className="z-10 h-full flex-grow overflow-hidden p-3">
 			<Flex direction="column" gap="4" className="h-full">
-				<div className="h-[calc(100vh*0.5)]">
+				<div className="h-[70vh]">
 					<Map intersection={intersection} points={points} island={island} />
 				</div>
-				<Flex direction="column" gap="4" className="max-w-5xl mx-auto w-full">
+				<Flex direction="column" gap="4" className="mx-auto w-full max-w-5xl">
 					<Flex align="center" gap="3">
-						<h2 className="font-hubot text-3xl font-bold tracking-normal text-transparent bg-clip-text bg-gradient-to-tl from-sky-200 to-sky-50" >Current Conditions</h2>
+						<h2 className="bg-gradient-to-tl from-sky-200 to-sky-50 bg-clip-text font-hubot text-3xl font-bold tracking-normal text-transparent">
+							Current Conditions
+						</h2>
 						<Badge color="sky">
 							<Flex gap="2" align="center" p="1">
 								<ClockIcon width={16} height={16} />
 								<Text size="2">
-                  Last Updated: {getRelativeTimeString(observation_time.toDate())}
+									Last Updated:{" "}
+									{getRelativeTimeString(observation_time.toDate())}
 								</Text>
 							</Flex>
 						</Badge>
@@ -100,19 +96,27 @@ export default function Home({
 								</Text>
 							</Flex>
 							<Text color="gray" size="3">
-									Average Temperature
-								</Text>
+								Average Temperature
+							</Text>
 						</Flex>
 						<Flex direction="column" gap="3" mt="-6">
 							{!!points ? <MaxMin points={points} /> : null}
 						</Flex>
 					</Card>
 					<Flex className="w-full" gap="4">
-						<Card className="w-1/2">
+						<Card className="h-[160px] w-1/2">
 							{!!rain ? <Rain rain={rain} /> : null}
 						</Card>
-						<Card className="w-1/2">
+						<Card className="h-[160px] w-1/2">
 							<UVIndex uvData={weather.uv} />
+						</Card>
+					</Flex>
+					<Flex className="w-full" gap="4">
+						<Card className="h-[160px] w-1/2">
+							<AirQuality weather={weather} />
+						</Card>
+						<Card className="h-[160px] w-1/2">
+							<SunMoonCycle />
 						</Card>
 					</Flex>
 				</Flex>

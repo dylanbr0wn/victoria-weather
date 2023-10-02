@@ -6,12 +6,7 @@ import { SunIcon } from "@radix-ui/react-icons";
 import { motion } from "framer-motion";
 import { WeatherData } from "../utils/weatherData";
 
-const UVIndex = ({
-	uvData
-}: {
-	uvData: WeatherData['uv']
-}) => {
-
+const UVIndex = ({ uvData }: { uvData: WeatherData["uv"] }) => {
 	React.useEffect(() => {
 		if (uvData?.uv) {
 			document.body.style.setProperty(
@@ -74,11 +69,9 @@ const UVIndex = ({
 					}}
 				/>
 			</div>
-			<div
-				className={`flex items-end justify-center pb-2 pt-6 tracking-widest`}
-			>
+			<div className={`flex items-end justify-center pt-4 tracking-widest`}>
 				<div
-					className={`text-5xl bg-gradient-to-t from-amber-300/50 via-amber-300/75 to-amber-200 bg-clip-text font-black leading-none text-transparent`}
+					className={`bg-gradient-to-t from-amber-300/50 via-amber-300/75 to-amber-200 bg-clip-text text-6xl font-black leading-none text-transparent`}
 				>
 					{uvData.uv}
 				</div>
@@ -91,12 +84,14 @@ const UVIndex = ({
 					UV Index
 				</a>
 			</div>
-			<div className="text-center">
-					<Text size="4" color="amber">
-						{uvData?.status}{" "}
-					</Text>
-					<Text size="3">{uvData.messageShort}</Text>
-				</div>
+			<div>
+				<Text size="4" color="amber" align="center">
+					{uvData?.status}{" "}
+				</Text>
+				<Text align="center" size="3">
+					{uvData.messageShort}
+				</Text>
+			</div>
 		</Flex>
 	);
 };

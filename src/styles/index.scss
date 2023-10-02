@@ -130,16 +130,11 @@ code {
 	background: conic-gradient(
 			from 90deg at 70% 50%,
 			#0f0236 0deg,
-			#c08a54 360deg
+			#f4be88 360deg
 		),
-		conic-gradient(from -90deg at 30% 50%, #c08a54 0deg, #0f0236 360deg);
+		conic-gradient(from -90deg at 30% 50%, #f4be88 0deg, #0f0236 360deg);
 
-	-webkit-mask-image: radial-gradient(
-		50% 50% at center center,
-		black,
-		transparent
-	);
-	mask-image: radial-gradient(50% 50% at center center, black, transparent);
+	mask-image: radial-gradient(50% 100% at center center, black, transparent);
 
 	// transform: translateY(-200px) rotate(180deg) translateZ(0px);
 	transform-origin: center center;
@@ -149,7 +144,7 @@ code {
 	background-color: transparent;
 	background-origin: padding-box padding-box;
 	background-size: 50% 100%, 50% 100%;
-	background-position-x: 0.05%, 99.95%;
+	background-position-x: 0.01%, 99.99%;
 	background-position-y: 0%, 0%;
 }
 
@@ -166,7 +161,7 @@ code {
 		),
 		conic-gradient(
 			from -90deg at 40% 50%,
-			#c08a54 0deg,
+			#d09e6c 0deg,
 			#0f023600 180deg,
 			#0f023600 360deg
 		);
@@ -204,7 +199,7 @@ code {
 }
 
 .radix-themes {
-  --default-font-family: var(--font-mona-sans), sans-serif;
+	--default-font-family: var(--font-mona-sans), sans-serif;
 }
 
 .App {

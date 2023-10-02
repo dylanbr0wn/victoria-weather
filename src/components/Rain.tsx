@@ -52,7 +52,7 @@ const Rain = ({ rain }: { rain: RainData }) => {
 				<Flex direction="column">
 					<div className="flex items-end leading-none ">
 						<div
-							className={` bg-gradient-to-t  from-sky-700 to-sky-300 bg-clip-text text-4xl font-black text-transparent`}
+							className={` bg-gradient-to-t  from-sky-700 to-sky-300 bg-clip-text text-6xl font-black text-transparent`}
 						>
 							{!rain.average_rain || rain.average_rain === 0
 								? "0.00"
@@ -71,7 +71,7 @@ const Rain = ({ rain }: { rain: RainData }) => {
 			</Flex>
 			<div>
 				<Text size="5" color="sky">
-					{rain.number_reporting}
+					{rain.number_reporting ?? 0}
 				</Text>{" "}
 				<Text size="3">stations currently reporting rain.</Text>{" "}
 			</div>
