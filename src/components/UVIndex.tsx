@@ -79,7 +79,7 @@ const UVIndex = ({ uvData }: { uvData: WeatherData["uv"] }) => {
 					href="https://en.wikipedia.org/wiki/Ultraviolet_index"
 					rel="noopener noreferrer"
 					target="_blank"
-					className={`mb-1 border-b border-transparent border-opacity-0 bg-gradient-to-t from-amber-700 to-amber-500 bg-clip-text  align-bottom text-2xl font-semibold leading-none text-transparent mix-blend-hard-light transition-all hover:border-amber-300/75 hover:border-opacity-100 dark:from-amber-300 dark:to-amber-200`}
+					className={`mb-1 border-b border-transparent border-opacity-0 bg-gradient-to-t from-amber-700 to-amber-500 bg-clip-text  align-bottom text-2xl font-semibold leading-none text-transparent mix-blend-hard-light transition-all hover:border-amber-600 hover:border-opacity-100  dark:from-amber-200 dark:to-amber-100 dark:hover:border-amber-100`}
 				>
 					UV Index
 				</a>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { PointsData } from "../utils/types";
 import {
 	Box,
@@ -12,7 +12,18 @@ import {
 	TextField,
 } from "@radix-ui/themes";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { ExternalLink } from "lucide-react";
+import {
+	AirVent,
+	Droplets,
+	ExternalLink,
+	GlassWater,
+	Locate,
+	MoveHorizontal,
+	MoveVertical,
+	Shrink,
+	Sun,
+	Thermometer,
+} from "lucide-react";
 
 type StationData = {
 	name: string;
@@ -21,6 +32,12 @@ type StationData = {
 	rain: string | null;
 	temperature: string | null;
 	pressure: string | null;
+	coordinates: {
+		long: string;
+		lat: string;
+	};
+	wind: string | null;
+	humidity: string | null;
 };
 
 function getStationData(
@@ -35,7 +52,19 @@ function getStationData(
 				.toLowerCase()
 				.includes(search.toLowerCase())
 		) {
-			stations.push({
+			stations.push();
+		}
+	});
+	return stations;
+}
+
+export default function StationList({ points }: { points: PointsData }) {
+	const [search, setSearch] = useState("");
+	const [pagination, setPagination] = useState({ offset: 0, count: 10 });
+
+	const parsedPoints = useMemo(
+		() =>
+			points.points.features.map((s) => ({
 				temperature: s.properties?.temperature
 					? `${Number(s.properties?.temperature)}°C`
 					: null,
@@ -50,21 +79,34 @@ function getStationData(
 				pressure: s.properties.pressure
 					? `${s.properties.pressure} ${s.properties.pressure_units}`
 					: null,
-			});
-		}
-	});
-	return stations;
-}
-
-export default function StationList({ points }: { points: PointsData }) {
-	const [search, setSearch] = useState("");
-	const [pagination, setPagination] = useState({ offset: 0, count: 10 });
+				coordinates: {
+					long: s.geometry.coordinates[1].toFixed(7),
+					lat: s.geometry.coordinates[0].toFixed(7),
+				},
+				wind: s.properties.wind_speed
+					? `${s.properties.wind_speed} ${s.properties.wind_speed_units} ${
+							Number(s.properties.wind_speed) !== 0
+								? s.properties.wind_speed_heading
+								: ""
+					  }`
+					: null,
+				humidity: s.properties.humidity
+					? `${s.properties.humidity} ${s.properties.humidity_units}`
+					: null,
+				insolation: s.properties.insolation
+					? `${s.properties.insolation} ${s.properties.insolation_units}`
+					: null,
+			})),
+		[points]
+	);
 
 	function onSearch({ target }) {
 		setSearch(target.value);
 	}
 
-	const stations = getStationData(points, search, pagination);
+	const stations = parsedPoints.filter((s) =>
+		s.name.toLowerCase().includes(search.toLowerCase())
+	);
 
 	return (
 		<Box>
@@ -79,63 +121,108 @@ export default function StationList({ points }: { points: PointsData }) {
 						onChange={onSearch}
 					/>
 				</TextField.Root>
-				{stations.map(
-					({ elevation, name, id, temperature, rain, pressure }, i) => (
-						<Box key={id}>
-							{/* {i !== 0 && <Separator className="seperator" my="4" size="4" />} */}
-							<Card>
-								<Flex justify="between" align="center" gap="3">
-									<Flex direction="column" align="start" gap="1">
-										<Text as="div" size="3" weight="bold">
-											{name}
-										</Text>
-										<Flex wrap="wrap" gap="2" className="pr-3">
-											{/* <Text as="div" size="2" color="gray">
-                        📍 {coordinates}
-                      </Text> */}
-											{elevation && (
-												<Text as="div" size="2" color="gray">
-													⬆ {elevation}
-												</Text>
-											)}
-											{temperature && (
-												<Text as="div" size="2">
-													🌡️ {temperature}
-												</Text>
-											)}
-											{rain && (
-												<Text as="div" size="2" color="sky">
-													💧 {rain}
-												</Text>
-											)}
-											{pressure && (
-												<Text as="div" size="2">
-													☁️ {pressure}
-												</Text>
-											)}
-										</Flex>
-									</Flex>
-									<Box px="2">
-										<Button asChild variant="outline">
-											<Link
-												rel="noopener noreferrer"
-												target="_blank"
-												href={`https://www.victoriaweather.ca/station.php?id=${id}`}
-											>
-												<Flex justify="center" align="center" gap="1">
-													<span>details</span>
-													<ExternalLink height={12} width={12} />
+				{stations
+					.slice(0, pagination.count)
+					.map(
+						(
+							{
+								elevation,
+								name,
+								id,
+								temperature,
+								rain,
+								pressure,
+								coordinates,
+								wind,
+								humidity,
+								insolation,
+							},
+							i
+						) => (
+							<Box key={id}>
+								{/* {i !== 0 && <Separator className="seperator" my="4" size="4" />} */}
+								<Card>
+									<Flex justify="between" align="center" gap="3">
+										<Flex direction="column" align="start" gap="1">
+											<Text as="div" size="3" weight="bold">
+												{name}
+											</Text>
+
+											<Flex gap="4" className="w-full">
+												<Flex gap="1" align="center">
+													<Locate className="h-4 w-4 text-gray-400" />
+													<Flex gap="1" align="center">
+														<Text size="2">
+															{coordinates.long}, {coordinates.lat}
+														</Text>
+													</Flex>
 												</Flex>
-											</Link>
-										</Button>
-									</Box>
-								</Flex>
-							</Card>
-						</Box>
-					)
-				)}
+												<Flex gap="1" align="center">
+													<Thermometer className="h-4 w-4 text-gray-400" />
+													<Text size="2">{temperature}</Text>
+												</Flex>
+												<Flex gap="2" align="center">
+													<Droplets className="h-4 w-4 text-gray-400" />
+													<Text color="sky" size="2">
+														{rain}
+													</Text>
+												</Flex>
+												<Flex gap="2" align="center">
+													<Shrink className="h-4 w-4 text-gray-400" />
+													<Text color="violet" size="2">
+														{pressure}
+													</Text>
+												</Flex>
+												<Flex gap="2" align="center">
+													<GlassWater className="h-4 w-4 text-gray-400" />
+													<Text color="cyan" size="2">
+														{humidity}
+													</Text>
+												</Flex>
+												<Flex gap="2" align="center">
+													<AirVent className="h-4 w-4 text-gray-400" />
+													<Text color="indigo" size="2">
+														{wind}
+													</Text>
+												</Flex>
+												<Flex gap="2" align="center">
+													<Sun className="h-4 w-4 text-gray-400" />
+													<Text color="amber" size="2">
+														{insolation}
+													</Text>
+												</Flex>
+											</Flex>
+										</Flex>
+										<Box px="2">
+											<Button asChild variant="outline">
+												<Link
+													rel="noopener noreferrer"
+													target="_blank"
+													href={`https://www.victoriaweather.ca/station.php?id=${id}`}
+												>
+													<Flex justify="center" align="center" gap="1">
+														<span>details</span>
+														<ExternalLink height={12} width={12} />
+													</Flex>
+												</Link>
+											</Button>
+										</Box>
+									</Flex>
+								</Card>
+							</Box>
+						)
+					)}
 				<Flex justify="center" my="5" align="center" gap="6">
-					<Select.Root size="3" defaultValue="10">
+					<Select.Root
+						size="3"
+						onValueChange={(val) =>
+							setPagination({
+								...pagination,
+								count: Number(val),
+							})
+						}
+						value={`${pagination.count}`}
+					>
 						<Select.Trigger variant="ghost" />
 						<Select.Content>
 							<Select.Item value="10">10 results</Select.Item>
