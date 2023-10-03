@@ -16,16 +16,18 @@ export function preloadRainData() {
 }
 
 export const getRainData = cache(async () => {
-	return (await (
-		await fetch(url, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"Access-Control-Request-Headers": "*",
-				"api-key":
-					"J9AlkHAkRX67II6bP3drJCwFQf0JzEdofLvWsNlhyAEaGdbGTb371VUpBkZgM5Gi",
-			},
-			body,
-		})
-	).json()) as RainData | null;
+	return (
+		await (
+			await fetch(url, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Access-Control-Request-Headers": "*",
+					"api-key":
+						"J9AlkHAkRX67II6bP3drJCwFQf0JzEdofLvWsNlhyAEaGdbGTb371VUpBkZgM5Gi",
+				},
+				body,
+			})
+		).json()
+	).document as RainData | null;
 });
