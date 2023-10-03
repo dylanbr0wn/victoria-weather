@@ -19,7 +19,7 @@ const UVIndex = ({ uvData }: { uvData: WeatherData["uv"] }) => {
 	return (
 		<Flex mt="5" direction="column" gap="1" align="center" className="relative">
 			<div className="pointer-events-none absolute left-1/2 top-0 h-[300px] w-[450px] -translate-x-1/2">
-				<div className="absolute left-1/2 top-0 z-10 w-min -translate-x-1/2 -translate-y-1/2 text-amber-200">
+				<div className="absolute left-1/2 top-0 z-10 w-min -translate-x-1/2 -translate-y-1/2 text-amber-400 dark:text-amber-200">
 					<SunIcon className="animate-spin-slow" height={30} width={30} />
 					<SunIcon
 						className="absolute left-0 top-0 animate-spin-slow opacity-75 blur-sm"
@@ -71,7 +71,7 @@ const UVIndex = ({ uvData }: { uvData: WeatherData["uv"] }) => {
 			</div>
 			<div className={`flex items-end justify-center pt-4 tracking-widest`}>
 				<div
-					className={`bg-gradient-to-t from-amber-300/50 via-amber-300/75 to-amber-200 bg-clip-text text-6xl font-black leading-none text-transparent`}
+					className={`bg-gradient-to-t from-amber-600 to-amber-300 bg-clip-text  text-6xl font-black leading-none text-transparent dark:from-amber-300 dark:to-amber-200`}
 				>
 					{uvData.uv}
 				</div>
@@ -79,7 +79,7 @@ const UVIndex = ({ uvData }: { uvData: WeatherData["uv"] }) => {
 					href="https://en.wikipedia.org/wiki/Ultraviolet_index"
 					rel="noopener noreferrer"
 					target="_blank"
-					className={`mb-1 border-b border-transparent border-opacity-0 bg-gradient-to-t from-amber-300/50 via-amber-300/75 to-amber-200 bg-clip-text align-bottom text-2xl font-semibold leading-none text-transparent mix-blend-hard-light transition-all hover:border-amber-300/75 hover:border-opacity-100`}
+					className={`mb-1 border-b border-transparent border-opacity-0 bg-gradient-to-t from-amber-700 to-amber-500 bg-clip-text  align-bottom text-2xl font-semibold leading-none text-transparent mix-blend-hard-light transition-all hover:border-amber-300/75 hover:border-opacity-100 dark:from-amber-300 dark:to-amber-200`}
 				>
 					UV Index
 				</a>

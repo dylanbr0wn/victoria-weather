@@ -10,17 +10,19 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function MainPage() {
-	const { intersection, island } = await getMapData();
-	const points = await getPointsData();
-	const rain = await getRainData();
-	const weather = await getWeatherData();
+	const [{ intersection, island }, points, rain, weather] = await Promise.all([
+		getMapData(),
+		getPointsData(),
+		getRainData(),
+		getWeatherData(),
+	]);
 
 	return (
 		<div
 			id="page-root"
-			className="min-h-screen flex flex-col relative dark:bg-slate-950 bg-white transition-colors"
+			className="relative flex min-h-screen flex-col bg-white transition-colors dark:bg-slate-950"
 		>
-			<Header points={points!} />
+			<Header />
 			<Home
 				intersection={intersection}
 				island={island}

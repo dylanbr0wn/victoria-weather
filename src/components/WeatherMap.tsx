@@ -12,6 +12,7 @@ import Map, {
 } from "react-map-gl";
 import {
 	AirVent,
+	Box,
 	Droplets,
 	GlassWater,
 	Locate,
@@ -27,6 +28,15 @@ import { Feature, Point } from "geojson";
 import { MapData, PointProperties, PointsData } from "../utils/types";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMapStore } from "../utils/zustand";
+import {
+	Avatar,
+	Flex,
+	Heading,
+	HoverCard,
+	IconButton,
+	Separator,
+	Text,
+} from "@radix-ui/themes";
 
 interface MapProps {
 	lat?: number;
@@ -54,7 +64,150 @@ function MapMarker({ data }: MapMarkerProps) {
 			latitude={data.geometry.coordinates[1]}
 			style={{ zIndex: isOpen ? 300 : hoveredMarker === id ? 400 : 200 }}
 		>
-			<AnimatePresence>
+			<HoverCard.Root>
+				<HoverCard.Trigger>
+					<button className="rounded-full border border-neutral-500/75 bg-white p-2 transition-colors hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800">
+						<MapPin className="h-5 w-5 text-neutral-600 dark:text-neutral-300" />
+					</button>
+				</HoverCard.Trigger>
+				<HoverCard.Content>
+					<Flex wrap="wrap" gap="1" className="w-64">
+						<Heading as="h3" size="5">
+							{data.properties.station_long_name}
+						</Heading>
+						<div className="flex w-full flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+							<Flex gap="2" align="center">
+								<Locate className="h-4 w-4 text-gray-400" />
+								<Text color="gray" size="2">
+									Coordinates
+								</Text>
+							</Flex>
+							{/* <Text className="mr-2 flex items-center gap-1 text-neutral-500 ">
+								<Locate className="h-4 w-4 " />
+								<span>Coordinates</span>
+							</Text> */}
+							<Flex gap="4">
+								<Flex gap="1" align="center">
+									<MoveVertical className="h-4 w-4 " />
+									<Text size="2">
+										{data.geometry.coordinates[1].toFixed(7)}
+									</Text>
+								</Flex>
+								<Flex gap="2" align="center">
+									<MoveHorizontal className="h-4 w-4 " />
+									<Text size="2">
+										{data.geometry.coordinates[0].toFixed(7)}
+									</Text>
+								</Flex>
+							</Flex>
+						</div>
+						<div className="flex w-1/3 flex-grow flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+							<Flex gap="2" align="center">
+								<Thermometer className="h-4 w-4 text-gray-400" />
+								<Text color="gray" size="2">
+									Temperature
+								</Text>
+							</Flex>
+
+							<p
+								className={`${
+									Number(data.properties.temperature) < 10
+										? "text-blue-500"
+										: Number(data.properties.temperature) < 20
+										? "text-yellow-400"
+										: Number(data.properties.temperature) < 30
+										? "text-green-500"
+										: "text-red-600"
+								}`}
+							>
+								{Number(data.properties.temperature).toFixed(1)}℃
+							</p>
+						</div>
+						<div className="flex w-1/3 flex-grow flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+							<Flex gap="2" align="center">
+								<Droplets className="h-4 w-4 text-gray-400" />
+								<Text color="gray" size="2">
+									Rain Today
+								</Text>
+							</Flex>
+							<Text color="sky">
+								{data.properties.rain} {data.properties.rain_units}
+							</Text>
+						</div>
+						{data.properties.pressure && (
+							<div className="flex w-1/3 flex-grow flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+								<Flex gap="2" align="center">
+									<Shrink className="h-4 w-4 text-gray-400" />
+									<Text color="gray" size="2">
+										Pressure
+									</Text>
+								</Flex>
+
+								<Text color="grass">
+									{data.properties.pressure} {data.properties.pressure_units}
+								</Text>
+							</div>
+						)}
+						{data.properties.wind_speed && (
+							<div className="flex w-1/3 flex-grow flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+								<Flex gap="2" align="center">
+									<AirVent className="h-4 w-4 text-gray-400" />
+									<Text color="gray" size="2">
+										Wind
+									</Text>
+								</Flex>
+
+								<Text color="violet">
+									{data.properties.wind_speed}{" "}
+									{data.properties.wind_speed_units}{" "}
+									{Number(data.properties.wind_speed) !== 0
+										? data.properties.wind_speed_heading
+										: ""}
+								</Text>
+							</div>
+						)}
+						{data.properties.humidity && (
+							<div className="flex w-1/3 flex-grow flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+								<Flex gap="2" align="center">
+									<GlassWater className="h-4 w-4 text-gray-400" />
+									<Text color="gray" size="2">
+										Humidity
+									</Text>
+								</Flex>
+								<Text color="cyan">
+									{data.properties.humidity} {data.properties.humidity_units}
+								</Text>
+							</div>
+						)}
+						{data.properties.insolation && (
+							<div className="flex w-1/3 flex-grow flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+								<Flex gap="2" align="center">
+									<Sun className="h-4 w-4 text-gray-400" />
+									<Text color="gray" size="2">
+										Insolation
+									</Text>
+								</Flex>
+								<Text color="amber">
+									{data.properties.insolation}{" "}
+									{data.properties.insolation_units}
+								</Text>
+							</div>
+						)}
+
+						<div className="flex w-full flex-col items-start justify-start gap-1 rounded-sm p-1 transition-colors hover:bg-neutral-500/10">
+							<Flex gap="2" align="center">
+								<Timer className="h-4 w-4 text-gray-400" />
+								<Text color="gray" size="2">
+									Observation Time
+								</Text>
+							</Flex>
+
+							<Text color="gray">{data.properties.observation_time}</Text>
+						</div>
+					</Flex>
+				</HoverCard.Content>
+			</HoverCard.Root>
+			{/* <AnimatePresence>
 				{!isOpen && (
 					<motion.div
 						key={`icon-${id}`}
@@ -274,7 +427,7 @@ function MapMarker({ data }: MapMarkerProps) {
 						)}
 					</AnimatePresence>
 				</motion.button>
-			</AnimatePresence>
+			</AnimatePresence> */}
 		</Marker>
 	);
 }
@@ -302,7 +455,7 @@ const CustMap = ({
 	const show = !!points && !!island && !!intersection;
 
 	return (
-		<div className="h-full relative text-center flex flex-col w-full">
+		<div className="relative flex h-full w-full flex-col text-center">
 			{show && (
 				<Map
 					id="map"
@@ -351,7 +504,7 @@ const CustMap = ({
 				</Map>
 			)}
 			{!show && (
-				<div className="w-full h-full bg-slate-800 animate-pulse rounded-lg overflow-hidden flex flex-col justify-center">
+				<div className="flex h-full w-full animate-pulse flex-col justify-center overflow-hidden rounded-lg bg-slate-800">
 					<div className=" text-white ">Loading map...</div>
 				</div>
 			)}

@@ -7,7 +7,7 @@ const Rain = ({ rain }: { rain: RainData }) => {
 	return (
 		<Flex gap="3" direction="column" align="center" mt="3">
 			<Flex gap="5" align="center" justify="center">
-				<div className="relative h-20 w-8 overflow-hidden rounded-b-full border-x border-b border-sky-100/50 bg-gradient-to-tr from-slate-900 to-slate-800">
+				<div className="relative h-20 w-8 overflow-hidden rounded-b-full border-x border-b border-sky-100/50 bg-gradient-to-tr from-neutral-200 to-neutral-50 dark:from-slate-900 dark:to-slate-800">
 					<div className="absolute right-0 top-1/4 z-10 h-[1px] w-3 bg-sky-100/50" />
 					<div className="absolute right-0 top-1/2 z-10 h-[1px] w-3 bg-sky-100/50" />
 					<div className="absolute right-0 top-3/4 z-10 h-[1px] w-3 bg-sky-100/50" />

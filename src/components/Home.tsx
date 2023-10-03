@@ -9,6 +9,7 @@ import { ClockIcon } from "@radix-ui/react-icons";
 import { MapData, PointsData, RainData } from "../utils/types";
 import AirQuality from "./AirQuality";
 import SunMoonCycle from "./SunMoonCycle";
+import StationList from "./StationList";
 
 const Map = dynamic(() => import("./WeatherMap"), {
 	ssr: false,
@@ -71,7 +72,7 @@ export default function Home({
 				</div>
 				<Flex direction="column" gap="4" className="mx-auto w-full max-w-5xl">
 					<Flex align="center" gap="3">
-						<h2 className="bg-gradient-to-tl from-sky-200 to-sky-50 bg-clip-text font-hubot text-3xl font-bold tracking-normal text-transparent">
+						<h2 className="bg-gradient-to-tl from-sky-950 to-sky-600 bg-clip-text font-hubot text-3xl font-bold tracking-normal text-transparent dark:from-sky-200 dark:to-sky-50">
 							Current Conditions
 						</h2>
 						<Badge color="sky">
@@ -118,6 +119,12 @@ export default function Home({
 						<Card className="h-[160px] w-1/2">
 							<SunMoonCycle />
 						</Card>
+					</Flex>
+					<Flex direction="column" gap="4">
+						<h2 className="bg-gradient-to-tl from-pink-950 to-pink-600 bg-clip-text font-hubot text-3xl font-bold tracking-normal text-transparent dark:from-pink-200 dark:to-pink-50">
+							Stations
+						</h2>
+						<StationList points={points} />
 					</Flex>
 				</Flex>
 			</Flex>
