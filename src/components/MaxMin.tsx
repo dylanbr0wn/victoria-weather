@@ -10,14 +10,14 @@ const getPointTemperature = (point: Point | undefined) => {
 };
 
 function calcPercentage(value: number, min: number, max: number) {
-	return ((value - min) / (max - min));
+	return (value - min) / (max - min);
 }
 
 type TempScalePoint = {
 	[key: string]: {
 		points: Feature<GeoPoint, PointProperties>[];
 		percentage: number;
-    translate: string;
+		translate: string;
 		temp: string;
 	};
 };
@@ -26,7 +26,7 @@ function processPoints(
 	points: PointsData["points"]["features"] | undefined,
 	max: Point | undefined,
 	min: Point | undefined,
-  containerWidth: number | undefined
+	containerWidth: number | undefined
 ) {
 	const maxTemp = max?.properties.temperature;
 	const minTemp = min?.properties.temperature;
@@ -52,7 +52,7 @@ function processPoints(
 			acc[point.properties.temperature] = {
 				points: [{ ...point }],
 				percentage: pointPercentage * 100,
-        translate: `translateX(${(containerWidth ?? 0) * pointPercentage}px)`,
+				translate: `translateX(${(containerWidth ?? 0) * pointPercentage}px)`,
 				temp: getPointTemperature(point as unknown as Point),
 			};
 		}
@@ -62,48 +62,44 @@ function processPoints(
 }
 
 function useWidth(ref: React.RefObject<HTMLElement>) {
-  const [width, setWidth] = useState<number | undefined>(undefined);
+	const [width, setWidth] = useState<number | undefined>(undefined);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (ref.current) {
-        setWidth(ref.current.offsetWidth);
-      }
-    };
+	useEffect(() => {
+		const handleResize = () => {
+			if (ref.current) {
+				setWidth(ref.current.offsetWidth);
+			}
+		};
 
-    handleResize();
+		handleResize();
 
-    window.addEventListener("resize", handleResize);
+		window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, [ref]);
+		return () => window.removeEventListener("resize", handleResize);
+	}, [ref]);
 
-  return width;
+	return width;
 }
 
-
-
-const MaxMin = ({
-	points
-}: {
-	points: PointsData
-}) => {
-
-  const ref = useRef<HTMLDivElement>(null);
-  const width = useWidth(ref)
+const MaxMin = ({ points }: { points: PointsData }) => {
+	const ref = useRef<HTMLDivElement>(null);
+	const width = useWidth(ref);
 
 	const tempPoints = useMemo(
 		() =>
-			processPoints(points.points.features, points.max_point, points.min_point, width),
+			processPoints(
+				points.points.features,
+				points.max_point,
+				points.min_point,
+				width
+			),
 		[points, width]
 	);
-
-
 
 	return (
 		<Flex mt="4" justify="between" direction="column" align="baseline" gap="3">
 			<div ref={ref} className="relative mx-auto mt-12 h-2 w-3/4">
-				<div className="h-full w-full rounded-full bg-gradient-to-r from-blue-400  to-amber-400 via-green-300" />
+				<div className="h-full w-full rounded-full bg-gradient-to-r from-blue-400  via-green-300 to-amber-400" />
 				<div className="absolute top-0 mx-auto h-full w-full rounded-full bg-gradient-to-r from-blue-400 via-green-300 to-amber-400 blur-xl" />
 
 				<div className=" pointer-events-none absolute bottom-0 left-0 z-20  flex -translate-x-1/2 translate-y-1.5 flex-col items-center justify-center  gap-2">
@@ -136,7 +132,7 @@ const MaxMin = ({
 							<HoverCard.Trigger>
 								<div
 									style={{ transform: point.translate }}
-									className="rounded-full absolute -bottom-1.5 z-10 h-5 w-1.5 cursor-pointer bg-neutral-100/60 border-black/60 hover:bg-black/60 duration-300 dark:bg-neutral-900/60 border dark:border-white/60 transition-all backdrop-blur dark:hover:bg-white/60"
+									className="absolute -bottom-1.5 z-10 h-5 w-1.5 cursor-pointer rounded-full border border-black/60 bg-neutral-100/60 backdrop-blur transition-all duration-300 hover:bg-black/60 dark:border-white/60 dark:bg-neutral-900/60 dark:hover:bg-white/60"
 								/>
 							</HoverCard.Trigger>
 							<HoverCard.Content align="center" side="top">
@@ -203,7 +199,7 @@ const MaxMin = ({
 				</div>
 			</div>
 			<div className="w-full text-center text-sm dark:text-white">
-				{tempPoints?.length}
+				{points.points.features?.length}
 				<span className="opacity-50"> stations reporting temperature data</span>
 			</div>
 		</Flex>
