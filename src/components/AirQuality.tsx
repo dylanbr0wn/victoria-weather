@@ -4,9 +4,6 @@ import * as React from "react";
 import { Particles } from "react-particles";
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
-import AnimatePresence from "./common/AnimatePresence";
-import { EdittingWrapper } from "./EditingWrapper";
-import { Weather } from "../utils/types";
 import { WeatherData } from "../utils/weatherData";
 import { Card, Flex, Strong, Text } from "@radix-ui/themes";
 
