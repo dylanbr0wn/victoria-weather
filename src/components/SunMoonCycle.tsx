@@ -7,33 +7,86 @@ import dayjs from "dayjs";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
+const getSunCycleData = () => {
+	let sunset = getSunset(48.45, -123.4).getTime();
+	let sunrise = getSunrise(48.45, -123.4).getTime();
+
+	const now = Date.now();
+
+	if (sunrise < now && sunset < now) {
+		if (sunrise < sunset) {
+			sunrise += 86400000;
+			if (sunrise < now && sunset < now) {
+				sunset += 86400000;
+			}
+		} else {
+			sunset += 86400000;
+			if (sunrise < now && sunset < now) {
+				sunrise += 86400000;
+			}
+		}
+	}
+
+	const isNight = !!(sunset < now && now < sunrise);
+
+	let percentComplete = 0;
+	if (isNight) {
+		percentComplete = (now - sunset) / (sunrise - sunset);
+	} else {
+		percentComplete = (now - sunrise) / (sunset - sunrise);
+	}
+
+	// let startColor, endColor;
+	let gradient: chroma.Scale<chroma.Color>;
+	let end: number;
+	let start: number;
+	if (sunrise < sunset) {
+		// startColor = new Color("#fcbf49");
+		// endColor = new Color("#390099");
+		gradient = chroma.scale([
+			"#4cc9f0",
+			"#61e8e1",
+			"#f2e863",
+			"#ff9f1c",
+			"#f72585",
+		]);
+		end = sunset;
+		start = sunrise;
+	} else {
+		end = sunrise;
+		start = sunset;
+		gradient = chroma.scale([
+			"#f72585",
+			"#560bad",
+			"#3a0ca3",
+			"#4361ee",
+			"#4cc9f0",
+		]);
+	}
+	return { end, start, gradient, percentComplete, isNight };
+};
+
 const SunMoonCycle = () => {
 	const [start, setStart] = useState<number>();
 	const [end, setEnd] = useState<number>();
 	const [isNight, setIsNight] = useState(false);
 
 	useEffect(() => {
-		let sunset = getSunset(48.45, -123.4).getTime();
-		let sunrise = getSunrise(48.45, -123.4).getTime();
+		const update = () => {
+			const { end, start, gradient, percentComplete, isNight } =
+				getSunCycleData();
 
-		const now = Date.now();
+			setIsNight(isNight);
+			setEnd(end);
+			setStart(start);
 
-		if (sunrise < now && sunset < now) {
-			if (sunrise < sunset) {
-				sunrise += 86400000;
-				if (sunrise < now && sunset < now) {
-					sunset += 86400000;
-				}
-			} else {
-				sunset += 86400000;
-				if (sunrise < now && sunset < now) {
-					sunrise += 86400000;
-				}
-			}
-		}
+			setStartColor(gradient(0));
+			setEndColor(gradient(1));
+			setNowColor(gradient(percentComplete));
 
-		const isNight = !!(sunset < now && now < sunrise);
-		setIsNight(isNight);
+			setMoonPosition(percentComplete);
+		};
+		update();
 
 		if (sunrise < sunset) {
 			setEnd(sunset);
