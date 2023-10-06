@@ -8,8 +8,8 @@ import dayjs from "dayjs";
 import { ClockIcon } from "@radix-ui/react-icons";
 import { MapData, PointsData, RainData } from "../utils/types";
 import AirQuality from "./AirQuality";
-import SunMoonCycle from "./SunMoonCycle";
 import StationList from "./StationList";
+import SunMoonCycle from "./SunMoonCycle";
 
 const Map = dynamic(() => import("./WeatherMap"), {
 	ssr: false,

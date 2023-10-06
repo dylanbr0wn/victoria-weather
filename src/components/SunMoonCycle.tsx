@@ -36,34 +36,16 @@ const getSunCycleData = () => {
 		percentComplete = (now - sunrise) / (sunset - sunrise);
 	}
 
-	// let startColor, endColor;
-	let gradient: chroma.Scale<chroma.Color>;
 	let end: number;
 	let start: number;
 	if (sunrise < sunset) {
-		// startColor = new Color("#fcbf49");
-		// endColor = new Color("#390099");
-		gradient = chroma.scale([
-			"#4cc9f0",
-			"#61e8e1",
-			"#f2e863",
-			"#ff9f1c",
-			"#f72585",
-		]);
 		end = sunset;
 		start = sunrise;
 	} else {
 		end = sunrise;
 		start = sunset;
-		gradient = chroma.scale([
-			"#f72585",
-			"#560bad",
-			"#3a0ca3",
-			"#4361ee",
-			"#4cc9f0",
-		]);
 	}
-	return { end, start, gradient, percentComplete, isNight };
+	return { end, start, isNight };
 };
 
 const SunMoonCycle = () => {
@@ -73,28 +55,13 @@ const SunMoonCycle = () => {
 
 	useEffect(() => {
 		const update = () => {
-			const { end, start, gradient, percentComplete, isNight } =
-				getSunCycleData();
+			const { end, start, isNight } = getSunCycleData();
 
 			setIsNight(isNight);
 			setEnd(end);
 			setStart(start);
-
-			setStartColor(gradient(0));
-			setEndColor(gradient(1));
-			setNowColor(gradient(percentComplete));
-
-			setMoonPosition(percentComplete);
 		};
 		update();
-
-		if (sunrise < sunset) {
-			setEnd(sunset);
-			setStart(sunrise);
-		} else {
-			setEnd(sunrise);
-			setStart(sunset);
-		}
 	}, []);
 
 	return (
