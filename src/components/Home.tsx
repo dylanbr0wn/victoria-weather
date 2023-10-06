@@ -4,7 +4,7 @@ import { Badge, Box, Card, Flex, Text } from "@radix-ui/themes";
 import MaxMin from "./MaxMin";
 import Rain from "./Rain";
 import UVIndex from "./UVIndex";
-import dayjs from "dayjs";
+import { dayjs } from "../utils/helper";
 import { ClockIcon } from "@radix-ui/react-icons";
 import { MapData, PointsData, RainData } from "../utils/types";
 import AirQuality from "./AirQuality";
@@ -55,6 +55,17 @@ function getRelativeTimeString(date: Date | number, lang = "en") {
 	return rtf.format(Math.floor(deltaSeconds / divisor), units[unitIndex]);
 }
 
+function getMostRecentObservationTime(points: PointsData) {
+	return points?.points.features.reduce((mostRecent, point) => {
+		const obsrvTime =
+			dayjs.utc(point.properties.observation_time).unix() * 1000;
+		if (obsrvTime > mostRecent) {
+			return obsrvTime;
+		}
+		return mostRecent;
+	}, 0);
+}
+
 export default function Home({
 	intersection,
 	island,
@@ -62,9 +73,7 @@ export default function Home({
 	weather,
 	rain,
 }: HomeProps) {
-	const observation_time = dayjs(
-		points?.points.features[0]?.properties.observation_time
-	);
+	const observation_time = getMostRecentObservationTime(points);
 
 	return (
 		<main className="z-10 h-full flex-grow overflow-hidden p-3">
@@ -81,8 +90,7 @@ export default function Home({
 							<Flex gap="2" align="center" p="1">
 								<ClockIcon width={16} height={16} />
 								<Text size="2">
-									Last Updated:{" "}
-									{getRelativeTimeString(observation_time.toDate())}
+									Last Updated: {getRelativeTimeString(observation_time)}
 								</Text>
 							</Flex>
 						</Badge>

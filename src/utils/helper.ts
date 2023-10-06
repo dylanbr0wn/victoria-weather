@@ -1,3 +1,9 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+
+export { dayjs };
+
 export const getMoonIcon = (moonPhase) => {
 	if (moonPhase === "First Quarter") return "🌓";
 	if (moonPhase === "Waxing Crescent") return "🌒";
