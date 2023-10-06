@@ -62,7 +62,9 @@ export default function Home({
 	weather,
 	rain,
 }: HomeProps) {
-	const observation_time = dayjs(points?.points[0]?.observation_time);
+	const observation_time = dayjs(
+		points?.points.features[0]?.properties.observation_time
+	);
 
 	return (
 		<main className="z-10 h-full flex-grow overflow-hidden p-3">

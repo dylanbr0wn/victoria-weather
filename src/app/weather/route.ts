@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { calcAQICategory, getUVIndex } from "../../utils/helper";
-import { Weather } from "../../utils/types";
 import { getWeatherData } from "../../utils/weatherData";
+
+export const revalidate = 60;
 
 export async function GET() {
 	const weather = await getWeatherData();

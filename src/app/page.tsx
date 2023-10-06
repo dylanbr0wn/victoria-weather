@@ -6,8 +6,8 @@ import { getPointsData } from "../utils/pointsData";
 import { getRainData } from "../utils/rainData";
 import { getWeatherData } from "../utils/weatherData";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const dynamic = "auto";
+export const revalidate = 60;
 
 export default async function MainPage() {
 	const [{ intersection, island }, points, rain, weather] = await Promise.all([
