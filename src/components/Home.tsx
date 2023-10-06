@@ -25,7 +25,7 @@ type HomeProps = {
 
 function getRelativeTimeString(date: Date | number, lang = "en") {
 	const timeMs = typeof date === "number" ? date : date.getTime();
-	const deltaSeconds = Math.round((timeMs - Date.now()) / 1000);
+	const deltaSeconds = Math.round((timeMs - dayjs.utc().unix()) / 1000);
 	const cutoffs = [
 		60,
 		3600,
