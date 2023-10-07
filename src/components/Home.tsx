@@ -58,7 +58,7 @@ function getRelativeTimeString(date: Date | number, lang = "en") {
 function getMostRecentObservationTime(points: PointsData) {
 	return getRelativeTimeString(points?.points.features.reduce((mostRecent, point) => {
 		const obsrvTime =
-			dayjs(point.properties.observation_time).utc(true).unix() * 1000;
+			dayjs(point.properties.observation_time, "YYYY/MM/DD, HH:ss").tz("America/Vancouver").unix() * 1000;
 		if (obsrvTime > mostRecent) {
 			return obsrvTime;
 		}
