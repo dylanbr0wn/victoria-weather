@@ -56,7 +56,7 @@ function getMostRecentObservationTime(points: PointsData) {
 export default function LastUpdated({ points }: { points: PointsData }) {
 	const observation_time = getMostRecentObservationTime(points);
 	return (
-		<Badge className="animate" color="sky">
+		<Badge className="animate-in fade-in" color="sky">
 			<Flex gap="2" align="center" p="1">
 				<ClockIcon width={16} height={16} />
 				<Text size="2">Last Updated: {observation_time}</Text>
