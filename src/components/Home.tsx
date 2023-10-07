@@ -25,7 +25,7 @@ type HomeProps = {
 
 function getRelativeTimeString(date: Date | number, lang = "en") {
 	const timeMs = typeof date === "number" ? date : date.getTime();
-	const deltaSeconds = Math.round((timeMs - dayjs.utc().unix() * 1000) / 1000);
+	const deltaSeconds = Math.round((timeMs - dayjs().unix() * 1000) / 1000);
 	const cutoffs = [
 		60,
 		3600,
@@ -56,14 +56,14 @@ function getRelativeTimeString(date: Date | number, lang = "en") {
 }
 
 function getMostRecentObservationTime(points: PointsData) {
-	return points?.points.features.reduce((mostRecent, point) => {
+	return getRelativeTimeString(points?.points.features.reduce((mostRecent, point) => {
 		const obsrvTime =
-			dayjs.utc(point.properties.observation_time).unix() * 1000;
+			dayjs(point.properties.observation_time).utc(false).unix() * 1000;
 		if (obsrvTime > mostRecent) {
 			return obsrvTime;
 		}
 		return mostRecent;
-	}, 0);
+	}, 0));
 }
 
 export default function Home({
@@ -90,7 +90,7 @@ export default function Home({
 							<Flex gap="2" align="center" p="1">
 								<ClockIcon width={16} height={16} />
 								<Text size="2">
-									Last Updated: {getRelativeTimeString(observation_time)}
+									Last Updated: {observation_time}
 								</Text>
 							</Flex>
 						</Badge>

@@ -31,7 +31,6 @@ export default async function MainPage() {
 				weather={weather}
 			/>
 			<Footer />
-			{/* <div className="absolute w-full h-full top-0 left-0 bg-glow opacity-40  pointer-events-none"></div> */}
 		</div>
 	);
 }

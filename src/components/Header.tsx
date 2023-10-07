@@ -1,11 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { GitHubLogoIcon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import {
-	Button,
 	Flex,
-	Popover,
-	TextField,
-	Box,
 	IconButton,
 } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
