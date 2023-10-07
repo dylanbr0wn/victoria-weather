@@ -1,7 +1,8 @@
 "use client";
-import { Text } from "@radix-ui/themes";
+import { Badge, Flex, Text } from "@radix-ui/themes";
 import { dayjs } from "../utils/helper";
 import { PointsData } from "../utils/types";
+import { ClockIcon } from "@radix-ui/react-icons";
 
 function getRelativeTimeString(date: Date | number, lang = "en") {
 	const timeMs = typeof date === "number" ? date : date.getTime();
@@ -54,5 +55,12 @@ function getMostRecentObservationTime(points: PointsData) {
 
 export default function LastUpdated({ points }: { points: PointsData }) {
 	const observation_time = getMostRecentObservationTime(points);
-	return <Text size="2">Last Updated: {observation_time}</Text>;
+	return (
+		<Badge className="animate" color="sky">
+			<Flex gap="2" align="center" p="1">
+				<ClockIcon width={16} height={16} />
+				<Text size="2">Last Updated: {observation_time}</Text>
+			</Flex>
+		</Badge>
+	);
 }

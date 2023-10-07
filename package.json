@@ -35,8 +35,6 @@
 		"cuid": "^2.1.8",
 		"dayjs": "^1.11.7",
 		"framer-motion": "^7.10.3",
-		"lodash-move": "^1.1.1",
-		"lodash.clamp": "^4.0.3",
 		"lucide-react": "^0.101.0",
 		"mapbox-gl": "^2.13.0",
 		"moment": "^2.29.4",
@@ -44,7 +42,6 @@
 		"next": "^13.4.19",
 		"next-axiom": "^0.17.0",
 		"next-themes": "^0.2.1",
-		"radash": "^9.5.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-error-boundary": "^3.1.4",
@@ -54,7 +51,6 @@
 		"server-only": "^0.0.1",
 		"snappy": "^7.2.2",
 		"sunrise-sunset-js": "^2.2.1",
-		"swr": "2.1.2",
 		"tsparticles": "^2.9.3",
 		"tsparticles-engine": "^2.9.3",
 		"web-vitals": "^2.1.4",
@@ -78,6 +74,7 @@
 		"pretty-quick": "^3.1.3",
 		"radix-themes-tw": "^0.0.7",
 		"tailwindcss": "^3.3.1",
+		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.2.2"
 	}
 }

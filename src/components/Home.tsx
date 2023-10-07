@@ -9,11 +9,12 @@ import { MapData, PointsData, RainData } from "../utils/types";
 import AirQuality from "./AirQuality";
 import StationList from "./StationList";
 import SunMoonCycle from "./SunMoonCycle";
-import LastUpdated from "./LastUpdated";
 
 const Map = dynamic(() => import("./WeatherMap"), {
 	ssr: false,
 });
+
+const LastUpdated = dynamic(() => import("./LastUpdated"), { ssr: false })
 
 type HomeProps = {
 	intersection: MapData["intersection"];
@@ -32,8 +33,6 @@ export default function Home({
 	weather,
 	rain,
 }: HomeProps) {
-	
-
 	return (
 		<main className="z-10 h-full flex-grow overflow-hidden p-3">
 			<Flex direction="column" gap="4" className="h-full">
@@ -45,14 +44,8 @@ export default function Home({
 						<h2 className="bg-gradient-to-tl from-sky-950 to-sky-600 bg-clip-text font-hubot text-3xl font-bold tracking-normal text-transparent dark:from-sky-200 dark:to-sky-50">
 							Current Conditions
 						</h2>
-						<Badge color="sky">
-							<Flex gap="2" align="center" p="1">
-								<ClockIcon width={16} height={16} />
-								<LastUpdated points={points} />
-							</Flex>
-						</Badge>
+            <LastUpdated points={points} />
 					</Flex>
-
 					<Card size="2" className="h-full">
 						<Flex direction="column" align="center">
 							<Flex align="baseline" gap="1">
